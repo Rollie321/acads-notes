@@ -1,0 +1,10 @@
+{
+  "id": "docx-exporter-plus",
+  "name": "DOCX Exporter Plus",
+  "version": "0.1.6",
+  "minAppVersion": "1.5.0",
+  "description": "Export Markdown notes and Longform projects to DOCX for Word, Pages, and Google Docs, with optional Pandoc citation export.",
+  "author": "Michelle G Dyason",
+  "isDesktopOnly": true,
+  "authorUrl": "https://github.com/MichelleGDyason"
+}

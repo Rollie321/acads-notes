@@ -1,0 +1,252 @@
+{
+  "main": {
+    "id": "6caa88ab41a55878",
+    "type": "split",
+    "children": [
+      {
+        "id": "6403e73ad28500f8",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7e10e60e0ce263d7",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Digi Comm/Midterm/reviewer.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "reviewer"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "062b35cba012bdeb",
+    "type": "split",
+    "children": [
+      {
+        "id": "85c402a80583f7b5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9a504adeb6379b78",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "0b49395e72c1c51a",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "cca132ef770d78b4",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 267.5220184326172,
+    "collapsed": true
+  },
+  "right": {
+    "id": "bc98d5b2a35a67a4",
+    "type": "split",
+    "children": [
+      {
+        "id": "1ffcc36492ed1326",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "77d434addc344206",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "581f9c0d94ff1eef",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "4b52ed899fdeebde",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "f23cd5edd9f31134",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "208a5f9d35d5ef55",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          },
+          {
+            "id": "f2874ea151c6a6b3",
+            "type": "leaf",
+            "state": {
+              "type": "calendar",
+              "state": {},
+              "icon": "calendar-with-checkmark",
+              "title": "Calendar"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "easy-tikz:Easy TikZ": false,
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false,
+      "obsidian-excalidraw-plugin:New drawing": false,
+      "circuit-sketcher:Create new Circuit Sketcher file": false
+    }
+  },
+  "active": "7e10e60e0ce263d7",
+  "lastOpenFiles": [
+    "Logic Circuits/Midterm/reviewers.md",
+    "Logic Circuits/Midterm/Lesson 4/Lesson-4.md",
+    "Logic Circuits/pdf/Pasted Image 20260910133645_396.png",
+    "Logic Circuits/pdf/Pasted image 20260910102950.png",
+    "Logic Circuits/pdf/Pasted image 20260910101802.png",
+    "Logic Circuits/pdf/Lecture 04 - Boolean Algebra.pdf",
+    "Logic Circuits/assets/logic-diagram-2.png",
+    "Logic Circuits/assets/lab-3.png",
+    "Digi Comm/Midterm/reviewer.md",
+    "Digi Comm/Midterm/lesson-4.md",
+    "Logic Circuits/Midterm/Lesson 4/Convert to expression.md",
+    "Logic Circuits/Midterm/lab-2.md",
+    "Digi Comm/Prelims/Assignment/Internet Explanation - 1.md",
+    "Digi Comm/Prelims/Assignment/Internet - 2.md",
+    "Digi Comm/Prelims/NOTES - 1.md",
+    "Digi Comm/Prelims/Lesson 1.md",
+    "Feedback/Midterms/quick-ref-tables.md",
+    "FEEDBACK-ass-1.md",
+    "Untitled.md",
+    "Feedback/Midterms/Chapter4_Time_Response_Reference.md",
+    "Control_System_Seat_Work_No1_Solutions.md",
+    "TODO.md",
+    "DSA/Midterms/Assignment/Assignment-1 (array).md",
+    "DSA/Midterms/AVL-trees.md",
+    "DSA/Midterms/Assignment/Assignment-2-(sorting algorithms).md",
+    "DSA/Midterms/Assignment",
+    "Mixed Signals/Midterms/Lesson - 1.md",
+    "HDL/midterms/decoder.md",
+    "HDL/midterms/Test Bench with loop.md",
+    "HDL/modelsim_verilog_guide.md",
+    "Mixed Signals/assets/midterms/ADC-CONT.std.pdf",
+    "Mixed Signals/assets/midterms/CPE-10-ADCDAC-Stud-copy.pdf",
+    "Feedback/assets/chapter-3.pdf",
+    "Mixed Signals/assets/midterms",
+    "Logic Circuits/assets/lab-1.png",
+    "Logic Circuits/assets/lab-2.png",
+    "CPE-15/LAB/cbac436e-f5dd-41f1-af39-75171eaf422e.mp4",
+    "CPE-15/LAB/JSON_NumPy_Pandas_Core_Concepts.md",
+    "BOSH/midterms/assignment-1.md",
+    "CPE-15/pdf/Bar-Plot_compressed.pdf",
+    "Drafting/assets/power-supply-schematics.png",
+    "Drafting/assets",
+    "HDL/assets/power-supply-schematics.png",
+    "HDL/assets/Pasted image 20260911100643.png",
+    "Drafting/midterm",
+    "Feedback/Prelims/Laplace Sample.canvas",
+    "Feedback/Prelims/op-amps-transfer-funciton.canvas"
+  ]
+}

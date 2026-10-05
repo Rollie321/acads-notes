@@ -1,0 +1,13 @@
+{
+  "promptDelete": false,
+  "vimMode": true,
+  "pdfExportSettings": {
+    "pageSize": "A4",
+    "landscape": false,
+    "margin": "0",
+    "downscalePercent": 84
+  },
+  "alwaysUpdateLinks": true,
+  "autoPairBrackets": true,
+  "autoPairMarkdown": false
+}

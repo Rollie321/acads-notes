@@ -1,0 +1,36 @@
+{
+	"nodes":[
+		{"id":"5166e5997cbce2c6","type":"text","text":"Find the inverse Laplace of this equation:\n$$ \\frac{2s-4}{s^2 - 4s + 13}$$","x":-600,"y":-180,"width":250,"height":140,"color":"5"},
+		{"id":"8b70104c4c9c0bbf","type":"text","text":"Denominator:\n$$ s^2 - 4s + 13 $$","x":-599,"y":420,"width":250,"height":100,"color":"3"},
+		{"id":"32d296022002a5b7","type":"text","text":"step 1:\ntake the coefficient of s\n$$ s^2 - \\underline{4}s + 13$$","x":-600,"y":640,"width":295,"height":120,"color":"3"},
+		{"id":"ddfbb140ae221439","type":"text","text":"Use the formula:\n$$ \\left(\\frac{coefficient}{2}\\right)^2 $$\nThen substitute our coefficient:\n$$ \\left( \\frac{4}{2} \\right)^2 = 4$$","x":-600,"y":840,"width":377,"height":220,"color":"4"},
+		{"id":"f332a96867014960","type":"text","text":"using the obtained square, add and subtract it to the original denominator:\n$$ s^2 - 4s + 13 $$\n$$ s^2 - 4s + 13 + \\underline0 $$\n$$ s^2 - 4s + 13 + \\underline{4 - 4} $$\nNotice how the added 4 - 4 is simply adding zero to the equation.\n\nSo, simply adding and subtracting the same doesn't affect the value of equation\n\n","x":-600,"y":1100,"width":377,"height":320,"color":"4"},
+		{"id":"d08fd1479f481223","type":"text","text":"## Part 1 (rewrite denominator)\n\nGoal: write the denominator as a sum of squared factor:\n\nFrom:\n$$ as^2 + bs + c $$\nto:\n$$ (s + b)^2 + \\omega^2 $$\n\n","x":-600,"y":40,"width":360,"height":280,"color":"3"},
+		{"id":"cade58763019a510","type":"text","text":"\n$$ \\frac{2s-4}{(s-2)^2 + 3^2}$$","x":-90,"y":420,"width":250,"height":100,"color":"5"},
+		{"id":"cc4fa3a700982d6f","type":"text","text":"use the negative 4 to subtract to the constant\n$$ s^2 - 4s + 4 + 9$$\nthen use the positive 4 to factor the perfect square\n$$ \\begin{aligned}\n\\underline{s^2 -4s + 4} + 9 = \\underline{(s + 2)^2} + 9 \\\\\n(s + 2)^2 + \\underline9 = (s+2)^2 + \\underline{3^2}\n\\end{aligned}\n$$","x":-90,"y":-160,"width":460,"height":200,"color":"4"},
+		{"id":"fb3eff7686ca3dc5","type":"text","text":"# Part 2\nRewrite the equation:\n$$ \\frac{2s - 4}{s^2 - 4s + 13} $$","x":-90,"y":170,"width":250,"height":150,"color":"3"},
+		{"id":"8e53d84be8a6c384","type":"text","text":"Using these formulas:\n$$ \\mathcal{L}\\left\\{ cos\\ \\omega t \\right\\} = \\frac{s}{s^2 + \\omega^2}$$\n$$ \\mathcal{L}\\left\\{ e^{-at} f(t) \\right\\} = F(s + a) $$","x":370,"y":238,"width":247,"height":140,"color":"#bb00ff"},
+		{"id":"003d78725cffcd3f","type":"text","text":"It implies that:\n$$ \\mathcal{L} \\left\\{ e^{-at}\\ cos\\ \\omega \\right\\} = \\frac{s+a}{(s+a)^2 + \\omega^2} $$","x":370,"y":470,"width":247,"height":136,"color":"#bb00ff"},
+		{"id":"77bca5573ce22d04","x":-90,"y":606,"width":250,"height":274,"color":"4","type":"text","text":"However, the numerator and denominator doesn't match, so we have to manipulate the numerator to match the pattern\n$$ \\frac{\\color{yellow}s+a}{({\\color{yellow}s+a})^2 + \\omega^2}$$\n$$ \\frac{\\color\\red2s-4}{{\\color{red}(s-2)}^2 + 3^2}$$"},
+		{"id":"d93615679d07e14f","x":-90,"y":950,"width":350,"height":180,"color":"4","type":"text","text":"So we factor it out to fix the pattern:\n$$ \\frac{2(s-2)}{(s-2)^2+3^2} $$\n$$ 2\\frac{(s-2)}{(s-2)^2+3^2} $$"},
+		{"id":"56804c4106617e5c","x":-90,"y":1220,"width":210,"height":180,"color":"5","type":"text","text":"Now we can take ta inverse Laplace of the given equation:\n$$ \\mathcal{L}^{-1} \\left\\{  2\\frac{(s-2)}{(s-2)^2+3^2} \\right\\}$$\n$$  $$"},
+		{"id":"670c20f310058e14","x":280,"y":1210,"width":391,"height":200,"color":"#a538ff","type":"text","text":"With:\n$$ a = -2 $$\n$$ \\omega = 3 $$\nThe answer becomes:\n$$ \\boxed{(2e^{2t}\\ cos\\ 3t)\\  u(t)}$$"}
+	],
+	"edges":[
+		{"id":"f971f2aa0c1ae407","fromNode":"5166e5997cbce2c6","fromSide":"bottom","toNode":"d08fd1479f481223","toSide":"top","color":"5"},
+		{"id":"afc24f0042e35139","fromNode":"d08fd1479f481223","fromSide":"bottom","toNode":"8b70104c4c9c0bbf","toSide":"top","color":"3"},
+		{"id":"4d4e542ea6b422b7","fromNode":"8b70104c4c9c0bbf","fromSide":"bottom","toNode":"32d296022002a5b7","toSide":"top","color":"3"},
+		{"id":"9ffb76275d85dd3f","fromNode":"32d296022002a5b7","fromSide":"bottom","toNode":"ddfbb140ae221439","toSide":"top","color":"3"},
+		{"id":"2b99412fc191bfb6","fromNode":"ddfbb140ae221439","fromSide":"bottom","toNode":"f332a96867014960","toSide":"top"},
+		{"id":"f446d4e3285650ab","fromNode":"cc4fa3a700982d6f","fromSide":"bottom","toNode":"fb3eff7686ca3dc5","toSide":"top","color":"3"},
+		{"id":"820257e0124250d7","fromNode":"f332a96867014960","fromSide":"right","toNode":"cc4fa3a700982d6f","toSide":"left","color":"4"},
+		{"id":"c0f6c607d2988e3d","fromNode":"fb3eff7686ca3dc5","fromSide":"bottom","toNode":"cade58763019a510","toSide":"top","color":"3"},
+		{"id":"c344b1cd7e33cae9","fromNode":"8e53d84be8a6c384","fromSide":"bottom","toNode":"003d78725cffcd3f","toSide":"top","color":"6"},
+		{"id":"9af3fde4ce2a5395","fromNode":"cade58763019a510","fromSide":"right","toNode":"8e53d84be8a6c384","toSide":"left","color":"#27ff0a","label":"Reminder only!"},
+		{"id":"54e9a9d01c986e8d","fromNode":"cade58763019a510","fromSide":"bottom","toNode":"77bca5573ce22d04","toSide":"top","color":"5"},
+		{"id":"ae24b5418078bde0","fromNode":"003d78725cffcd3f","fromSide":"bottom","toNode":"77bca5573ce22d04","toSide":"right"},
+		{"id":"90760502d8ad4cea","fromNode":"77bca5573ce22d04","fromSide":"bottom","toNode":"d93615679d07e14f","toSide":"top","color":"4"},
+		{"id":"80bfa95956cdcae5","fromNode":"d93615679d07e14f","fromSide":"bottom","toNode":"56804c4106617e5c","toSide":"top","color":"5"},
+		{"id":"ad61bbf0d24d9e07","fromNode":"56804c4106617e5c","fromSide":"right","toNode":"670c20f310058e14","toSide":"left","color":"6"}
+	]
+}

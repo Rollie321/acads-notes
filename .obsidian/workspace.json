@@ -4,11 +4,49 @@
     "type": "split",
     "children": [
       {
-        "id": "6403e73ad28500f8",
+        "id": "4be5961e55b9d887",
         "type": "tabs",
         "children": [
           {
-            "id": "7e10e60e0ce263d7",
+            "id": "1ef463ef82432d27",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "DSA/Midterms/pdf/ADT.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "ADT"
+            }
+          },
+          {
+            "id": "61a90a3739630834",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "DSA/Midterms/quiz/quiz-1.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "quiz-1"
+            }
+          },
+          {
+            "id": "f42890934c9a3f64",
+            "type": "leaf",
+            "state": {
+              "type": "excalidraw",
+              "state": {
+                "file": "Excalidraw/event-node-activity 1-v2.md"
+              },
+              "icon": "excalidraw-icon",
+              "title": "event-node-activity 1-v2"
+            }
+          },
+          {
+            "id": "ec598dbfaf67e5d0",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -20,8 +58,33 @@
               "icon": "lucide-file",
               "title": "reviewer"
             }
+          },
+          {
+            "id": "1c9f6be0534192e2",
+            "type": "leaf",
+            "state": {
+              "type": "excalidraw",
+              "state": {
+                "file": "Excalidraw/event-node-sample-1.md"
+              },
+              "icon": "excalidraw-icon",
+              "title": "event-node-sample-1"
+            }
+          },
+          {
+            "id": "1ddb6a68dd5eb19c",
+            "type": "leaf",
+            "state": {
+              "type": "excalidraw",
+              "state": {
+                "file": "Excalidraw/event-node-activity 1-v2.md"
+              },
+              "icon": "excalidraw-icon",
+              "title": "event-node-activity 1-v2"
+            }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -199,8 +262,16 @@
       "circuit-sketcher:Create new Circuit Sketcher file": false
     }
   },
-  "active": "7e10e60e0ce263d7",
+  "active": "f42890934c9a3f64",
   "lastOpenFiles": [
+    "DSA/Midterms/quiz/quiz-1.md",
+    "DSA/Midterms/pdf/ADT.pdf",
+    "Excalidraw/event-node-activity 1-v2.md",
+    "Excalidraw/event-node-sample-1.md",
+    "Digi Comm/Midterm/reviewer.md",
+    "Excalidraw/event-node-activity.md",
+    "DSA/Midterms/quiz",
+    "TODO.md",
     "Logic Circuits/Midterm/reviewers.md",
     "Logic Circuits/Midterm/Lesson 4/Lesson-4.md",
     "Logic Circuits/pdf/Pasted Image 20260910133645_396.png",
@@ -209,7 +280,6 @@
     "Logic Circuits/pdf/Lecture 04 - Boolean Algebra.pdf",
     "Logic Circuits/assets/logic-diagram-2.png",
     "Logic Circuits/assets/lab-3.png",
-    "Digi Comm/Midterm/reviewer.md",
     "Digi Comm/Midterm/lesson-4.md",
     "Logic Circuits/Midterm/Lesson 4/Convert to expression.md",
     "Logic Circuits/Midterm/lab-2.md",
@@ -222,15 +292,12 @@
     "Untitled.md",
     "Feedback/Midterms/Chapter4_Time_Response_Reference.md",
     "Control_System_Seat_Work_No1_Solutions.md",
-    "TODO.md",
     "DSA/Midterms/Assignment/Assignment-1 (array).md",
     "DSA/Midterms/AVL-trees.md",
     "DSA/Midterms/Assignment/Assignment-2-(sorting algorithms).md",
     "DSA/Midterms/Assignment",
     "Mixed Signals/Midterms/Lesson - 1.md",
     "HDL/midterms/decoder.md",
-    "HDL/midterms/Test Bench with loop.md",
-    "HDL/modelsim_verilog_guide.md",
     "Mixed Signals/assets/midterms/ADC-CONT.std.pdf",
     "Mixed Signals/assets/midterms/CPE-10-ADCDAC-Stud-copy.pdf",
     "Feedback/assets/chapter-3.pdf",
@@ -238,14 +305,10 @@
     "Logic Circuits/assets/lab-1.png",
     "Logic Circuits/assets/lab-2.png",
     "CPE-15/LAB/cbac436e-f5dd-41f1-af39-75171eaf422e.mp4",
-    "CPE-15/LAB/JSON_NumPy_Pandas_Core_Concepts.md",
-    "BOSH/midterms/assignment-1.md",
     "CPE-15/pdf/Bar-Plot_compressed.pdf",
     "Drafting/assets/power-supply-schematics.png",
-    "Drafting/assets",
     "HDL/assets/power-supply-schematics.png",
     "HDL/assets/Pasted image 20260911100643.png",
-    "Drafting/midterm",
     "Feedback/Prelims/Laplace Sample.canvas",
     "Feedback/Prelims/op-amps-transfer-funciton.canvas"
   ]

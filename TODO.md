@@ -1,6 +1,3 @@
-> [!WARNING]
-> **Answer feedback assignment imidiately!**
-
 # Monday - September 21
 - [x] CPE07 - Lab manual
 - [x] DSA - practical
@@ -36,3 +33,8 @@
 	- [ ] analysis
 - [ ] Mixed signals
 - [ ] Digi comms
+
+> [!tldr]- Monday
+>  - [ ] create one
+>
+> > [!note] Hello po

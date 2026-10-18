@@ -4,7 +4,8 @@ DAC
 Digital System
 1. For a 5-bit DAC digital input of 10100, an output current of 10mA is produced. What will Io be for a digital input of 11101?
 
-2.  What is the largest value of output voltage from an 8-bit DAC that produces 1.0V for a digital input of 00110010? * Convert to decimal number:
+2.  What is the largest value of output voltage from an 8-bit DAC that produces 1.0V for a digital input of 00110010?
+	* Convert to decimal number:
 	$$ 00110010 = 32+16+2 = \boxed{50_{10}}$$
 	* Multiply to the maximum decimal value of 8 bit which is:
 	$$ 11111111_2 = 128+64+32+16+8+4+2+1$$

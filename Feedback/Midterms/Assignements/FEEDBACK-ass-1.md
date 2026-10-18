@@ -3,8 +3,6 @@
 
 # Assignment 1 – Midterm: Solutions
 
-> Block diagrams are drawn with Mermaid. Equations use LaTeX (`$...$`), both of which render natively in Obsidian. Summing junctions are drawn as circles `Σ`; the sign on each edge is the sign with which that signal enters the junction.
-
 **Useful 2nd-order formulas (used in Problems 2 and 4)**
 
 $$ \%OS = e^{-\zeta\pi/\sqrt{1-\zeta^2}}\times 100 \quad\Longrightarrow\quad \zeta = \frac{-\ln(\%OS/100)}{\sqrt{\pi^2+\ln^2(\%OS/100)}} $$

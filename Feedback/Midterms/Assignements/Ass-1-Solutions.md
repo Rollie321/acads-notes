@@ -7,12 +7,13 @@
 ##### Answers:
 1. $c(t) = A + Be^{-6t}cos(19.08t+\phi)$
 2. $c(t)=A+Be^{-78.54t}+Ce^{-11.46t}$
-3. $c(t)=A+Be^{-15t}+Cte(-15t)$
+3. $c(t)=A+Be^{-15t}+Cte^{-15t}$
 4. $c(t)=A+B\ cos(25t+\phi)$
 ---
 
 #### Skill Assessment 4.4
 ###### For each of the transfer functions in Skill-Assessment 4.3, do the following: (1)Find the values of $\zeta$ and $\omega_n$; (2) characterize the nature of the response.
+
 ###### Answers:
 1. $\zeta =0.3, \omega_n=20$; underdamped
 2. $\zeta =1.5, \omega_n=30$; overdamped 

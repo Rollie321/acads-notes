@@ -1,6 +1,3 @@
-
-## tags: [reviewer, cpe07, boolean-algebra, karnaugh-map, midterm] aliases: [CPE07 Reviewer, Boolean Logic Reviewer]
-
 # CPE07 – Boolean Algebra and Karnaugh Map Reviewer
 
 > [!info] Coverage Lecture 04 (Boolean Algebra), Lecture 05 (Karnaugh Map) · _Digital Electronics 1: Logic Circuits and Switching Theory_
@@ -11,7 +8,6 @@
 - [[#Formula Sheet]]
 - [[#Practice Questions]]
 ---
-
 ## 1. Boolean Algebra
 
 - Named after **George Boole** (1815–1864)
@@ -151,9 +147,7 @@ Apply the **AND law** (Law 6): $$ {\color{yellow}1. (A+B)} = A + B $$ $$ {\color
 >
 >$X = 1$ only when $A = 1$ and $B = 0$, so $X = A\overline B$ (confirmed algebraically in Example 6).
 
-> [!question]- Example 5: Determine the Boolean expression, then simplify
->
-> ![[Pasted image 20260910102950.png]]
+> [!question]- Example 5: Determine the Boolean expression, then simplify ![[Pasted image 20260910102950.png]]
 > 
 > Expression: $$\overline {((AB) +\overline C)}(BC)$$
 > 
@@ -175,9 +169,7 @@ Apply the **AND law** (Law 6): $$ {\color{yellow}1. (A+B)} = A + B $$ $$ {\color
 >
 > $$ \boxed{\overline {((AB) +\overline C)}(BC) = \overline ABC} $$
 
-> [!question]- Example 6: Determine the output, then simplify
->
-> ![[logic-diagram-2.png]]
+> [!question]- Example 6: Determine the output, then simplify ![[logic-diagram-2.png]]
 >
 > This circuit can be written as: $$ (A \oplus B)(A+\overline B) $$
 > 
@@ -204,7 +196,7 @@ Apply the **AND law** (Law 6): $$ {\color{yellow}1. (A+B)} = A + B $$ $$ {\color
 >
 > Write the **minterm** and **maxterm** of each row:
 >
-> |A|B|C|X|Minterm|Maxterm|
+> | A | B | C | X | Minterm | Maxterm |
 > |:--|---|---|---|---|---|
 > |**0**|0|0|0|$\overline A,\overline B,\overline C$|$A + B + C$|
 > |0|0|1|1|$\overline A,\overline B C$|$A + B + \overline C$|

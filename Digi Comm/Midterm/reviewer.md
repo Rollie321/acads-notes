@@ -214,15 +214,15 @@
 
 > [!tip] Mnemonic (top → bottom) **A**ll **P**eople **S**eem **T**o **N**eed **D**ata **P**rocessing → Application, Presentation, Session, Transport, Network, Data link, Physical (bottom → top: **P**lease **D**o **N**ot **T**hrow **S**ausage **P**izza **A**way)
 
-|Layer|Description|Protocol / Examples|Unit (PDU)|
-|:--|:--|:--|:--|
-|**7 – Application**|- Services to the **user**<br>- File transfer, graphics/doc interpretation, document processing<br>- _Network process to application_|HTTP, HTTPS, FTP, DNS, SMTP, POP, Telnet, P2P, X.400 e-mail|Data|
-|**6 – Presentation**|- How you **present/format** data<br>- **Translation, compression, encryption**<br>- Isolates app data format from lower layers; syntax conversion|JPEG, MP3/MP4, AVI, HTML, DOC, Sockets|Data|
-|**5 – Session**|- **Establishes, maintains, terminates** connections/data streams<br>- **Dialog control and synchronization**<br>- First of the 3 upper layers|SIP (Session Initiation Protocol), RTP, RPC / Named pipes, TCP session setup|Data|
-|**4 – Transport**|- Uses **port numbers**<br>- **End-to-end** delivery (process to process)<br>- Reliable and unreliable transport|**TCP** (reliable), **UDP** (unreliable), SCTP, SSL, TLS|**Segments**|
-|**3 – Network** (WAN)|- Anything with **IP**<br>- Logical addressing, **routing**, switching, packet sequencing, flow control<br>- Source host → destination host|IP, ARP, IPsec, ICMP, IGMP, OSPF, routing protocols|**Packets**|
-|**2 – Data Link** (LAN)|- Understands **MAC address**<br>- Error detection (**CRC**), priority<br>- Controls how a device **gains access to the medium**<br>- Hop-to-hop delivery|Ethernet, PPP, HDLC, 802.11, Frame Relay, ATM, Token Ring; devices: **switch, access point**|**Frames**|
-|**1 – Physical**|- **Mechanical, electrical, functional, procedural** steps<br>- Moves **individual raw bits** hop to hop<br>- Host components, transmission media|RS-232 / RS-232C, V.24, V.34, RJ45, 100BASE-TX, SDH, DSL|**Bits**|
+| Layer                   | Description                                                                                                                                               | Protocol / Examples                                                                          | Unit (PDU)   |
+| :---------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------- | :----------- |
+| **7 – Application**     | - Services to the **user**<br>- File transfer, graphics/doc interpretation, document processing<br>- _Network process to application_                     | HTTP, HTTPS, FTP, DNS, SMTP, POP, Telnet, P2P, X.400 e-mail                                  | Data         |
+| **6 – Presentation**    | - How you **present/format** data<br>- **Translation, compression, encryption**<br>- Isolates app data format from lower layers; syntax conversion        | JPEG, MP3/MP4, AVI, HTML, DOC, Sockets                                                       | Data         |
+| **5 – Session**         | - **Establishes, maintains, terminates** connections/data streams<br>- **Dialog control and synchronization**<br>- First of the 3 upper layers            | SIP (Session Initiation Protocol), RTP, RPC / Named pipes, TCP session setup                 | Data         |
+| **4 – Transport**       | - Uses **port numbers**<br>- **End-to-end** delivery (process to process)<br>- Reliable and unreliable transport                                          | **TCP** (reliable), **UDP** (unreliable), SCTP, SSL, TLS                                     | **Segments** |
+| **3 – Network** (WAN)   | - Anything with **IP**<br>- Logical addressing, **routing**, switching, packet sequencing, flow control<br>- Source host → destination host               | IP, ARP, IPsec, ICMP, IGMP, OSPF, routing protocols                                          | **Packets**  |
+| **2 – Data Link** (LAN) | - Understands **MAC address**<br>- Error detection (**CRC**), priority<br>- Controls how a device **gains access to the medium**<br>- Hop-to-hop delivery | Ethernet, PPP, HDLC, 802.11, Frame Relay, ATM, Token Ring; devices: **switch, access point** | **Frames**   |
+| **1 – Physical**        | - **Mechanical, electrical, functional, procedural** steps<br>- Moves **individual raw bits** hop to hop<br>- Host components, transmission media         | RS-232 / RS-232C, V.24, V.34, RJ45, 100BASE-TX, SDH, DSL                                     | **Bits**     |
 
 > [!important] Must-know pairings Physical = **bits** · Data link = **frames** · Network = **packets** · Transport = **segments** Physical example **RS-232C** · Data link example **HDLC** · Network example **IP** · Transport example **TCP**
 
@@ -393,43 +393,70 @@ $$Z_0 = \frac{138}{\sqrt{\epsilon_r}}\ \log_{10}\left(\frac{D}{d}\right)$$
 
 # Practice Questions
 
-> [!question]- 1. State Hartley's Law and define each variable. Information that can be transmitted is proportional to bandwidth and time: $I \propto B \times T$. $I$ = information capacity (bps), $B$ = bandwidth (Hz), $T$ = transmission time (s).
+> [!question]- 1. State Hartley's Law and define each variable.
+> Information that can be transmitted is proportional to bandwidth and time: $I \propto B \times T$. $I$ = information capacity (bps), $B$ = bandwidth (Hz), $T$ = transmission time (s).
 
-> [!question]- 2. What does the Shannon–Hartley theorem say? Channel bandwidth and SNR are exchangeable (you can trade one for the other for the same performance). Capacity: $C = B\log_{2}(1+SNR)$.
+> [!question]- 2. What does the Shannon–Hartley theorem say?
+> Channel bandwidth and SNR are exchangeable (you can trade one for the other for the same performance). Capacity: $C = B\log_{2}(1+SNR)$.
 
-> [!question]- 3. A channel has B = 4 kHz and SNR = 20 dB. Find the capacity. $SNR = 10^{20/10} = 100$. $C = 4000\log_{2}(101) = 4000(6.658) \approx 26.6$ kbps.
+> [!question]- 3. A channel has B = 4 kHz and SNR = 20 dB. Find the capacity.
+> $SNR = 10^{20/10} = 100$
+> $C = 4000\log_{2}(101) = 4000(6.658) \approx 26.6$ kbps.
 
-> [!question]- 4. A channel with B = 3 kHz uses 4 coding levels. Find C using Hartley's Law. $C = 2B\log_{2}N = 2(3000)\log_{2}4 = 2(3000)(2) = 12{,}000$ bps = **12 kbps**.
+> [!question]- 4. A channel with B = 3 kHz uses 4 coding levels. Find C using Hartley's Law
+> $C = 2B\log_{2}N = 2(3000)\log_{2}4 = 2(3000)(2) = 12{,}000$ bps = **12 kbps**.
 
-> [!question]- 5. S/N is 20 at the input and 4 at the output of an amplifier. Find F and NF. $F = 20/4 = 5$. $NF = 10\log 5 \approx 7$ dB.
+> [!question]- 5. S/N is 20 at the input and 4 at the output of an amplifier. Find F and NF.
+> $F = 20/4 = 5$
+> $NF = 10\log 5 \approx 7$ dB.
 
-> [!question]- 6. What is the noise figure of an ideal noiseless network? $F = 1$, so $NF = 0$ dB.
+> [!question]- 6. What is the noise figure of an ideal noiseless network?
+> $F = 1$, so
+> $NF = 0$ dB.
 
-> [!question]- 7. Which organization is the "global umbrella" of standards bodies, and what falls under ANSI? **ISO**. Under ISO: ITU-T, IEEE, ANSI. Under ANSI: **EIA** and **TIA**.
+> [!question]- 7. Which organization is the "global umbrella" of standards bodies, and what falls under ANSI?
+> **ISO**. Under ISO: ITU-T, IEEE, ANSI. Under ANSI: **EIA** and **TIA**.
 
-> [!question]- 8. Which body develops the RS series (e.g., RS-232), and when was it founded? **EIA**, founded **1924** as the Radio Manufacturers Association. (RS = Recommended Standard.)
+> [!question]- 8. Which body develops the RS series (e.g., RS-232), and when was it founded?
+> **EIA**, founded **1924** as the Radio Manufacturers Association. (RS = Recommended Standard.)
 
-> [!question]- 9. Differentiate serial and parallel transmission. Serial: bits sent one after another over **one line** (serial-by-bit). Parallel: bits sent **all at once** over multiple lines, e.g., 8 lines for 8 bits (parallel-by-bit / serial-by-character).
+> [!question]- 9. Differentiate serial and parallel transmission.
+> Serial: bits sent one after another over **one line** (serial-by-bit).
+> Parallel: bits sent **all at once** over multiple lines, e.g., 8 lines for 8 bits (parallel-by-bit / serial-by-character).
 
-> [!question]- 10. Differentiate DTE and DCE. **DTE** = the user's computer / terminal (data equivalent of CPE). **DCE** = equipment that interfaces the DTE to the network and resolves incompatibilities (digital vs analog, voltage, speed, bit density).
+> [!question]- 10. Differentiate DTE and DCE.
+> **DTE** = the user's computer / terminal (data equivalent of CPE).
+> **DCE** = equipment that interfaces the DTE to the network and resolves incompatibilities (digital vs analog, voltage, speed, bit density).
 
-> [!question]- 11. Differentiate asynchronous and synchronous transmission. Async: character-framed, **start bit + stop bit** per character, gaps between units. Sync: message-framed, large blocks with **sync bits/patterns**, used for **high-speed** applications.
+> [!question]- 11. Differentiate asynchronous and synchronous transmission.
+> Async: character-framed, **start bit + stop bit** per character, gaps between units.
+> Sync: message-framed, large blocks with **sync bits/patterns**, used for **high-speed** applications.
 
-> [!question]- 12. Name the OSI layers top to bottom, with the PDU for layers 1 to 4. Application, Presentation, Session, Transport (**segments**), Network (**packets**), Data Link (**frames**), Physical (**bits**).
+> [!question]- 12. Name the OSI layers top to bottom, with the PDU for layers 1 to 4.
+> Application, Presentation, Session, Transport (**segments**), Network (**packets**), Data Link (**frames**), Physical (**bits**).
 
-> [!question]- 13. Which OSI layer handles port numbers, and which handles MAC addresses and CRC? Port numbers → **Transport (4)**. MAC address and CRC → **Data Link (2)**.
+> [!question]- 13. Which OSI layer handles port numbers, and which handles MAC addresses and CRC?
+> Port numbers → **Transport (4)**. MAC address and CRC → **Data Link (2)**.
 
-> [!question]- 14. Which layer handles translation, compression, and encryption? **Presentation (6)**.
+> [!question]- 14. Which layer handles translation, compression, and encryption?
+> **Presentation (6)**.
 
-> [!question]- 15. UTP vs STP: which needs grounding and where is it used? **STP** needs proper grounding. Used in industrial factories, data centers, and environments with heavy machinery.
+> [!question]- 15. UTP vs STP: which needs grounding and where is it used?
+> **STP** needs proper grounding. Used in industrial factories, data centers, and environments with heavy machinery.
 
-> [!question]- 16. Which twisted-pair category runs 10 Gbps up to only 55 m? Which has only a 30–36 m limit? **Cat 6** (10 Gbps up to 55 m). **Cat 8** (30–36 m; 25G/40G; 2 GHz).
+> [!question]- 16. Which twisted-pair category runs 10 Gbps up to only 55 m? Which has only a 30–36 m limit?
+> **Cat 6** (10 Gbps up to 55 m). **Cat 8** (30–36 m; 25G/40G; 2 GHz).
 
-> [!question]- 17. Characteristic impedance of twisted pair, 75 Ω coax, and 50 Ω coax? Twisted pair: **100 Ω**. 75 Ω: RG-6, RG-59, RG-11 (TV / broadband, FDM). 50 Ω: RG-58 Thinnet, RG-8 Thicknet (data / RF, baseband).
+> [!question]- 17. Characteristic impedance of twisted pair, 75 Ω coax, and 50 Ω coax?
+> Twisted pair: **100 Ω**
+> 75 Ω: RG-6, RG-59, RG-11 (TV / broadband, FDM).
+> 50 Ω: RG-58 Thinnet, RG-8 Thicknet (data / RF, baseband).
 
 > [!question]- 18. Differentiate broadband and baseband coaxial transmission. **Broadband (75 Ω):** analog, uses FDM to carry many channels at once (CATV, DOCSIS). **Baseband (50 Ω):** digital, one unmodulated signal using the whole bandwidth (10Base2 / 10Base5).
 
-> [!question]- 19. Compare F-type and BNC connectors. **F-type:** threaded screw-on, 75 Ω, cable TV / satellite / DOCSIS, cheapest. **BNC:** bayonet twist-lock (quarter turn), 50 Ω, CCTV / oscilloscopes / 10Base2 / RF.
+> [!question]- 19. Compare F-type and BNC connectors.
+> **F-type:** threaded screw-on, 75 Ω, cable TV / satellite / DOCSIS, cheapest.
+> **BNC:** bayonet twist-lock (quarter turn), 50 Ω, CCTV / oscilloscopes / 10Base2 / RF.
 
 ---
 

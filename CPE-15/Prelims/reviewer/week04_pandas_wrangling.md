@@ -423,10 +423,10 @@ assert len(recombined) == len(clean_energy)
 assert set(recombined.columns) == set(clean_energy.columns)
 ```
 
-| Operation | Purpose |
-|-----------|---------|
-| `merge` | combine columns by key (like SQL join) |
-| `concat` | stack rows or align columns (no key matching) |
+| Operation | Purpose                                       |
+| --------- | --------------------------------------------- |
+| `merge`   | combine columns by key (like SQL join)        |
+| `concat`  | stack rows or align columns (no key matching) |
 
 ---
 

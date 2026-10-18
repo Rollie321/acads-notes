@@ -305,9 +305,9 @@ $$G(s)=\frac{\omega_n^2}{s^2+2\zeta\omega_n s+\omega_n^2}$$
 
 the step-response metrics are:
 
-| Quantity          | Formula                                                |
-| ----------------- | ------------------------------------------------------ |
-| Percent overshoot | $M_p = \dfrac{y_{peak}-y_{ss}}{y_{ss}-y_0}\times 100%$ |
+|Quantity|Formula|
+|---|---|
+|Percent overshoot|$M_p = \dfrac{y_{peak}-y_{ss}}{y_{ss}-y_0}\times 100%$|
 |Peak time|$T_p = \dfrac{\pi}{\omega_d}$, where $\omega_d=\omega_n\sqrt{1-\zeta^2}$|
 |Damping ratio|$\zeta = \dfrac{-\ln(M_p/100)}{\sqrt{\pi^2+\ln^2(M_p/100)}}$|
 |Natural frequency|$\omega_n = \dfrac{\pi}{T_p\sqrt{1-\zeta^2}}$|
@@ -467,3 +467,169 @@ Expected trend to confirm in your report:
 > - The servo's command resolution and gear backlash cause small steady-state offsets and jitter.
 > - The complementary filter introduces a small lag, and accelerometer readings are corrupted by motion and vibration.
 > - A sample time of 10 ms is adequate for a response of roughly 1 Hz, but faster dynamics would need a higher rate.
+
+---
+
+# 🧪 Pre-Build Simulation (MATLAB)
+
+Do this **before Section 2 (assembly)**. It predicts the response for your chosen $K_p$ and $K_d$, so you arrive at the hardware with sensible starting gains. The result is also a "theoretical vs. experimental" comparison for your report.
+
+## 10.1 Model Used
+
+The servo with the board attached behaves like a 2nd-order position system (motor inertia plus its internal position loop), with command angle in and board angle out:
+
+$$G_p(s)=\frac{\omega_s^2}{s^2+2\zeta_s\omega_s s+\omega_s^2}$$
+
+The firmware controller is $u = K_p(r-y) - K_d,\dot y$ (derivative on the measurement, taken from the gyro). Closing the loop gives
+
+$$\frac{Y(s)}{R(s)}=\frac{K_p,\omega_s^2}{s^2+\left(2\zeta_s\omega_s+K_d,\omega_s^2\right)s+\omega_s^2(1+K_p)}$$
+
+which is a standard 2nd-order system with
+
+$$\omega_n=\omega_s\sqrt{1+K_p},\qquad \zeta=\frac{2\zeta_s\omega_s+K_d,\omega_s^2}{2,\omega_s\sqrt{1+K_p}},\qquad \text{DC gain}=\frac{K_p}{1+K_p}$$
+
+This supports your defense plan: $K_p$ sets the virtual spring stiffness ($\omega_n$), and $K_d$ sets the virtual damper ($\zeta$).
+
+> [!warning] Steady-state offset With $K_i = 0$ the DC gain is $K_p/(1+K_p)$, not 1. For example, $K_p = 1.5$ and a 10° step command gives a final angle of about **6°**. This does not affect the level-hold case (setpoint 0°), but it matters for the step test. Either report $y_{ss}$ as measured (Part A already does) or add a small $K_i$ (set `Ki` below to see its effect).
+
+## 10.2 Simulation Script
+
+Requires the Control System Toolbox. `ws` and `zs` are **placeholder values** for the servo and board. Replace them after you build (Section 10.3).
+
+```matlab
+%% ---- Pre-build simulation: servo + board with PD control ----
+clear; clc; close all;
+s = tf('s');
+
+% Servo + board plant (PLACEHOLDERS, identify from hardware later)
+ws = 40;          % rad/s  servo/board natural frequency
+zs = 0.7;         % servo/board damping ratio
+Gp = ws^2 / (s^2 + 2*zs*ws*s + ws^2);
+
+% Optional: add the 10 ms sample delay of the 100 Hz loop (Pade approx.)
+useDelay = true;
+if useDelay
+    Gp = Gp * pade(tf(1,1,'InputDelay',0.010), 2);
+end
+
+% Gains to compare (same units as the firmware)
+Kp_list = [1.5  1.5  1.5  3.0];
+Kd_list = [0    0.01 0.03 0.01];
+Ki      = 0;      % try 0.5 to remove the steady-state offset
+r       = 10;     % step command (deg)
+
+figure; hold on; grid on;
+for k = 1:numel(Kp_list)
+    Kp = Kp_list(k);  Kd = Kd_list(k);
+    C   = Kp + Ki/s;                                  % PI part on the error
+    Gcl = minreal( Gp*C / (1 + Gp*(C + Kd*s)) );      % derivative on measurement
+
+    [y, t] = step(r*Gcl, 1.5);
+    plot(t, y, 'LineWidth', 1.5, ...
+        'DisplayName', sprintf('Kp=%.1f, Kd=%.2f', Kp, Kd));
+
+    info = stepinfo(Gcl);
+    % Analytic values (exact when the delay is off)
+    wn   = ws*sqrt(1+Kp);
+    zeta = (2*zs*ws + Kd*ws^2) / (2*ws*sqrt(1+Kp));
+    fprintf('Kp=%.1f Kd=%.2f | Tp=%.3f s  Mp=%.1f %%  Ts=%.3f s | zeta=%.2f wn=%.1f rad/s | final=%.2f deg\n', ...
+        Kp, Kd, info.PeakTime, info.Overshoot, info.SettlingTime, ...
+        zeta, wn, r*dcgain(Gcl));
+end
+yline(r, 'k:', 'Command');
+xlabel('Time (s)'); ylabel('Board angle (deg)');
+title('Simulated step response for different gains');
+legend('Location', 'southeast');
+```
+
+### How to read the output
+
+|What you see|What it means|
+|---|---|
+|`Kd = 0` gives a large overshoot and long ringing|Underdamped, so you need derivative action|
+|Increasing `Kd` lowers $M_p$|The virtual damper is working|
+|Increasing `Kp` shortens $T_p$|$\omega_n$ is increasing|
+|Final value below the command|The $K_p/(1+K_p)$ offset|
+|Violent response or instability with `useDelay = true`|Gains are too high for a 10 ms loop, so lower them|
+
+Choose the 2 or 3 gain pairs that give a clean, slightly underdamped response ($\zeta \approx 0.4$–$0.7$) and use them as your **first values in the firmware**.
+
+## 10.3 Replace the Placeholders with Real Values
+
+The placeholder `ws` and `zs` strongly affect the result, so identify them once the hardware is built:
+
+1. Set `Kp = 0`, `Kd = 0` in the firmware and command the servo directly, for example from 1500 µs to 1600 µs.
+2. Log the board angle with the IMU and extract $\zeta_s$ and $\omega_s$ with the same Part A method from Section 7.
+3. Put those numbers into `ws` and `zs`, rerun the simulation, and check how well it predicts your closed-loop recordings.
+
+Put the **simulated vs. measured** step response on one plot in your report, and comment on any differences (servo rate limit, backlash, filter lag, sensor noise).
+
+## 10.4 Simulating the Circuit and Arduino Code (Wokwi)
+
+[Wokwi](https://wokwi.com/) is a free online simulator that runs your **actual Arduino code** against a virtual Arduino Nano/Uno, MPU-6050, and servo. It has a ready-made MPU-6050 part (I2C address `0x68`, set with accelerometer values in g and gyro values in °/s), so the register-level reads in the firmware can be tested.
+
+**What it can and cannot tell you**
+
+|Wokwi can check|Wokwi cannot check|
+|---|---|
+|The code compiles and runs on an Arduino|The board's real mechanical response|
+|Wiring is correct (I2C, PWM pin)|Servo speed limits, backlash, vibration|
+|Calibration, angle calculation, and PD output are logical|Sensor noise and drift|
+|The servo moves in the **correct direction**|Tuning of $K_p$ and $K_d$ (use Section 10.2 for that)|
+|CSV logging format||
+
+The physical loop is **not closed** in the simulation. Moving the virtual servo does not change the virtual sensor, so _you_ act as the physics by changing the sensor values by hand.
+
+### Setup
+
+1. Go to wokwi.com, click **New Project**, and choose **Arduino Nano** (or Uno).
+    
+2. Click the **+** button and add an **MPU6050** and a **Servo**.
+    
+3. Wire them exactly as in Section 3:
+    
+    |Part|Pin|Connect to|
+    |---|---|---|
+    |MPU6050|VCC|5V|
+    |MPU6050|GND|GND|
+    |MPU6050|SDA|A4|
+    |MPU6050|SCL|A5|
+    |Servo|GND|GND|
+    |Servo|V+|5V|
+    |Servo|PWM|D9|
+    
+4. Replace the contents of `sketch.ino` with the firmware from Section 4. `Wire` and `Servo` are built in, so no extra libraries are needed.
+    
+5. Press **Start Simulation**. Leave the MPU6050 at its default level values (X = 0, Y = 0, Z = 1 g) for the first 3 seconds, because that is when the code calibrates the 0° baseline.
+    
+6. Open the **Serial Monitor** in Wokwi to see the `t_ms,setpoint,angle` output. Click the MPU6050 while the simulation is running to change its acceleration and rotation values.
+    
+
+### Test checklist
+
+For a tilt angle $\theta$, set the accelerometer to $a_y=\sin\theta$ and $a_z=\cos\theta$ (in g), with the gyro at 0 °/s.
+
+|#|Test|Set the MPU6050 to|Expected result|
+|---|---|---|---|
+|1|Level hold|Y = 0, Z = 1|`angle` stays near 0 and the servo stays near center|
+|2|Tilt +10°|Y = 0.174, Z = 0.985|`angle` rises toward 10 (takes about 1 s because of the filter) and the servo swings about 15° off center **in one direction**|
+|3|Tilt −10°|Y = −0.174, Z = 0.985|The servo swings the **opposite** way to test 2|
+|4|Direction check|Compare tests 2 and 3 with the real tilt|The servo must push **against** the tilt. If it does not, set `DIR = -1`|
+|5|Saturation|Tilt about 60° (Y = 0.866, Z = 0.5)|The servo stops at its limit (±40° from center) and does not go further|
+|6|Setpoint step|Level values, then type `s` in the Serial Monitor|The setpoint in the CSV changes to 10 and the servo moves about 15° to try to reduce the error|
+|7|Derivative action|Level values, set rotation X to 50 °/s for a moment, then back to 0|The servo twitches immediately, which shows the $K_d$ term reacts to angular rate|
+
+> [!warning] Keep the gyro at 0 °/s except for test 7 A constant gyro value in the simulator acts like a constantly rotating board. The filter integrates it and the angle will drift away. This is expected and is not a code bug.
+
+### If something goes wrong
+
+|Symptom|Likely cause|
+|---|---|
+|`angle` is always 0 or stuck|The I2C wiring is wrong (check SDA to A4, SCL to A5), or the MPU6050 is not powered|
+|Servo does not move|PWM wire is not on D9, or the servo is not powered|
+|Servo moves the wrong way|Set `DIR = -1`|
+|Compile errors|The sketch was not fully replaced, or the code was truncated while pasting|
+
+> [!info] If the raw I2C register reads do not work in the simulator The firmware reads the MPU-6050 registers directly. If Wokwi returns zeros anyway, try the Adafruit MPU6050 library (add it in the Library Manager) just to confirm the wiring and part, then go back to the direct-register code for the real hardware.
+
+When all seven tests behave as expected, the wiring and control logic are verified. The remaining work (tuning and the transient response) has to be done on the real hardware.

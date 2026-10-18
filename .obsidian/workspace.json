@@ -22,7 +22,7 @@
             }
           },
           {
-            "id": "9d560926f715c7c8",
+            "id": "67b1d20e7ee957a3",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -34,23 +34,9 @@
               "icon": "lucide-file",
               "title": "project-ideas"
             }
-          },
-          {
-            "id": "3f9cfde7099c2685",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Feedback/Midterms/project/stable-table.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "stable-table"
-            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -112,8 +98,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 267.5220184326172,
-    "collapsed": true
+    "width": 267.5220184326172
   },
   "right": {
     "id": "bc98d5b2a35a67a4",
@@ -190,7 +175,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Feedback/Midterms/quick-ref-tables.md",
+                "file": "Feedback/Midterms/project/project-ideas.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -231,16 +216,16 @@
       "circuit-sketcher:Create new Circuit Sketcher file": false
     }
   },
-  "active": "3f9cfde7099c2685",
+  "active": "9a504adeb6379b78",
   "lastOpenFiles": [
+    "Feedback/Midterms/project/ping-indicator.md",
     "Feedback/Midterms/project/project-ideas.md",
-    "TODO.md",
     "Feedback/Midterms/project/stable-table.md",
+    "TODO.md",
     "PASS.md",
     "Saling gawi.md",
     "Feedback/Midterms/Assignements/Control_System_Seat_Work_No1_Solutions.md",
     "Feedback/Midterms/Assignements/FEEDBACK-ass-1.md",
-    "Feedback/Midterms/project/ping-indicator.md",
     "Digi Comm/Midterm/reviewer.md",
     "Feedback/Midterms/project",
     "Excalidraw/event-node-activity.md",

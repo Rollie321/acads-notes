@@ -6,4 +6,4 @@
 - [x] cook (kalabasa)
 
 ## Sunday Oct 18, 2026
-- [ ] Finalize plan for feedback systems
+- [x] Finalize plan for feedback systems

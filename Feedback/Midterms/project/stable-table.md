@@ -633,3 +633,7 @@ For a tilt angle $\theta$, set the accelerometer to $a_y=\sin\theta$ and $a_z=\c
 > [!info] If the raw I2C register reads do not work in the simulator The firmware reads the MPU-6050 registers directly. If Wokwi returns zeros anyway, try the Adafruit MPU6050 library (add it in the Library Manager) just to confirm the wiring and part, then go back to the direct-register code for the real hardware.
 
 When all seven tests behave as expected, the wiring and control logic are verified. The remaining work (tuning and the transient response) has to be done on the real hardware.
+
+
+# Image
+![[table-stable-sample-image.png]]

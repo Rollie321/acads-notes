@@ -6,7 +6,7 @@
 > 
 > Instead of a loose mechanical assembly, the **entire breadboard serves as the active platform surface**. All electronic intelligence is self-contained on the moving plane, mitigating mechanical wire fatigue.
 > 
-> - **The Controller (The Brain):** **Arduino Nano** (or Uno), mounted centrally on the breadboard.
+> - **The Controller (The Brain):** **Arduino Nano**, plugged directly into the breadboard near its center. It is far lighter than an Uno, which keeps the tilting mass and inertia ($J$) low.
 > - **The Feedback Sensor (The Eyes):** **MPU-6050 IMU**, pinned directly to the breadboard grid to capture real-time pitch/roll orientation relative to gravity.
 > - **The Actuator (The Muscle):** **SG90 Micro Servo Motor**, anchored to a stationary desk fixture. Its horn (spinning arm) is physically coupled to the underside of the breadboard to act as a dynamic pivot axis.
 > - **The External Interface:** A slack-looped USB cable connecting the Arduino to a PC for live data logging and transient analysis.
@@ -40,13 +40,18 @@
 > To satisfy your professor’s constraints, you will use the physical properties of this specific architecture to justify your mathematical modeling:
 > 
 > - **Why it is a 2nd-Order Plant:** The plant is defined by the total mass and inertia ($J$) of the populated breadboard alongside the motor's damping characteristics ($B$). Accelerating this structural mass forces the physical transfer function to conform to a standard 2nd-order differential equation.
+>     
 > - **Tuning the Transient Response:** The system parameters ($\zeta$ and $\omega_n$) will be shaped directly inside your software. Modifying your proportional code gain adjusts the "virtual spring stiffness" $\omega_n$, while adjusting your derivative code gain acts as a "virtual shock absorber" ($\zeta$).
+>     
 > - **Experimental Metric Extraction:** You will introduce a physical step disturbance (tapping the edge of the tilting breadboard). By logging the transient curve over the serial monitor, you can capture **Peak Time ($T_p$)** and **Maximum Overshoot ($M_p$)** to calculate the system's exact damping ratio ($\zeta$) and natural frequency ($\omega_n$). [!info] 📦 Main Controller & Sensors
-> 
-> - **Arduino Nano (or Uno)**
+>     
+> - **Arduino Nano (ATmega328P)**
+>     
 >     - _Quantity:_ 1
 >     - _Purpose:_ Acts as the central microcontroller processing your closed-loop feedback code.
+>     - _Buy note:_ Get one **with header pins already soldered** so it plugs straight into the breadboard. Low-cost clones usually use a CH340 USB chip, which works fine but may need a driver (see Section 4).
 > - **MPU-6050 6-Axis IMU Module**
+>     
 >     - _Quantity:_ 1
 >     - _Purpose:_ Measures the physical tilt angle of the breadboard in real-time.
 >     - _Estimated Local Cost:_ ₱45 – ₱65
@@ -55,9 +60,10 @@
 > 
 > > [!TLDR]- Main Controller & Sensors
 > > 
-> > - **Arduino Nano (or Uno)**
+> > - **Arduino Nano (ATmega328P)**
 > >     - _Quantity:_ 1
 > >     - _Purpose:_ Acts as the central microcontroller processing your closed-loop feedback code.
+> >     - _Buy note:_ Get one **with header pins already soldered** so it plugs straight into the breadboard. Low-cost clones usually use a CH340 USB chip, which works fine but may need a driver (see Section 4).
 > > - **MPU-6050 6-Axis IMU Module**
 > >     - _Quantity:_ 1
 > >     - _Purpose:_ Measures the physical tilt angle of the breadboard in real-time.
@@ -69,9 +75,10 @@
 > >     - _Quantity:_ 1
 > >     - _Purpose:_ The second-order physical muscle that tilts the breadboard back to level.
 > >     - _Estimated Local Cost:_ ₱35 – ₱45
-> > - **Mini USB (for Nano) or Type-B USB Cable (for Uno)**
+> > - **USB cable matching your Nano's port**
 > >     - _Quantity:_ 1
 > >     - _Purpose:_ Powers the system from your laptop and streams live data back for your transient response graph.
+> >     - _Check:_ Original Nanos use Mini-USB, but some clones use Micro-USB or USB-C. Use a **data** cable, not a charge-only one, or the board will not appear as a port.
 > 
 > > [!TLDR]- Breadboard & Prototyping Hardware
 > > 
@@ -113,7 +120,7 @@
 1. **Anchor the servo.** Tape or clamp the SG90 casing to the heavy base so it cannot move. Position it at the edge of the desk so the horn can rotate freely.
 2. **Attach the horn.** Fit the servo horn onto the output shaft with the servo at its **center position (90°)**. Keep the horn straight and use the screw that comes with it.
 3. **Mount the breadboard.** Stick the **center of the underside** of the breadboard to the horn using double-sided foam tape. The tilt axis must run through the middle of the board, so the mass is balanced on both sides.
-4. **Populate the breadboard.** Place the Arduino and MPU-6050 near the center line so the weight stays balanced. Fix the MPU-6050 so it **cannot shift** relative to the board.
+4. **Populate the breadboard.** Plug the Arduino Nano into the breadboard so it straddles the center channel, with its USB port facing the edge where the cable will leave. Place the MPU-6050 on the opposite side of the pivot so the weight stays balanced. Fix the MPU-6050 so it **cannot shift** relative to the board.
 5. **Route cables.** Run the servo wires along the pivot axis so they do not pull on the board when it tilts. Leave a **slack loop** in the USB cable.
 
 > [!warning] Mechanical rules
@@ -126,7 +133,7 @@
 
 ## 3. Wiring
 
-|MPU-6050 pin|Arduino Nano/Uno|Notes|
+|MPU-6050 pin|Arduino Nano pin|Notes|
 |---|---|---|
 |VCC|5V|Most GY-521 modules have an onboard regulator. Use 3.3V if yours does not.|
 |GND|GND||
@@ -142,11 +149,23 @@
 
 > [!tip] If the Arduino resets when the servo moves The servo's current spikes are dropping the supply voltage. Add a **100–470 µF capacitor** across the servo's 5V and GND, and use a USB port that can supply enough current.
 
+> [!info] Arduino Nano pin notes
+> 
+> - The pin labels on the Nano are printed on the board: `A4`, `A5`, `D9`, `5V`, and several `GND` pins (any of them works).
+> - Do not use `VIN` for the 5V supply. Use the `5V` pin.
+> - The Nano has no power jack. It is powered through the USB cable, which also carries the serial data.
+> - If the servo still causes resets, power it from a separate 5V source (for example a USB power bank) and **connect its GND to the Nano's GND**.
+
 ---
 
 ## 4. Firmware (Arduino IDE)
 
-**Setup:** Install the Arduino IDE. Select your board and port, and set the Serial Monitor to **115200 baud**. The code only uses the built-in `Wire` and `Servo` libraries.
+**Setup:** Install the Arduino IDE. Under **Tools → Board** choose **Arduino Nano**, under **Tools → Processor** choose **ATmega328P**, and select the COM port. Set the Serial Monitor to **115200 baud**.
+
+> [!warning] Nano upload problems
+> 
+> - If the upload fails with `programmer is not responding` or `not in sync`, change **Tools → Processor** to **ATmega328P (Old Bootloader)** and upload again. This is very common on clone boards.
+> - If no COM port appears, install the **CH340 driver** (most clones use this chip) and try a different, data-capable USB cable. The code only uses the built-in `Wire` and `Servo` libraries.
 
 **How the code works:**
 
@@ -566,7 +585,7 @@ Put the **simulated vs. measured** step response on one plot in your report, and
 
 ## 10.4 Simulating the Circuit and Arduino Code (Wokwi)
 
-[Wokwi](https://wokwi.com/) is a free online simulator that runs your **actual Arduino code** against a virtual Arduino Nano/Uno, MPU-6050, and servo. It has a ready-made MPU-6050 part (I2C address `0x68`, set with accelerometer values in g and gyro values in °/s), so the register-level reads in the firmware can be tested.
+[Wokwi](https://wokwi.com/) is a free online simulator that runs your **actual Arduino code** against a virtual Arduino Nano, MPU-6050, and servo. It has a ready-made MPU-6050 part (I2C address `0x68`, set with accelerometer values in g and gyro values in °/s), so the register-level reads in the firmware can be tested.
 
 **What it can and cannot tell you**
 
@@ -582,7 +601,7 @@ The physical loop is **not closed** in the simulation. Moving the virtual servo 
 
 ### Setup
 
-1. Go to wokwi.com, click **New Project**, and choose **Arduino Nano** (or Uno).
+1. Go to wokwi.com, click **New Project**, and choose **Arduino Nano**.
     
 2. Click the **+** button and add an **MPU6050** and a **Servo**.
     
@@ -634,6 +653,6 @@ For a tilt angle $\theta$, set the accelerometer to $a_y=\sin\theta$ and $a_z=\c
 
 When all seven tests behave as expected, the wiring and control logic are verified. The remaining work (tuning and the transient response) has to be done on the real hardware.
 
-
 # Image
+
 ![[table-stable-sample-image.png]]

@@ -1,4 +1,4 @@
-	$$ \overline { \overline {\overline{AB}A}. \overline{ \overline {AB}B} }$$
+$$ \overline { \overline {\overline{AB}A}. \overline{ \overline {AB}B} }$$
 > [!question]- Example 12: Simplify $\overline{\overline{\overline{AB}A}.\overline{\overline{AB}B}}$
 >
 > Apply **De Morgan's theorem** (Law 26) to both $\overline{AB}$ terms: $$ \overline{\overline{{\color{yellow}\overline{AB}}A}.\overline{{\color{yellow}\overline{AB}}B}} $$ $$ \overline{\overline{{\color{yellow}(\overline A+\overline B)}A}.\overline{{\color{yellow}(\overline A+\overline B)}B}} $$

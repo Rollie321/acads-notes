@@ -7,3 +7,8 @@
 
 ## Sunday Oct 18, 2026
 - [x] Finalize plan for feedback systems
+
+# Tuesday Oct 2026
+- [ ] CPE07 LAB
+- [ ] DSA ass
+- [ ] feedback project docs

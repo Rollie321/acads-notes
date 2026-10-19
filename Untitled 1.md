@@ -1,5 +1,5 @@
 ## Assignment
-2D array
+*in terms of 2D array*
 
 1. Insertion and deleting of elements in array
 

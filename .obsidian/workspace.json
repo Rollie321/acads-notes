@@ -4,39 +4,20 @@
     "type": "split",
     "children": [
       {
-        "id": "5c41595435f9f9f2",
+        "id": "a75ab2c731024c23",
         "type": "tabs",
         "children": [
           {
-            "id": "533fd40a403fafc8",
+            "id": "da33eeb6e8a030fb",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Untitled 1.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "Untitled 1"
-            }
-          },
-          {
-            "id": "144cd03b6a00d4d0",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Untitled 1.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Untitled 1"
+              "title": "New tab"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -216,26 +197,38 @@
       "circuit-sketcher:Create new Circuit Sketcher file": false
     }
   },
-  "active": "144cd03b6a00d4d0",
+  "active": "9a504adeb6379b78",
   "lastOpenFiles": [
+    "HDL/finals",
+    "HDL/modelsim_verilog_guide.md",
+    "Feedback/Finals/Project/project-requirements.pdf",
+    "Logic Circuits/pdf/Lecture 04 - Boolean Algebra.pdf",
+    "Feedback/Finals/Project/CPE11_Performance Task.pdf",
+    "Feedback/Finals/Project",
+    "Feedback/Finals/CPE11_Performance Task.pdf",
+    "Feedback/Finals",
+    "Logic Circuits/pdf/Pasted Image 20260910133645_396.png",
+    "Logic Circuits/pdf/Pasted image 20260910102950.png",
+    "Logic Circuits/pdf/Pasted image 20260910101802.png",
+    "TODO.md",
+    "Logic Circuits/Finals/LAB-activities/LAB-1.md",
+    "LAB-1.md",
+    "Logic Circuits/Finals/LAB-activities",
+    "Logic Circuits/Finals",
+    "Untitled 1.md",
+    "DSA/Finals/Project/Project Requirements.md",
+    "DSA/Finals/Project",
     "DSA/Finals/Assignment/Assignment 1 - (Multi Dimension Array Stack & Queue).md",
     "DSA/Finals/Assignment",
-    "Untitled 1.md",
-    "DSA/Finals",
-    "TODO.md",
-    "Untitled.md",
     "Feedback/Midterms/project/stable-table.md",
-    "nano.106608.save",
     "Feedback/assets/table-stable-sample-image.png",
     "Feedback/Midterms/project/project-ideas.md",
-    "Feedback/assets/chapter-3.pdf",
     "Feedback/Midterms/project/ping-indicator.md",
     "PASS.md",
     "Saling gawi.md",
     "Feedback/Midterms/Assignements/Control_System_Seat_Work_No1_Solutions.md",
     "Feedback/Midterms/Assignements/FEEDBACK-ass-1.md",
     "Digi Comm/Midterm/reviewer.md",
-    "Feedback/Midterms/project",
     "Excalidraw/event-node-activity.md",
     "Untitled.canvas",
     "Excalidraw/Drawing 2026-10-15 16.20.02.excalidraw.md",
@@ -246,18 +239,7 @@
     "Mixed Signals/Midterms/reviewer.md",
     "Feedback/Midterms/Assignements/Ass-1-Solutions.md",
     "CPE-15/Prelims/reviewer/week04_pandas_wrangling.md",
-    "Feedback/assets/chapter-4.pdf",
     "Feedback/Midterms/Chapter4_Time_Response_Reference.md",
-    "Feedback/Midterms/quick-ref-tables.md",
-    "DSA/Midterms/Assignment/Assignment-2-(sorting algorithms).md",
-    "Feedback/Midterms/mechanical-impedance-explained.md",
-    "DSA/Midterms/pdf/ADT.pdf",
-    "CPE-15/midterms",
-    "DSA/Midterms/quiz",
-    "Logic Circuits/pdf/Pasted Image 20260910133645_396.png",
-    "Logic Circuits/pdf/Pasted image 20260910102950.png",
-    "Logic Circuits/pdf/Pasted image 20260910101802.png",
-    "Logic Circuits/pdf/Lecture 04 - Boolean Algebra.pdf",
     "Logic Circuits/assets/logic-diagram-2.png",
     "Logic Circuits/assets/lab-3.png",
     "Logic Circuits/assets/lab-1.png",

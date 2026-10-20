@@ -1,13 +1,3 @@
-## Assignment
-*in terms of 2D array*
-
-1. Insertion and deleting of elements in array
-
-2. Stack and queue implementation in array
-
-3. Sample program of one and two.
-
-## Project
 1. Documentation *(pdf file)*
     * Front-page 
         * Logo of CEN

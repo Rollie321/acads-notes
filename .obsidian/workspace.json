@@ -4,35 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "8337c6df8c8df987",
+        "id": "90597dd7af213f69",
         "type": "tabs",
         "children": [
           {
-            "id": "3bf619faa269ccaf",
-            "type": "leaf",
-            "state": {
-              "type": "empty",
-              "state": {},
-              "icon": "lucide-file",
-              "title": "New tab"
-            }
-          },
-          {
-            "id": "d8d8b6e8f485e73c",
+            "id": "ec3eb8d3a0e5c9f2",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Feedback/Finals/Project/project-1/procedure.md",
-                "mode": "source",
+                "file": "DSA/Finals/Assignment/Assignment 1 - (Multi Dimension Array Stack & Queue).md",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "procedure"
+              "title": "Assignment 1 - (Multi Dimension Array Stack & Queue)"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -213,8 +202,20 @@
       "circuit-sketcher:Create new Circuit Sketcher file": false
     }
   },
-  "active": "d8d8b6e8f485e73c",
+  "active": "ec3eb8d3a0e5c9f2",
   "lastOpenFiles": [
+    "Saling gawi.md",
+    "Logic Circuits/assets/Pasted image 20261020112355.png",
+    "Logic Circuits/assets/Pasted image 20261020124557.png",
+    "Logic Circuits/assets/Pasted image 20261020111323.png",
+    "Logic Circuits/Finals/LAB-activities/Week-1.md",
+    "Logic Circuits/assets/Pasted image 20261020124518.png",
+    "5.4-simplified.png",
+    "Logic Circuits/assets/Pasted image 20261020124446.png",
+    "Logic Circuits/Finals/LAB-activities/answers-LAB-1.md",
+    "Logic Circuits/assets/5.2-simplified-circuit.png",
+    "Feedback/Finals/Project/project-1/procedure.md",
+    "Logic Circuits/assets/lab-finals-week1-5.1.png",
     "Feedback/Finals/Project/project-1/overview.md",
     "Feedback/Finals/Project/project-1/material-requirements.md",
     "overf.md",
@@ -222,7 +223,6 @@
     "PASS.md",
     "TODO.md",
     "Feedback/Finals/Project/project-1/simulation.md",
-    "Feedback/Finals/Project/project-1/procedure.md",
     "Feedback/Finals/Project/project-1",
     "HDL/finals",
     "Feedback/Finals/Project/project-requirements.pdf",
@@ -233,8 +233,6 @@
     "Feedback/Finals",
     "Logic Circuits/pdf/Pasted Image 20260910133645_396.png",
     "Logic Circuits/pdf/Pasted image 20260910102950.png",
-    "Logic Circuits/pdf/Pasted image 20260910101802.png",
-    "Logic Circuits/Finals/LAB-activities/LAB-1.md",
     "LAB-1.md",
     "Logic Circuits/Finals/LAB-activities",
     "Logic Circuits/Finals",
@@ -242,10 +240,8 @@
     "DSA/Finals/Project/Project Requirements.md",
     "DSA/Finals/Assignment/Assignment 1 - (Multi Dimension Array Stack & Queue).md",
     "Feedback/Midterms/project/stable-table.md",
-    "Feedback/assets/table-stable-sample-image.png",
     "Feedback/Midterms/project/project-ideas.md",
     "Feedback/Midterms/project/ping-indicator.md",
-    "Saling gawi.md",
     "Feedback/Midterms/Assignements/Control_System_Seat_Work_No1_Solutions.md",
     "Feedback/Midterms/Assignements/FEEDBACK-ass-1.md",
     "Digi Comm/Midterm/reviewer.md",
@@ -254,14 +250,6 @@
     "Excalidraw/Drawing 2026-10-15 16.20.02.excalidraw.md",
     "HDL/midterms/Test Bench with loop.md",
     "HDL/midterms/decoder.md",
-    "Logic Circuits/Midterm/CPE07 Reviewer.md",
-    "Mixed Signals/Midterms/Lesson - 1.md",
-    "Logic Circuits/assets/logic-diagram-2.png",
-    "Logic Circuits/assets/lab-3.png",
-    "Logic Circuits/assets/lab-1.png",
-    "Logic Circuits/assets/lab-2.png",
-    "Drafting/assets/power-supply-schematics.png",
-    "HDL/assets/power-supply-schematics.png",
     "Feedback/Prelims/Laplace Sample.canvas",
     "Feedback/Prelims/op-amps-transfer-funciton.canvas"
   ]

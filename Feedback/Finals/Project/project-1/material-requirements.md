@@ -14,9 +14,10 @@
 | 9   | Resistor 10 kΩ                        | 1     | Gate pull-down (pump stays off at boot)                                       |
 | 10  | Pushbuttons                           | 2     | Start and Target-select                                                       |
 | 11  | Slide switch (SPDT)                   | 1     | Mode select                                                                   |
-| 12  | LED + 220 Ω (optional)                | 1     | Status indicator                                                              |
-| 13  | Battery holder + 4 × AA               | 1     | About 6 V for the pump, **separate from USB power**                           |
-| 14  | Jumper wires                          | 1 set | HX711 headers need male pins                                                  |
+| 12  | I2C LCD 16×2 (PCF8574 backpack)       | 1     | 4 pins: GND, VCC, SDA, SCL. 5 V version. Address is usually `0x27` or `0x3F`  |
+| 13  | LED + 220 Ω (optional)                | 1     | Status indicator                                                              |
+| 14  | Battery holder + 4 × AA               | 1     | About 6 V for the pump, **separate from USB power**                           |
+| 15  | Jumper wires                          | 1 set | HX711 and LCD headers need male pins (4 female-to-male wires for the LCD if the LCD pins are male) |
 
 > [!tip] Alternatives A relay module can replace the MOSFET, but it clicks, wears out, and **cannot do PWM slowdown**. A TIP120 transistor also works.
 
@@ -51,6 +52,7 @@
 |---|---|
 |Arduino IDE|Board: Arduino Nano. If upload fails, use processor "ATmega328P (Old Bootloader)"|
 |**HX711 library** (Bogdan Necula, `bogde`)|Install from Library Manager|
+|**LiquidCrystal I2C** (Frank de Brabander)|Install from Library Manager. Drives the I2C LCD|
 |Wokwi (free, online)|Simulation, see [[04-project-simulation]]|
 |Python + matplotlib, MATLAB, or Scilab|Open-loop step response plot|
 |Excel / Google Sheets|Data tables and comparison graphs|
@@ -67,8 +69,10 @@
 |D2|Start button (other side to GND)|Begin dispensing|
 |D3|Target button (other side to GND)|Cycle 100 / 200 / 300 ml|
 |D4|Slide switch middle pin (outer pin to GND)|LOW = closed-loop, HIGH = open-loop|
-|5V|HX711 VCC|Power|
-|GND|HX711 GND, MOSFET source, battery −|**Common ground**|
+|A4 (SDA)|LCD SDA|I2C data (display)|
+|A5 (SCL)|LCD SCL|I2C clock (display)|
+|5V|HX711 VCC, LCD VCC|Power|
+|GND|HX711 GND, LCD GND, MOSFET source, battery −|**Common ground**|
 
 ---
 
@@ -87,6 +91,7 @@
 >     BAT["6 V battery pack"] --> PUMP["Pump"]
 >     PUMP --> MOS
 >     MOS --> GND["Common GND"]
+>     NANO -->|"A4 SDA<br/>A5 SCL"| LCD["I2C LCD 16×2"]
 >     NANO --- GND
 > ```
 > 
@@ -102,6 +107,20 @@ Wire colors vary by manufacturer. Typical:
 |Green|A+|
 
 > [!tip] If the reading goes **negative** when you add water, swap the A+ and A− wires.
+
+### I2C LCD → Nano
+
+|LCD pin|Nano pin|
+|---|---|
+|GND|GND|
+|VCC|5V|
+|SDA|A4|
+|SCL|A5|
+
+> [!tip] LCD shows nothing?
+> - **Backlight on but no text:** turn the small blue **contrast trimmer** on the back of the I2C backpack with a screwdriver.
+> - **Still blank:** the address may be `0x3F` instead of `0x27`. Run the I2C scanner in [[03-project-procedure#Check the LCD]] to find it.
+> - Power the LCD from the Nano **5V** pin (not 3.3 V). The backlight draws roughly 20 to 40 mA, which USB power handles fine.
 
 ### Pump driver (low-side switching)
 
@@ -124,7 +143,7 @@ flowchart TD
 > 
 > - [ ] **Never power the pump from an Arduino pin.** Use the MOSFET and the separate battery pack.
 > - [ ] Connect **all grounds together** (Arduino, MOSFET source, battery −).
-> - [ ] Keep the breadboard and HX711 **away from water**; use a tray and mount electronics higher than the glass.
+> - [ ] Keep the breadboard, HX711 and **LCD** **away from water**; use a tray and mount electronics higher than the glass.
 > - [ ] Do not let tubing rest on the load cell platform.
 > - [ ] Double-check polarity before connecting the battery.
 > - [ ] Do not run the pump dry for long.

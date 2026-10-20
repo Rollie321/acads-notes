@@ -99,11 +99,39 @@ _(PDF Step 3)_ Make **one open-loop step response plot** from $G(s)$ using your 
 - [ ] Wire load cell → HX711 → Nano (see [[02-material-requirements#6. Wiring]])
 - [ ] Wire the MOSFET pump driver with the **separate battery pack**
 - [ ] Wire the two buttons and the slide switch
+- [ ] Wire the I2C LCD: GND → GND, VCC → 5V, SDA → A4, SCL → A5
 - [ ] Place the pump in the reservoir and aim the tube over the glass
 
 ### Install the library
 
 Arduino IDE → Library Manager → search **HX711** → install _HX711 Arduino Library_ by Bogdan Necula.
+
+Then search **LiquidCrystal I2C** → install the one by Frank de Brabander (for the LCD).
+
+### Check the LCD
+
+Upload this I2C scanner once to find the LCD address (usually `0x27` or `0x3F`), then put that value in `LiquidCrystal_I2C lcd(0x27, 16, 2);` in the main code:
+
+```cpp
+#include <Wire.h>
+
+void setup() {
+  Serial.begin(115200);
+  Wire.begin();
+  for (uint8_t addr = 1; addr < 127; addr++) {
+    Wire.beginTransmission(addr);
+    if (Wire.endTransmission() == 0) {
+      Serial.print("I2C device found at 0x");
+      Serial.println(addr, HEX);
+    }
+  }
+  Serial.println("Scan done.");
+}
+
+void loop() {}
+```
+
+If the address is found but the screen stays blank, turn the contrast trimmer on the back of the LCD backpack.
 
 ### Calibrate the load cell
 
@@ -144,7 +172,7 @@ $$ t_{run} = \frac{r}{\hat{K}} $$
 
 ## Phase 5 Main Arduino code
 
-> [!note] Set `#define SIMULATE 0` for real hardware and `1` for the Wokwi simulation ([[04-project-simulation]]).
+> [!note] Set `#define SIMULATE 0` for real hardware and `1` for the Wokwi simulation ([[04-project-simulation]]). Set `#define USE_LCD 1` when the I2C LCD is connected and `0` to build without it.
 
 > [!INFO]- Controller flow
 > 
@@ -153,15 +181,15 @@ $$ t_{run} = \frac{r}{\hat{K}} $$
 >     A(["Start pressed"]) --> B["Read mode switch (D4)"]
 >     B --> C["Tare scale"]
 >     C --> D{"Closed-loop?"}
->     D -- "No" --> E["Pump ON for t = target / flow"]
+>     D -- "No" --> E["Pump ON for t = target / flow<br/>(LCD shows measured %)"]
 >     E --> F["Pump OFF"]
->     D -- "Yes" --> G["Read weight"]
+>     D -- "Yes" --> G["Read weight + update LCD %"]
 >     G --> H{"weight >= target?"}
 >     H -- "No" --> I["Pump ON"]
 >     I --> G
 >     H -- "Yes" --> F
 >     F --> J["Wait 3 s for dripping"]
->     J --> K["Print RESULT line"]
+>     J --> K["Print RESULT line + show final % on LCD"]
 > ```
 > 
 ### Code
@@ -170,19 +198,30 @@ $$ t_{run} = \frac{r}{\hat{K}} $$
 /*
   Water Dispenser: Open-Loop vs Closed-Loop (On-Off) Control
   Board: Arduino Nano
-  Library: HX711 (bogde), only needed when SIMULATE = 0
+  Libraries: HX711 (bogde), only needed when SIMULATE = 0
+             LiquidCrystal I2C (Frank de Brabander), only needed when USE_LCD = 1
 
   Mode switch (D4):  HIGH = OPEN-LOOP,  LOW = CLOSED-LOOP
   Target button (D3): cycles 100 / 200 / 300 ml
   Start button (D2):  runs one dispensing cycle
+  I2C LCD 16x2:       SDA = A4, SCL = A5. Shows progress = measured volume / target (%)
   Output: CSV over Serial at 115200 baud (time_ms, weight_g)
+
+  The LCD is DISPLAY ONLY. It never affects the pump or the controller.
 */
 
 #define SIMULATE 0        // 0 = real hardware, 1 = software plant model (Wokwi)
+#define USE_LCD  1        // 1 = I2C LCD connected, 0 = no LCD
 
 #if !SIMULATE
   #include "HX711.h"
   HX711 scale;
+#endif
+
+#if USE_LCD
+  #include <Wire.h>
+  #include <LiquidCrystal_I2C.h>
+  LiquidCrystal_I2C lcd(0x27, 16, 2);   // I2C address (try 0x3F if blank), 16 columns, 2 rows
 #endif
 
 // ---------- Pins ----------
@@ -192,6 +231,7 @@ const uint8_t PIN_PUMP    = 9;   // PWM -> MOSFET gate
 const uint8_t PIN_START   = 2;
 const uint8_t PIN_TARGET  = 3;
 const uint8_t PIN_MODE    = 4;
+// LCD uses the Nano's hardware I2C pins: SDA = A4, SCL = A5
 
 // ---------- Calibration and tuning (EDIT THESE) ----------
 float CAL_FACTOR = 420.0;                  // from calibration
@@ -202,6 +242,7 @@ const float STOP_EARLY_ML = 0.0;           // closed-loop: stop this many ml ear
 const float SLOW_ZONE_ML  = 0.0;           // closed-loop: slow down in last N ml (0 = pure on-off; try 20)
 const unsigned long TIMEOUT_MS = 60000UL;  // safety: max pump time
 const unsigned long SETTLE_MS  = 3000UL;   // wait for dripping before final reading
+const unsigned long LCD_REFRESH_MS = 200;  // LCD update period (keeps I2C traffic from slowing the loop)
 
 // ---------- Simulation plant model (only used if SIMULATE = 1) ----------
 const float SIM_TAU_S = 0.5;               // pump time constant
@@ -217,6 +258,73 @@ uint8_t tIdx = 0;
 int   pumpPwm = 0;
 float simFlow = 0.0, simVol = 0.0;
 unsigned long simLast = 0;
+float runTarget = 0.0;          // target of the run in progress (for the LCD)
+bool  runClosed = false;        // mode of the run in progress (for the LCD)
+bool  resultShown = false;      // true while the final result is held on the LCD
+unsigned long lcdLast = 0;
+
+// ---------- LCD helpers (display only, never used for control) ----------
+// Progress in percent = measured volume / target * 100. Can exceed 100 (overshoot).
+int percentOf(float volumeMl, float targetMl) {
+  int p = (int)(volumeMl / targetMl * 100.0 + 0.5);
+  return constrain(p, 0, 999);
+}
+
+void lcdLine(uint8_t row, const char *text) {
+#if USE_LCD
+  char buf[17];
+  snprintf(buf, sizeof(buf), "%-16s", text);   // pad to 16 chars so old text is erased
+  lcd.setCursor(0, row);
+  lcd.print(buf);
+#endif
+}
+
+// Idle screen: mode and target. Redrawn only when one of them changes.
+void lcdShowIdle(bool closedLoop) {
+#if USE_LCD
+  static int8_t lastMode = -1, lastIdx = -1;
+  if (lastMode == (int8_t)closedLoop && lastIdx == (int8_t)tIdx) return;
+  lastMode = closedLoop;
+  lastIdx  = tIdx;
+  char l0[17], l1[17];
+  snprintf(l0, sizeof(l0), "Mode: %s", closedLoop ? "CLOSED" : "OPEN");
+  snprintf(l1, sizeof(l1), "Target: %3d ml", (int)TARGETS_ML[tIdx]);
+  lcdLine(0, l0);
+  lcdLine(1, l1);
+#endif
+}
+
+// Running screen: progress bar and percentage of the target.
+void lcdShowProgress(float volumeMl, bool force) {
+#if USE_LCD
+  if (!force && millis() - lcdLast < LCD_REFRESH_MS) return;
+  lcdLast = millis();
+  int pct = percentOf(volumeMl, runTarget);
+  char l0[17], l1[17];
+  if (force) {
+    snprintf(l0, sizeof(l0), "%-6s  T=%3dml", runClosed ? "CLOSED" : "OPEN", (int)runTarget);
+    lcdLine(0, l0);
+  }
+  int cells = constrain(pct, 0, 100) / 10;          // 0..10 filled cells
+  for (uint8_t i = 0; i < 10; i++) l1[i] = (i < cells) ? (char)255 : '.';
+  snprintf(l1 + 10, sizeof(l1) - 10, " %3d%%", pct);
+  lcdLine(1, l1);
+#endif
+}
+
+// Result screen: final volume and final percentage. Held until the next button press.
+void lcdShowResult(float finalMl) {
+#if USE_LCD
+  char l0[17], l1[17];
+  int ml = (int)(finalMl + 0.5);
+  if (ml < 0) ml = 0;
+  if (ml > 999) ml = 999;
+  snprintf(l0, sizeof(l0), "DONE    T=%3dml", (int)runTarget);
+  snprintf(l1, sizeof(l1), "Final %3dml %3d%%", ml, percentOf(finalMl, runTarget));
+  lcdLine(0, l0);
+  lcdLine(1, l1);
+#endif
+}
 
 // ---------- Helpers ----------
 void setPump(int pwm) {
@@ -252,6 +360,7 @@ float sampleAndLog(unsigned long t0) {
   Serial.print(millis() - t0);
   Serial.print(',');
   Serial.println(w, 1);
+  lcdShowProgress(w, false);                 // display only
 #if SIMULATE
   delay(SIM_SAMPLE_MS);
 #endif
@@ -272,18 +381,23 @@ bool pressed(uint8_t pin) {
 // ---------- One dispensing cycle ----------
 void runDispense(bool closedLoop) {
   float target = TARGETS_ML[tIdx];
+  runTarget = target;
+  runClosed = closedLoop;
 
   Serial.println();
   Serial.print("MODE: ");   Serial.println(closedLoop ? "CLOSED-LOOP" : "OPEN-LOOP");
   Serial.print("TARGET_ML: "); Serial.println(target, 0);
   Serial.println("Taring... keep the empty glass on the platform.");
+  lcdLine(0, "Taring...");
+  lcdLine(1, "Keep glass on");
   tareScale();
+  lcdShowProgress(0.0, true);                // draw the progress screen at 0%
   Serial.println("time_ms,weight_g");
 
   unsigned long t0 = millis();
 
   if (!closedLoop) {
-    // OPEN-LOOP: fixed, pre-calculated time. The sensor is read ONLY for logging.
+    // OPEN-LOOP: fixed, pre-calculated time. The sensor is read ONLY for logging and the LCD.
     unsigned long runMs = (unsigned long)(target / FLOW_ML_PER_S * 1000.0);
     setPump(PWM_FULL);
     while (millis() - t0 < runMs && millis() - t0 < TIMEOUT_MS) {
@@ -307,6 +421,9 @@ void runDispense(bool closedLoop) {
   float w = 0;
   while (millis() - ts < SETTLE_MS) { w = sampleAndLog(t0); }
 
+  lcdShowResult(w);                          // hold the final result on the LCD
+  resultShown = true;
+
   Serial.print("RESULT,");
   Serial.print(closedLoop ? "closed" : "open");
   Serial.print(",target=");  Serial.print(target, 0);
@@ -324,6 +441,13 @@ void setup() {
   pinMode(PIN_TARGET, INPUT_PULLUP);
   pinMode(PIN_MODE,   INPUT_PULLUP);
 
+#if USE_LCD
+  lcd.init();
+  lcd.backlight();
+#endif
+  lcdLine(0, "Water Dispenser");
+  lcdLine(1, "Starting...");
+
 #if !SIMULATE
   scale.begin(PIN_HX_DT, PIN_HX_SCK);
   scale.set_scale(CAL_FACTOR);
@@ -338,12 +462,14 @@ void setup() {
 void loop() {
   if (pressed(PIN_TARGET)) {
     tIdx = (tIdx + 1) % N_TARGETS;
+    resultShown = false;                     // leave the result screen
     Serial.print("Target set to: "); Serial.print(TARGETS_ML[tIdx], 0); Serial.println(" ml");
   }
   if (pressed(PIN_START)) {
     bool closedLoop = (digitalRead(PIN_MODE) == LOW);
     runDispense(closedLoop);
   }
+  if (!resultShown) lcdShowIdle(digitalRead(PIN_MODE) == LOW);
 }
 ```
 
@@ -357,6 +483,7 @@ void loop() {
 |`if (remaining <= 0) break;`|On-off controller|
 |`setPump(...)`|Actuator command $u$|
 |Fixed `runMs` in open-loop|No feedback, time from the model only|
+|`percentOf()`, `lcdShowProgress()`|Display of $p = y/r \times 100\%$. Reads $y$ but **never feeds the controller**|
 
 ---
 
@@ -368,7 +495,7 @@ _(PDF Steps 4 and 5)_
 
 1. Place the **empty glass** on the platform. Check that the pump has water and the tube is aimed correctly.
 2. Choose the target with the D3 button.
-3. Switch to **open-loop**, press **Start**, then record the Arduino reading and the real volume (graduated cylinder).
+3. Switch to **open-loop**, press **Start**, then record the Arduino reading, the final **% shown on the LCD**, and the real volume (graduated cylinder).
 4. Repeat **3 times**.
 5. Switch to **closed-loop** and repeat steps 3–4.
 6. Compute the error for each trial.
@@ -443,6 +570,7 @@ _(PDF Step 6)_
 
 - [ ] Dry run beforehand (spill tray ready)
 - [ ] Demo at least two targets
+- [ ] Point out the LCD: progress bar rises to the target % (open-loop may stop short of 100%, closed-loop stops at about 100%)
 - [ ] Show open-loop, then closed-loop, then a disturbance in both
 - [ ] Graduated cylinder ready to confirm the real volume
 - [ ] Be ready to explain the sensor, controller, and feedback path
@@ -469,3 +597,7 @@ _(PDF Step 6)_
 |Pump stalls at `PWM_SLOW`|Raise `PWM_SLOW` (try 180)|
 |Upload fails on Nano|Tools → Processor → "ATmega328P (Old Bootloader)"|
 |Large open-loop errors|Re-measure `FLOW_ML_PER_S` with the same battery and tube setup|
+|LCD backlight on, no text|Turn the contrast trimmer on the I2C backpack|
+|LCD completely blank|Wrong I2C address (try `0x3F`, or run the scanner), or SDA/SCL swapped|
+|LCD shows garbled characters or flickers|Loose jumper on SDA/SCL, or pump noise on the 5V rail: re-seat wires and keep the battery pack separate from USB power|
+|LCD % is wrong but Serial weight is right|Check the target value shown on line 1 and that the glass was tared empty|

@@ -19,6 +19,7 @@
 > [!warning] Limitation Wokwi has no water pump or water-filled glass. The simulation uses the **software plant model** built into the code (`SIMULATE 1`):
 > 
 > - The pump is shown as an **LED on D9** (brightness follows the PWM).
+> - The LCD is simulated with Wokwi's I2C 16×2 LCD part (address `0x27`, same as the code). It shows the progress bar and the % of target.
 > - The glass volume is calculated in code with the same model as the transfer function.
 > - `SIM_GAIN = 0.8` makes the "real" pump 20% weaker than the estimate, acting as a disturbance.
 
@@ -44,7 +45,7 @@ flowchart LR
 ```cpp
 #define SIMULATE 1
 ```
-    No library is needed in this mode.
+    The LCD needs the **LiquidCrystal I2C** library. In Wokwi, open the Library Manager (the **+** tab above the file list) and add **LiquidCrystal I2C**. The HX711 library is still not needed. To simulate without the LCD, set `#define USE_LCD 0` instead.
 1. Press **Start Simulation** and open the Serial Monitor (115200 baud).
 2. Test both modes:
     - Slide switch to the **open-loop** side, press **Target** to choose a volume, then **Start**.
@@ -59,6 +60,7 @@ flowchart LR
 |Target pushbutton|One side to **D3**, other side to **GND**|
 |Slide switch|Middle pin to **D4**, one outer pin to **GND**, other outer pin unconnected|
 |LED (pump indicator)|Anode through **220 Ω** to **D9**, cathode to **GND**|
+|I2C LCD 16×2|**GND** to GND, **VCC** to 5V, **SDA** to **A4**, **SCL** to **A5**|
 
 > [!note] The switch must connect the middle pin to GND in the **closed-loop** position (the code reads LOW as closed-loop).
 
@@ -77,7 +79,8 @@ flowchart LR
     { "type": "wokwi-pushbutton", "id": "btnTarget", "top": -90, "left": 110, "attrs": { "color": "blue" } },
     { "type": "wokwi-slide-switch", "id": "sw1", "top": -90, "left": 200, "attrs": {} },
     { "type": "wokwi-led", "id": "ledPump", "top": 150, "left": 40, "attrs": { "color": "cyan" } },
-    { "type": "wokwi-resistor", "id": "r1", "top": 200, "left": 40, "attrs": { "value": "220" } }
+    { "type": "wokwi-resistor", "id": "r1", "top": 200, "left": 40, "attrs": { "value": "220" } },
+    { "type": "wokwi-lcd1602", "id": "lcd1", "top": -240, "left": 100, "attrs": { "pins": "i2c" } }
   ],
   "connections": [
     [ "btnStart:1.l", "nano:D2", "green", [] ],
@@ -88,7 +91,11 @@ flowchart LR
     [ "sw1:1", "nano:GND.1", "black", [] ],
     [ "nano:D9", "r1:1", "cyan", [] ],
     [ "r1:2", "ledPump:A", "cyan", [] ],
-    [ "ledPump:C", "nano:GND.1", "black", [] ]
+    [ "ledPump:C", "nano:GND.1", "black", [] ],
+    [ "lcd1:GND", "nano:GND.2", "black", [] ],
+    [ "lcd1:VCC", "nano:5V", "red", [] ],
+    [ "lcd1:SDA", "nano:A4", "green", [] ],
+    [ "lcd1:SCL", "nano:A5", "purple", [] ]
   ],
   "dependencies": {}
 }
@@ -104,6 +111,15 @@ $$ K_{true} = \alpha\hat{K} = 4\ \text{ml/s} $$
 |---|---|---|
 |**Open-loop**|Runs $t_{run} = \dfrac{200}{5} = 40\ \text{s}$, delivering about $4 \times 40 = 160\ \text{ml}$|Final ≈ **160 ml**, error ≈ **−40 ml** (20%)|
 |**Closed-loop**|Runs until $V \ge 200$, about $\dfrac{200}{4} = 50\ \text{s}$|Final ≈ **202 ml**, error ≈ **+2 ml**|
+
+**On the LCD** (target 200 ml), the progress bar fills and the percentage rises with the volume. The final screen is held until the next button press:
+
+|Mode|Last screen|
+|---|---|
+|**Open-loop**|`DONE    T=200ml` / `Final 160ml  80%`|
+|**Closed-loop**|`DONE    T=200ml` / `Final 202ml 101%`|
+
+The same 20% pump weakness that costs open-loop 40 ml shows up directly as 80% on the display.
 
 The closed-loop overshoot comes from the pump lag (the simulated "dripping"):
 
@@ -133,6 +149,7 @@ $$ \Delta V \approx Q_{stop},\tau = 4 \times 0.5 = 2\ \text{ml} $$
 > 
 ### Experiments to try
 
+- [ ] Watch the LCD in both modes and note the final percentage (about 80% open-loop, about 101% closed-loop with the defaults).
 - [ ] Set `SIM_GAIN = 1.0` (perfect model): open-loop becomes accurate. Then try `0.6`: open-loop error grows, closed-loop stays accurate.
 - [ ] Set `STOP_EARLY_ML = 3.0` and compare the closed-loop overshoot.
 - [ ] Set `SLOW_ZONE_ML = 20.0` (slowdown near target) and compare again.
@@ -212,6 +229,6 @@ plot(t, y); xgrid();
 
 ## What to include in the report
 
-- [ ] Screenshot of the Wokwi circuit and Serial Monitor output (optional but helpful)
+- [ ] Screenshot of the Wokwi circuit, the LCD final screen, and the Serial Monitor output (optional but helpful)
 - [ ] The open-loop step response plot (**required**)
 - [ ] A short comment: the response is a ramp after a brief lag, so volume grows steadily with run time. Open-loop is accurate only when the real flow $K_{true}$ matches the estimate $\hat{K}$.

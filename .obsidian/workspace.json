@@ -11,14 +11,12 @@
             "id": "a649df30905e0424",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "image",
               "state": {
-                "file": "Feedback/Finals/Project/project-1/05-component-testing.md",
-                "mode": "source",
-                "source": false
+                "file": "Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png"
               },
-              "icon": "lucide-file",
-              "title": "05-component-testing"
+              "icon": "lucide-image",
+              "title": "water_dispenser_real_life_wiring"
             }
           }
         ]
@@ -203,9 +201,10 @@
   },
   "active": "a649df30905e0424",
   "lastOpenFiles": [
+    "Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
     "Feedback/Finals/Project/project-1/water-dispenser-schematic.jpg",
-    "Feedback/Finals/Project/project-1/05-component-testing.md",
     "Feedback/Finals/Project/project-1/01-project-overview.md",
+    "Feedback/Finals/Project/project-1/05-component-testing.md",
     "Feedback/Finals/Project/project-1/04-project-simulation.md",
     "Feedback/Finals/Project/project-1/03-project-procedure.md",
     "Feedback/Finals/Project/project-1/02-material-requirements.md",
@@ -241,7 +240,6 @@
     "Feedback/Finals/Project",
     "Feedback/Finals/CPE11_Performance Task.pdf",
     "Feedback/Finals",
-    "Logic Circuits/pdf/Pasted Image 20260910133645_396.png",
     "LAB-1.md",
     "Untitled 1.md",
     "DSA/Finals/Project/Project Requirements.md",

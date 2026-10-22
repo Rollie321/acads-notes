@@ -11,14 +11,12 @@
             "id": "a649df30905e0424",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "image",
               "state": {
-                "file": "Feedback/Finals/Project/project-1/03-project-procedure.md",
-                "mode": "source",
-                "source": false
+                "file": "Feedback/Finals/Project/project-1/water-dispenser-schematic.jpg"
               },
-              "icon": "lucide-file",
-              "title": "03-project-procedure"
+              "icon": "lucide-image",
+              "title": "water-dispenser-schematic"
             }
           }
         ]
@@ -203,10 +201,11 @@
   },
   "active": "a649df30905e0424",
   "lastOpenFiles": [
+    "Feedback/Finals/Project/project-1/03-project-procedure.md",
+    "Feedback/Finals/Project/project-1/water-dispenser-schematic.jpg",
     "Feedback/Finals/Project/project-1/02-material-requirements.md",
     "Feedback/Finals/Project/project-requirements.pdf",
     "Feedback/Finals/Project/project-1/04-project-simulation.md",
-    "Feedback/Finals/Project/project-1/03-project-procedure.md",
     "Feedback/Finals/Project/project-1/01-project-overview.md",
     "Feedback/Finals/Project/project-1/material-requirements.md",
     "new_note.md",
@@ -240,7 +239,6 @@
     "Feedback/Finals/CPE11_Performance Task.pdf",
     "Feedback/Finals",
     "Logic Circuits/pdf/Pasted Image 20260910133645_396.png",
-    "Logic Circuits/pdf/Pasted image 20260910102950.png",
     "LAB-1.md",
     "Untitled 1.md",
     "DSA/Finals/Project/Project Requirements.md",

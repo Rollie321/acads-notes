@@ -9,6 +9,14 @@
 - [x] Finalize plan for feedback systems
 
 # Tuesday Oct 2026
-- [ ] CPE07 LAB
-- [ ] DSA ass
+- [x] CPE07 LAB
+- [x] DSA ass
 - [ ] feedback project docs
+
+# Wednesday Oct 21, 2026
+- [ ] Start DSA project
+
+# Thursday Oct 22, 2026
+- [ ] Buy fvckin rice
+- [x] Fix DSA activity and push
+- [x] Create BOSH reflection paper

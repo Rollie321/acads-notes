@@ -123,7 +123,7 @@ Because the plant contains an integrator, the volume holds its value once the pu
 - [ ] Build the pump driver **first** and test it with a fixed PWM before adding anything else
 - [ ] Mount the HC-SR04 on its bracket, pointing straight down, centered over the glass, 5 to 10 cm above the full level
 - [ ] Wire HC-SR04 → Nano (see [[02-material-requirements#6. Wiring]])
-- [ ] Wire the MOSFET pump driver with the **separate battery pack**
+- [ ] Wire the MOSFET driver module (signal, battery, pump) with the **separate battery pack**
 - [ ] Wire the Start button and the mode slide switch
 - [ ] Wire the I2C LCD: GND → GND, VCC → 5V, SDA → A4, SCL → A5
 - [ ] Place the pump in the reservoir and fix the tube so the water runs down the **inner glass wall**, outside the sensor beam
@@ -146,20 +146,21 @@ Every wire needed for the final build. Tick each row as you connect it.
 | 10  | Start button  | Button, other side              | Nano **GND**                             | Uses the internal pull-up, no resistor needed                                      |
 | 11  | Mode switch   | Slide switch **middle pin**     | Nano **D4**                              |                                                                                    |
 | 12  | Mode switch   | Slide switch **one outer pin**  | Nano **GND**                             | Other outer pin stays unconnected. GND position = closed-loop, otherwise open-loop |
-| 13  | Pump driver   | Nano **D9**                     | **220 Ω** resistor, then MOSFET **gate** | PWM output                                                                         |
-| 14  | Pump driver   | MOSFET **gate**                 | **10 kΩ** resistor to **GND**            | Pull-down: pump stays off at boot                                                  |
-| 15  | Pump driver   | MOSFET **source**               | Nano **GND**                             | Common ground                                                                      |
-| 16  | Pump driver   | MOSFET **drain**                | Pump **(−)** wire                        |                                                                                    |
-| 17  | Pump power    | Pump **(+)** wire               | Battery pack **+** (about 6 V)           | Separate from USB power                                                            |
-| 18  | Pump power    | Battery pack **−**              | Nano **GND**                             | **Common ground**: all grounds must meet                                           |
-| 19  | Flyback diode | Diode **cathode** (striped end) | Pump **(+)** side                        | Across the pump terminals                                                          |
-| 20  | Flyback diode | Diode **anode**                 | Pump **(−)** side                        | Same node as the MOSFET drain                                                      |
+| 13  | Pump driver   | Nano **D9**                     | Module **PWM** (or TRIG / SIG) input     | PWM output. No gate resistor needed                                                |
+| 14  | Pump driver   | Nano **GND**                    | Module signal **GND**                    | Signal reference                                                                   |
+| 15  | Pump driver   | Battery pack **+** (about 6 V)  | Module power in **+** (VIN+)             | Separate from USB power                                                            |
+| 16  | Pump driver   | Battery pack **−**              | Module power in **−** (VIN−)             | Match terminals by the module's silkscreen                                         |
+| 17  | Pump          | Module **OUT+**                 | Pump **(+)** wire                        |                                                                                    |
+| 18  | Pump          | Module **OUT−**                 | Pump **(−)** wire                        |                                                                                    |
+| 19  | Common ground | Battery pack **−**              | Nano **GND**                             | **Common ground**: all grounds must meet                                           |
+| 20  | Flyback diode | Diode **cathode** (striped end) | Pump **(+)** side                        | Across the pump terminals (skip only if the module has its own)                    |
+| 21  | Flyback diode | Diode **anode**                 | Pump **(−)** side                        |                                                                                    |
 
 > [!important] Common ground
-> Nano GND, HC-SR04 GND, LCD GND, the button and switch GND, the MOSFET source and the battery − must all be joined on the same ground rail.
+> Nano GND, HC-SR04 GND, LCD GND, the button and switch GND, the driver module GND and the battery − must all be joined on the same ground rail.
 
-> [!tip] MOSFET pins
-> For the IRLZ44N, with the printed (metal-tab-away) side facing you and pins pointing down, the order left to right is **Gate, Drain, Source**. Confirm with your part's datasheet.
+> [!tip] Module terminal names
+> Boards differ (VIN/VOUT, IN/OUT, PWM/TRIG/SIG). Match each wire by function using the silkscreen or datasheet, and confirm with a short test before running water.
 
 > [!note] Optional status LED
 > The parts list has an optional LED, but the code does not use one, so it is not in this table.
@@ -294,7 +295,7 @@ $$t_{run} = \frac{r}{\hat{K}}$$
 // ---------- Pins ----------
 const uint8_t PIN_TRIG    = 5;   // HC-SR04 Trig
 const uint8_t PIN_ECHO    = 6;   // HC-SR04 Echo
-const uint8_t PIN_PUMP    = 9;   // PWM -> MOSFET gate
+const uint8_t PIN_PUMP    = 9;   // PWM -> driver module input
 const uint8_t PIN_START   = 2;
 const uint8_t PIN_MODE    = 4;
 // LCD uses the Nano's hardware I2C pins: SDA = A4, SCL = A5
@@ -690,8 +691,8 @@ Try one at a time and record the effect:
 | Volume wrong by a constant factor                 | Re-do the $A$ calibration with exactly 100 ml and 200 ml                                                        |
 | Closed-loop stops too early                       | Splash or ripples read as a high level: aim the tube at the inner glass wall and keep the median filter on      |
 | Volume reading is noisy only while filling        | Normal ripples. The 3 s settle before the final reading handles this                                            |
-| Pump never turns on                               | MOSFET wired backwards, dead battery, or missing common ground                                                  |
-| Pump runs at boot                                 | Missing 10 kΩ pull-down on the gate                                                                             |
+| Pump never turns on                               | Load wires on the wrong module terminals, reversed battery polarity, dead battery, missing common ground, or a module that needs more than a 5 V trigger (check its datasheet) |
+| Pump runs at boot or will not stop                | Floating PWM input: add a 10 kΩ resistor from the module PWM input to GND                                       |
 | Pump stalls at `PWM_SLOW`                         | Raise `PWM_SLOW` (try 180)                                                                                      |
 | Upload fails on Nano                              | Tools → Processor → "ATmega328P (Old Bootloader)"                                                              |
 | Large open-loop errors                            | Re-measure `FLOW_ML_PER_S` with the same battery and tube setup                                                 |

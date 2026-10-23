@@ -11,20 +11,20 @@ status: planning
 
 ## 1. Electronics
 
-| #   | Item                                  | Qty   | Specs / notes                                                                                           |
-| --- | ------------------------------------- | ----- | ------------------------------------------------------------------------------------------------------- |
-| 1   | Arduino Nano + USB cable              | 1     | ATmega328P. Cable type depends on the board (Mini-B, Micro-B, USB-C)                                    |
-| 2   | Breadboard                            | 1     | Full or half size                                                                                       |
-| 3   | HC-SR04 ultrasonic sensor             | 1     | 5 V, 4 pins: VCC, Trig, Echo, GND. Measures the distance to the water surface                           |
-| 4   | Submersible DC pump + silicone tubing | 1     | 3–6 V mini pump. Tubing must fit the pump outlet                                                        |
-| 5   | Logic-level MOSFET driver module | 1 | PWM input (3.3 to 20 V trigger), power in (+/−), load out (+/−). D4184 type. Match terminals by the silkscreen |
-| 6   | Flyback diode | 1 | 1N4007 or 1N5819, across the pump terminals (skip only if the module documents its own) |
-| 7   | Pushbutton                            | 1     | Start                                                                                                   |
-| 8   | Slide switch (SPDT)                   | 1     | Mode select                                                                                             |
-| 9   | I2C LCD 16×2 (PCF8574 backpack)       | 1     | 4 pins: GND, VCC, SDA, SCL. 5 V version. Address is usually `0x27` or `0x3F`                            |
-| 10  | LED + 220 Ω (optional)                | 1     | Status indicator                                                                                        |
-| 11  | Battery holder + 4 × AA               | 1     | About 6 V for the pump, **separate from USB power**                                                     |
-| 12  | Jumper wires                          | 1 set | HC-SR04 and LCD headers need male pins (female-to-male wires if the module pins are male)               |
+| #   | Item                                  | Qty   | Specs / notes                                                                                                  |
+| --- | ------------------------------------- | ----- | -------------------------------------------------------------------------------------------------------------- |
+| 1   | Arduino Nano + USB cable              | 1     | ATmega328P. Cable type depends on the board (Mini-B, Micro-B, USB-C)                                           |
+| 2   | Breadboard                            | 1     | Full or half size                                                                                              |
+| 3   | HC-SR04 ultrasonic sensor             | 1     | 5 V, 4 pins: VCC, Trig, Echo, GND. Measures the distance to the water surface                                  |
+| 4   | Submersible DC pump + silicone tubing | 1     | 3–6 V mini pump. Tubing must fit the pump outlet                                                               |
+| 5   | Logic-level MOSFET driver module      | 1     | PWM input (3.3 to 20 V trigger), power in (+/−), load out (+/−). D4184 type. Match terminals by the silkscreen |
+| 6   | Flyback diode                         | 1     | 1N4007 or 1N5819, across the pump terminals (skip only if the module documents its own)                        |
+| 7   | Pushbutton                            | 1     | Start                                                                                                          |
+| 8   | Slide switch (SPDT)                   | 1     | Mode select                                                                                                    |
+| 9   | I2C LCD 16×2 (PCF8574 backpack)       | 1     | 4 pins: GND, VCC, SDA, SCL. 5 V version. Address is usually `0x27` or `0x3F`                                   |
+| 10  | LED + 220 Ω (optional)                | 1     | Status indicator                                                                                               |
+| 11  | Battery holder + 4 × AA               | 1     | About 6 V for the pump, **separate from USB power**                                                            |
+| 12  | Jumper wires                          | 1 set | HC-SR04 and LCD headers need male pins (female-to-male wires if the module pins are male)                      |
 
 > [!tip] Alternatives
 > A relay module can replace the driver module, but it clicks, wears out, and **cannot do PWM slowdown**. Avoid IRF520 modules (not logic-level, so a 5 V signal only half-turns them on) and L298N boards (about 1.5 to 2 V drop, which weakens a 6 V pump).

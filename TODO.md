@@ -17,6 +17,6 @@
 - [ ] Start DSA project
 
 # Thursday Oct 22, 2026
-- [ ] Buy fvckin rice
+- [x] Buy fvckin rice
 - [x] Fix DSA activity and push
 - [x] Create BOSH reflection paper

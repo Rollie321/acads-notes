@@ -47,8 +47,7 @@
               "title": "03-project-procedure"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -229,10 +228,11 @@
       "circuit-sketcher:Create new Circuit Sketcher file": false
     }
   },
-  "active": "0df5deba6cb75497",
+  "active": "f2f0e855814e64f9",
   "lastOpenFiles": [
-    "Feedback/Finals/Project/project-1/02-material-requirements.md",
     "Feedback/Finals/Project/project-1/water-dispenser-schematic.jpg",
+    "Feedback/Finals/Project/project-1/02-material-requirements.md",
+    "Feedback/Finals/Project/project-1/03-project-procedure.md",
     "Feedback/Finals/Project/project-1/01-project-overview.md",
     "Untitled.md",
     "Pasted image 20261023154825.png",
@@ -249,7 +249,6 @@
     "Feedback/Finals/Project/project-1/05-component-testing.md",
     "Feedback/Finals/Project/project-requirements.pdf",
     "Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
-    "Feedback/Finals/Project/project-1/03-project-procedure.md",
     "Feedback/Finals/Project/project-1/material-requirements.md",
     "new_note.md",
     "Excalidraw/Drawing 2026-10-21 07.50.50.excalidraw.md",

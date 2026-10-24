@@ -1,7 +1,7 @@
 ---
 title: Component Testing
 aliases: [Testing, Component Tests, Bench Tests]
-tags: [project, testing, arduino, hc-sr04, lcd, troubleshooting]
+tags: [project, testing, arduino, hc-sr04, pump, troubleshooting]
 status: planning
 ---
 
@@ -23,20 +23,19 @@ status: planning
 | ----- | ------------------------------ | -------------------- | ------------ |
 | 1     | Arduino Nano and USB           | Blink + Serial       | No           |
 | 2     | Start button and mode switch   | Serial print         | No           |
-| 3     | I2C LCD                        | Scanner + text       | No           |
-| 4     | HC-SR04 ultrasonic sensor      | Ruler check          | No (water later) |
-| 5     | Battery pack                   | Multimeter           | No           |
-| 6     | Flyback diode                  | Multimeter           | No           |
-| 7     | Pump (alone)                   | Direct battery touch | Yes          |
-| 8     | MOSFET driver module + pump    | PWM ramp sketch      | Yes          |
-| 9     | Common ground                  | Multimeter continuity| No           |
-| 10    | Everything together            | Noise and dry run    | Yes          |
+| 3     | HC-SR04 ultrasonic sensor      | Ruler check          | No (water later) |
+| 4     | Battery pack                   | Multimeter           | No           |
+| 5     | Flyback diode                  | Multimeter           | No           |
+| 6     | Pump (alone)                   | Direct battery touch | Yes          |
+| 7     | Isolated MOSFET module + pump  | Pump test sketch     | Yes          |
+| 8     | Grounds and isolation          | Multimeter continuity| No           |
+| 9     | Everything together            | Noise and dry run    | Yes          |
 
-**Tools:** multimeter (continuity, DC volts, diode mode), ruler or tape measure, graduated cylinder, a small bowl of water, a screwdriver for the LCD contrast trimmer.
+**Tools:** multimeter (continuity, DC volts, diode mode), ruler or tape measure, graduated cylinder, a small bowl of water, and a soldering iron for the MOSFET module's header and screw terminal.
 
 > [!warning] Rules for every test
 > - Unplug USB and disconnect the battery **before** changing any wire.
-> - Keep water away from the breadboard, LCD and HC-SR04 at all times.
+> - Keep water away from the breadboard and HC-SR04 at all times.
 > - Never power the pump from an Arduino pin.
 > - Serial Monitor baud rate: **115200** for every sketch below.
 
@@ -111,69 +110,7 @@ void loop() {
 
 ---
 
-## 3. I2C LCD 16×2
-
-**Goal:** find the address, show text, and draw the progress bar block used by the main code.
-
-Wiring: GND → GND, VCC → **5V**, SDA → **A4**, SCL → **A5**. Library: **LiquidCrystal I2C** (Frank de Brabander).
-
-### Test 3A: I2C scanner
-
-Upload the scanner from [[03-project-procedure#Check the LCD]].
-
-| Serial output                         | Meaning                                              |
-| ------------------------------------- | ---------------------------------------------------- |
-| `I2C device found at 0x27`            | **Pass.** Use `0x27` in the code                     |
-| `I2C device found at 0x3F`            | **Pass.** Change the code to `LiquidCrystal_I2C lcd(0x3F, 16, 2);` |
-| Only `Scan done.`                     | LCD not detected: check power, SDA/SCL swapped, loose jumper |
-
-### Test 3B: text and progress bar
-
-Replace `0x27` below if the scanner found something else.
-
-```cpp
-#include <Wire.h>
-#include <LiquidCrystal_I2C.h>
-
-LiquidCrystal_I2C lcd(0x27, 16, 2);
-
-void setup() {
-  lcd.init();
-  lcd.backlight();
-  lcd.setCursor(0, 0);
-  lcd.print("LCD test OK");
-  lcd.setCursor(0, 1);
-  lcd.print("0123456789ABCDEF");   // fills all 16 columns
-  delay(2000);
-}
-
-void loop() {
-  // Progress bar test: same block character (255) the main code uses
-  for (int cells = 0; cells <= 10; cells++) {
-    lcd.setCursor(0, 0);
-    lcd.print("Bar test        ");
-    lcd.setCursor(0, 1);
-    for (int i = 0; i < 10; i++) lcd.write(i < cells ? (uint8_t)255 : '.');
-    lcd.print(" ");
-    lcd.print(cells * 10);
-    lcd.print("%  ");
-    delay(400);
-  }
-  delay(1000);
-}
-```
-
-| What you see                                | Meaning / fix                                                    |
-| ------------------------------------------- | ---------------------------------------------------------------- |
-| Text and a filling bar from 0% to 100%      | **Pass**                                                         |
-| Backlight on, no text                       | Turn the small blue **contrast trimmer** on the backpack slowly  |
-| Row of solid blocks only                    | Contrast too high (or `init()` not reached): turn the trimmer back |
-| Completely blank                            | Wrong address (see 3A), SDA/SCL swapped, or VCC on 3.3 V         |
-| Garbled or flickering                       | Loose SDA/SCL jumper. Re-seat the wires                          |
-
----
-
-## 4. HC-SR04 ultrasonic sensor
+## 3. HC-SR04 ultrasonic sensor
 
 **Goal:** readings are correct against a ruler and stable enough for the volume calculation.
 
@@ -219,7 +156,7 @@ void loop() {
 }
 ```
 
-### Test 4A: accuracy against a ruler
+### Test 3A: accuracy against a ruler
 
 Point the sensor at a flat wall or book. Measure the real distance with a ruler from the **front of the sensor** to the surface.
 
@@ -229,14 +166,14 @@ Point the sensor at a flat wall or book. Measure the real distance with a ruler 
 | 20 cm         | 19.5 to 20.5 cm            |
 | 30 cm         | 29.5 to 30.5 cm            |
 
-### Test 4B: stability
+### Test 3B: stability
 
 Hold the sensor still over a flat surface at about 15 to 20 cm.
 
 - **Pass:** `spread` is **0.3 cm or less** and `no-echo=0`.
 - This matches the resolution assumed in [[01-project-overview#Sensor resolution]] (about ±3 mm).
 
-### Test 4C: sensitivity to the water level
+### Test 3C: sensitivity to the water level
 
 Point the sensor straight down into the empty glass, as it will be mounted. Record `avg`. Add **100 ml** and record again.
 
@@ -256,7 +193,7 @@ Point the sensor straight down into the empty glass, as it will be mounted. Reco
 
 ---
 
-## 5. Battery pack (4 × AA)
+## 4. Battery pack (4 × AA)
 
 **Goal:** make sure the pump supply voltage and polarity are right **before** connecting anything.
 
@@ -264,17 +201,17 @@ Multimeter on **DC volts**, red probe on the pack **+** wire, black probe on the
 
 | Reading            | Meaning                                                      |
 | ------------------ | ------------------------------------------------------------ |
-| About 5.8 to 6.6 V | **Pass** (fresh alkaline cells)                              |
-| Below about 5 V    | Weak batteries: the pump will be weak and open-loop error will grow |
+| About 6.0 to 6.6 V | **Pass** (fresh alkaline cells)                              |
+| Below about 6 V    | **Marginal for the MOSFET module**: one retailer lists a 6 V minimum load supply for the LR7843 version. Replace the batteries |
 | Negative number    | Probes are on the wrong wires (the pack itself is fine)      |
 | 0 V                | Batteries inserted the wrong way, a dead cell, or a bad holder contact |
 
-> [!tip] Useful for the disturbance test
-> Measure and write down the battery voltage at the start of every run. A drop in voltage is the explanation for a weaker pump in your report.
+> [!tip] Record it, but do not use it as the disturbance
+> Measure and write down the battery voltage at the start of every run, and once more while the pump is running (the voltage sags under load). Use a pinched tube or a height change as the disturbance instead, because a pack below the module's minimum can make the pump switch erratically rather than just run slower.
 
 ---
 
-## 6. Flyback diode (1N4007 or 1N5819)
+## 5. Flyback diode (1N4007 or 1N5819)
 
 **Goal:** confirm the diode works and know which end is which.
 
@@ -288,11 +225,11 @@ Multimeter in **diode mode** (the symbol ▶|).
 - **Pass:** reads in one direction only.
 - **Fail:** reads in both directions (shorted) or neither direction (open). Replace it.
 
-When installed, the **striped end (cathode)** goes to the pump **(+)** wire. See [[02-material-requirements#Pump driver (MOSFET module)]].
+When installed, the **striped end (cathode)** goes to the module's **+** terminal (the pump (+) side) and the other end to the **LOAD** terminal (the pump (−) side). See [[02-material-requirements#Pump driver (isolated MOSFET module)]].
 
 ---
 
-## 7. Pump (alone, no electronics)
+## 6. Pump (alone, no electronics)
 
 **Goal:** confirm the pump and tubing work before involving the driver module.
 
@@ -309,7 +246,7 @@ When installed, the **striped end (cathode)** goes to the pump **(+)** wire. See
 | Pump hums but no water       | Air in the pump or tube. Submerge fully and tilt to release air  |
 | Pump spins the wrong way / no flow | Swap the two wires                                         |
 | Nothing at all               | Dead pump, bad battery contact, or a broken wire                 |
-| Weak flow                    | Weak batteries (check section 5) or a kinked or too-long tube    |
+| Weak flow                    | Weak batteries (check section 4) or a kinked or too-long tube    |
 
 ### Optional: first flow estimate
 
@@ -317,99 +254,197 @@ Run the pump from the battery for exactly **10 s** into the graduated cylinder (
 
 ---
 
-## 8. MOSFET driver module and pump (with Arduino PWM)
+## 7. MOSFET driver module and pump (with Arduino PWM)
 
-**Goal:** the Nano can switch and speed-control the pump through the module.
+**Goal:** the Nano can switch and speed-control the pump through the isolated module.
 
-Wiring from [[03-project-procedure#Connection table]]: D9 → module PWM, Nano GND → module signal GND, battery **+/−** → module power in, module OUT+/OUT− → pump, battery − also to Nano GND, flyback diode across the pump. The pump goes in the water.
+**Before wiring:** solder the 2-pin header into the **PWM / GND** pads and the 3-pin screw terminal into the three load pads. The terminals are marked **+ / LOAD / −**, with LOAD in the middle.
+
+Wiring from [[03-project-procedure#Connection table]]:
+
+| Wire                          | Goes to                                                   |
+| ----------------------------- | --------------------------------------------------------- |
+| Nano **D9**                   | Module **PWM** pad                                        |
+| Nano **GND**                  | Module signal **GND** pad                                 |
+| Battery pack **+**            | Module **+** terminal                                     |
+| Pump **(+)** wire             | Module **+** terminal (the same terminal as the battery +) |
+| Pump **(−)** wire             | Module **LOAD** terminal                                  |
+| Battery pack **−**            | Module **−** terminal                                     |
+| Flyback diode                 | Across the pump: striped end to **+**, other end to **LOAD** |
+
+> [!important] No common ground
+> Do **not** connect the battery − to the Nano GND. The optocoupler isolates the two sides, and the board does not connect the signal ground and load ground together.
+
+The pump goes in the water. Do not leave the battery connected while you move wires.
+
+Upload the sketch below (also saved as `pump_driver_test.ino`), open the Serial Monitor at 115200 baud, and send `r` for the ramp test or `f` for full power.
 
 ```cpp
+/*
+  Pump and driver test (no sensor, button or switch needed)
+
+  Wiring:
+    Nano D9  -> module PWM pad
+    Nano GND -> module signal GND pad
+    6 V supply + -> module + terminal (and pump + wire in the same terminal)
+    Pump (-) wire -> module LOAD terminal
+    6 V supply - -> module - terminal
+    Flyback diode across the pump (striped end on the + side)
+  The pump must be in water. Do not run it dry.
+
+  Open the Serial Monitor at 115200 baud and send one character:
+    0 or s = stop            1 to 9 = about 11% to 99% power
+    f      = full power      r      = ramp test (0, 20, 40, 60, 80, 100%)
+    p      = pulse test (3 x 2 s ON, 2 s OFF)         h = show this help
+  Safety: the pump stops by itself 10 s after the last command.
+*/
+
 const uint8_t PIN_PUMP = 9;
+const unsigned long AUTO_STOP_MS = 10000UL;   // safety stop (avoids running dry)
+
+int pwmNow = 0;
+unsigned long lastCmd = 0;
+
+void setPump(int pwm) {
+  pwmNow = pwm;
+  analogWrite(PIN_PUMP, pwm);
+  lastCmd = millis();
+  Serial.print("PWM = ");
+  Serial.print(pwm);
+  Serial.print("  (");
+  Serial.print(pwm * 100L / 255);
+  Serial.println("%)");
+}
+
+void rampTest() {
+  Serial.println("Ramp test: 0, 20, 40, 60, 80, 100 percent, 2 s each");
+  for (int pwm = 0; pwm <= 255; pwm += 51) {
+    setPump(pwm);
+    delay(2000);
+  }
+  setPump(0);
+  Serial.println("Ramp done.");
+}
+
+void pulseTest() {
+  Serial.println("Pulse test: 3 x (2 s ON at full power, 2 s OFF)");
+  for (int i = 0; i < 3; i++) {
+    setPump(255); delay(2000);
+    setPump(0);   delay(2000);
+  }
+  Serial.println("Pulse test done.");
+}
+
+void printHelp() {
+  Serial.println();
+  Serial.println("Pump test. Send: 0/s stop, 1-9 speed, f full, r ramp, p pulse, h help");
+  Serial.println("Pump auto-stops 10 s after the last command.");
+}
 
 void setup() {
   Serial.begin(115200);
   pinMode(PIN_PUMP, OUTPUT);
-  analogWrite(PIN_PUMP, 0);          // pump OFF
-  Serial.println("Pump test: starts in 3 s");
-  delay(3000);
+  analogWrite(PIN_PUMP, 0);                  // pump OFF at boot
+  printHelp();
 }
 
 void loop() {
-  // Ramp up
-  for (int pwm = 0; pwm <= 255; pwm += 51) {      // 0, 51, 102, 153, 204, 255
-    Serial.print("PWM = "); Serial.println(pwm);
-    analogWrite(PIN_PUMP, pwm);
-    delay(2000);
+  if (Serial.available()) {
+    char c = Serial.read();
+    if (c >= '1' && c <= '9')      setPump((c - '0') * 28);   // 28 .. 252
+    else if (c == '0' || c == 's') setPump(0);
+    else if (c == 'f')             setPump(255);
+    else if (c == 'r')             rampTest();
+    else if (c == 'p')             pulseTest();
+    else if (c == 'h')             printHelp();
   }
-  // Full power, then stop
-  analogWrite(PIN_PUMP, 0);
-  Serial.println("OFF for 4 s");
-  delay(4000);
+  if (pwmNow > 0 && millis() - lastCmd > AUTO_STOP_MS) {
+    setPump(0);
+    Serial.println("Auto-stop after 10 s. Send a key to run again.");
+  }
 }
 ```
+
+**Keys to send in the Serial Monitor (115200 baud):**
+
+| Key       | What it does                                                    |
+| --------- | --------------------------------------------------------------- |
+| `1` to `9`| Pump at about 11% to 99% power                                  |
+| `f`       | Full power                                                      |
+| `0` or `s`| Stop                                                            |
+| `r`       | Ramp test: 0, 20, 40, 60, 80, 100%, two seconds each, then off  |
+| `p`       | Pulse test: three times 2 s on, 2 s off, at full power          |
+| `h`       | Show the key list                                               |
+
+The sketch also stops the pump **10 s after the last command**, so a forgotten test cannot run the pump dry. The same sketch is saved as `pump_driver_test.ino`.
 
 | What you observe                                    | Meaning                                                    |
 | --------------------------------------------------- | ---------------------------------------------------------- |
 | Pump speeds up as PWM rises and stops at 0          | **Pass**                                                   |
 | Pump does not start until PWM is fairly high (around 100 or more) | Normal for small pumps (this is why `PWM_SLOW` must not be too low) |
+| Speed does not rise smoothly with PWM               | Possible with an optocoupler input (D9's PWM is about 490 Hz). Test your `PWM_SLOW` zone before relying on it |
 | Pump never turns on                                 | See the table below                                        |
-| Pump runs at boot or does not stop at PWM = 0       | Floating PWM input: add a **10 kΩ resistor from module PWM input to GND** |
-| Nano resets or the Serial output stops when the pump starts | Power problem: keep the battery pack **separate from USB power**, check common ground and wiring polarity |
+| Pump runs all the time, even at PWM = 0, slightly weaker | Typically the pump (−) and battery (−) wires are swapped between **LOAD** and **−**. Disconnect the battery and swap them |
+| Pump runs at boot or will not stop (rare)           | Add a **10 kΩ resistor from the PWM pad to the signal GND pad** |
+| Nano resets or the Serial output stops when the pump starts | Keep the battery pack **separate from USB power**, check the wiring polarity, and make sure the battery − is not tied to the Nano GND |
 
 | Pump never turns on: check this | How                                                        |
 | ------------------------------- | ---------------------------------------------------------- |
-| Module power                    | Multimeter across module power in: should read about 6 V   |
-| Module output                   | Multimeter across OUT+ / OUT− while PWM = 255: should read close to the battery voltage |
-| Trigger voltage                 | Some modules need more than a 5 V signal. Check the datasheet |
-| Terminals                       | Load wires on the power-in terminals, or the other way round |
-| Common ground                   | Nano GND must connect to battery − (see section 9)         |
+| Supply voltage                  | Multimeter across the module **+** and **−** terminals: at least about 6 V (a retailer lists 6 V as the minimum), measured with the pump running |
+| Module output                   | With PWM = 255, measure across the pump wires: it should read close to the battery voltage. 0 V means the MOSFET is not turning on |
+| Signal side                     | D9 on the **PWM** pad and Nano GND on the module's own **GND** pad (not the battery −) |
+| Terminals                       | Pump (−) on **LOAD**, battery − on **−**, battery + and pump (+) both on **+** |
+| Joints                          | Solder joints on the header and screw terminal, and the screws actually clamping the wires |
 
 > [!tip] Quick module check without the Arduino
-> With the battery connected to the module, briefly touch the module's PWM/signal input to the Nano **5V** pin (with Nano GND tied to the module signal GND). The pump should run while you hold it and stop when you release. If it does, the module and pump are fine and the problem is on D9 or in the sketch.
+> With the battery and pump connected as above, briefly touch the module's **PWM** pad to the Nano **5V** pin, with Nano GND on the module's **GND** pad. The pump should run while you hold it and stop when you release. If it does, the module and pump are fine and the problem is on D9 or in the sketch.
 
 ---
 
-## 9. Common ground check
+## 8. Grounds and isolation check
 
-**Goal:** all grounds are joined. A missing common ground is the most common reason for an ignored PWM signal.
+**Goal:** the Nano-side grounds are joined, the battery side stays separate, and nothing is shorted.
 
 Unplug everything (USB and battery). Multimeter in **continuity mode** (beep):
 
 | Probe A                      | Probe B                        | Expected |
 | ---------------------------- | ------------------------------ | -------- |
-| Nano GND                     | Battery pack − wire            | Beep     |
 | Nano GND                     | HC-SR04 GND                    | Beep     |
-| Nano GND                     | LCD GND                        | Beep     |
-| Nano GND                     | Module signal GND              | Beep     |
+| Nano GND                     | Module signal **GND** pad      | Beep     |
+| Nano GND                     | Battery pack − wire            | **No beep** (separate on purpose) |
+| Module signal **GND** pad    | Module **−** terminal          | **No beep** (the optocoupler isolates them) |
 | Nano 5V                      | Nano GND                       | **No beep** (a beep means a short circuit) |
 | Battery pack +               | Battery pack −                 | **No beep** (a beep means a short circuit) |
 
 > [!danger]
 > If either of the last two rows beeps, **stop** and find the short before powering anything.
 
+> [!note] If a separate-ground row beeps
+> The circuit can still run, but the two sides are then connected, so the isolation is not working as described. Look for a stray wire first (for example the battery − touching the Nano ground rail).
+
 ---
 
-## 10. Everything together
+## 9. Everything together
 
-### Test 10A: dry run (no water)
+### Test 9A: dry run (no water)
 
-Upload the main code from [[03-project-procedure#Phase 5 Main Arduino code]] with `SIMULATE 0`, `USE_LCD 1`. Leave the pump **in the reservoir** with the tube outlet pointing at the sink or a bowl, away from the sensor.
+Upload the main code from [[03-project-procedure#Phase 5 Main Arduino code]] with `SIMULATE 0`. Leave the pump **in the reservoir** with the tube outlet pointing at the sink or a bowl, away from the sensor.
 
 1. Empty glass in place. Switch to **open-loop**, press **Start**.
-2. Check that: the LCD shows `Measuring...`, then the progress screen; Serial prints `MODE: OPEN-LOOP` and CSV lines; the pump runs; the run ends with a `RESULT` line.
+2. Check that: Serial prints `MODE: OPEN-LOOP` and CSV lines; the pump runs; the run ends with a `RESULT` line.
 3. Repeat with the switch on **closed-loop**.
 
-### Test 10B: noise test
+### Test 9B: noise test
 
-Run the pump at full power (section 8 sketch or a real run) while watching the LCD and Serial.
+Run the pump at full power (the section 7 sketch or a real run) while watching the Serial Monitor.
 
 | Observation                          | Meaning                                              |
 | ------------------------------------ | ---------------------------------------------------- |
-| LCD stays clean, distance stays stable | **Pass**                                           |
-| LCD flickers or shows garbage when the pump starts | Electrical noise or a weak 5 V: re-seat SDA/SCL, keep the pump power wires away from the signal wires, make sure the pump is on the **separate battery pack** |
+| Serial output stays clean, the distance stays stable and the Nano does not reset | **Pass** |
+| Serial output freezes, shows garbage or the Nano resets when the pump starts | Electrical noise or a weak supply: keep the pump power wires away from the signal wires, make sure the pump supply is **separate from USB power** and the battery − is not tied to the Nano GND |
 | Distance readings jump only while the pump runs | Water ripples or the tube is in the sensor beam: aim the tube at the inner glass wall and add the splash guard |
 
-### Test 10C: sanity check against the real volume
+### Test 9C: sanity check against the real volume
 
 Run one closed-loop run to 100 ml and pour the water into the graduated cylinder. Compare it with the Arduino reading. If they differ by more than about **±8 ml**, redo the area calibration.
 
@@ -422,16 +457,15 @@ Tick each row only when the test passes.
 - [ ] **1.** Nano: LED blinks, Serial works
 - [ ] **2.** Button reads PRESSED / released correctly
 - [ ] **2.** Switch reads CLOSED-LOOP (GND side) and OPEN-LOOP correctly
-- [ ] **3.** LCD address found, text visible, progress bar fills
-- [ ] **4.** HC-SR04 within ±0.5 cm of a ruler, spread 0.3 cm or less
-- [ ] **4.** HC-SR04 distance drops by about $100/A$ cm when 100 ml is added
-- [ ] **5.** Battery pack reads about 6 V with correct polarity
-- [ ] **6.** Flyback diode conducts in one direction only
-- [ ] **7.** Pump pumps water when connected directly to the battery
-- [ ] **8.** Pump speed follows PWM through the driver module and stops at 0
-- [ ] **9.** Common ground confirmed, no shorts
-- [ ] **10.** Dry run completes in both modes
-- [ ] **10.** No LCD or sensor glitches while the pump runs
+- [ ] **3.** HC-SR04 within ±0.5 cm of a ruler, spread 0.3 cm or less
+- [ ] **3.** HC-SR04 distance drops by about $100/A$ cm when 100 ml is added
+- [ ] **4.** Battery pack reads at least about 6 V with correct polarity
+- [ ] **5.** Flyback diode conducts in one direction only
+- [ ] **6.** Pump pumps water when connected directly to the battery
+- [ ] **7.** Pump speed follows PWM through the isolated module and stops at 0
+- [ ] **8.** Nano-side grounds joined, battery − kept separate, no shorts
+- [ ] **9.** Dry run completes in both modes
+- [ ] **9.** No Serial or sensor glitches while the pump runs
 
 > [!success] Report tip
-> Photograph a few of these tests (the LCD bar, the Serial output of the sensor test, the multimeter reading) and add one short paragraph to the **Prototype development and procedure** section. It shows that each component was verified, which supports the *Functional prototype* part of the rubric.
+> Photograph a few of these tests (the Serial output of the sensor test, a pump run, the multimeter reading) and add one short paragraph to the **Prototype development and procedure** section. It shows that each component was verified, which supports the *Functional prototype* part of the rubric.

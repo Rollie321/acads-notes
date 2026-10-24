@@ -7,7 +7,7 @@ status: planning
 
 # Project Procedure (with Arduino Code)
 
-**Notes in this project:** [[01-project-overview|Overview]] · [[02-material-requirements|Materials]] · [[03-project-procedure|Procedure]] · [[04-project-simulation|Simulation]]
+**Notes in this project:** [[01-project-overview|Overview]] · [[02-material-requirements|Materials]] · [[03-project-procedure|Procedure]] · [[04-project-simulation|Simulation]] · [[05-component-testing|Component Testing]]
 
 ## Roadmap
 
@@ -120,12 +120,11 @@ Because the plant contains an integrator, the volume holds its value once the pu
 
 ### Assemble
 
-- [ ] Build the pump driver **first** and test it with a fixed PWM before adding anything else
+- [ ] Solder the 2-pin header and the 3-pin screw terminal onto the MOSFET module, then build the pump driver **first** and test it with a fixed PWM before adding anything else (see [[05-component-testing]])
 - [ ] Mount the HC-SR04 on its bracket, pointing straight down, centered over the glass, 5 to 10 cm above the full level
 - [ ] Wire HC-SR04 → Nano (see [[02-material-requirements#6. Wiring]])
-- [ ] Wire the MOSFET driver module (signal, battery, pump) with the **separate battery pack**
+- [ ] Wire the isolated MOSFET module: signal side (PWM, GND) to the Nano, load side (+, LOAD, −) to the **separate battery pack** and the pump
 - [ ] Wire the Start button and the mode slide switch
-- [ ] Wire the I2C LCD: GND → GND, VCC → 5V, SDA → A4, SCL → A5
 - [ ] Place the pump in the reservoir and fix the tube so the water runs down the **inner glass wall**, outside the sensor beam
 
 ### Connection table
@@ -138,61 +137,31 @@ Every wire needed for the final build. Tick each row as you connect it.
 | 2   | HC-SR04 → Nano | HC-SR04 **GND**                | Nano **GND**                             |                                                                                    |
 | 3   | HC-SR04 → Nano | HC-SR04 **Trig**               | Nano **D5**                              | Output from the Nano                                                               |
 | 4   | HC-SR04 → Nano | HC-SR04 **Echo**               | Nano **D6**                              | Input to the Nano (5 V logic, no level shifter)                                    |
-| 5   | LCD → Nano    | LCD **GND**                     | Nano **GND**                             | I2C LCD with backpack                                                              |
-| 6   | LCD → Nano    | LCD **VCC**                     | Nano **5V**                              | Not 3.3 V                                                                          |
-| 7   | LCD → Nano    | LCD **SDA**                     | Nano **A4**                              |                                                                                    |
-| 8   | LCD → Nano    | LCD **SCL**                     | Nano **A5**                              |                                                                                    |
-| 9   | Start button  | Button, one side                | Nano **D2**                              |                                                                                    |
-| 10  | Start button  | Button, other side              | Nano **GND**                             | Uses the internal pull-up, no resistor needed                                      |
-| 11  | Mode switch   | Slide switch **middle pin**     | Nano **D4**                              |                                                                                    |
-| 12  | Mode switch   | Slide switch **one outer pin**  | Nano **GND**                             | Other outer pin stays unconnected. GND position = closed-loop, otherwise open-loop |
-| 13  | Pump driver   | Nano **D9**                     | Module **PWM** (or TRIG / SIG) input     | PWM output. No gate resistor needed                                                |
-| 14  | Pump driver   | Nano **GND**                    | Module signal **GND**                    | Signal reference                                                                   |
-| 15  | Pump driver   | Battery pack **+** (about 6 V)  | Module power in **+** (VIN+)             | Separate from USB power                                                            |
-| 16  | Pump driver   | Battery pack **−**              | Module power in **−** (VIN−)             | Match terminals by the module's silkscreen                                         |
-| 17  | Pump          | Module **OUT+**                 | Pump **(+)** wire                        |                                                                                    |
-| 18  | Pump          | Module **OUT−**                 | Pump **(−)** wire                        |                                                                                    |
-| 19  | Common ground | Battery pack **−**              | Nano **GND**                             | **Common ground**: all grounds must meet                                           |
-| 20  | Flyback diode | Diode **cathode** (striped end) | Pump **(+)** side                        | Across the pump terminals (skip only if the module has its own)                    |
-| 21  | Flyback diode | Diode **anode**                 | Pump **(−)** side                        |                                                                                    |
+| 5   | Start button  | Button, one side                | Nano **D2**                              |                                                                                    |
+| 6   | Start button  | Button, other side              | Nano **GND**                             | Uses the internal pull-up, no resistor needed                                      |
+| 7   | Mode switch   | Slide switch **middle pin**     | Nano **D4**                              |                                                                                    |
+| 8   | Mode switch   | Slide switch **one outer pin**  | Nano **GND**                             | Other outer pin stays unconnected. GND position = closed-loop, otherwise open-loop |
+| 9   | Pump driver   | Nano **D9**                     | Module **PWM** pad                       | PWM output. No external resistor needed (module takes a 3 V or 5 V signal) |
+| 10  | Pump driver   | Nano **GND**                    | Module signal **GND** pad                | Signal reference only (isolated from the load side)                        |
+| 11  | Pump driver   | Battery pack **+** (about 6 V)  | Module **+** terminal                    | Separate from USB power                                                    |
+| 12  | Pump driver   | Battery pack **−**              | Module **−** terminal                    | Do **not** connect this to the Nano GND                                    |
+| 13  | Pump          | Pump **(+)** wire               | Module **+** terminal                    | Same terminal as the battery +: twist the two wires together first         |
+| 14  | Pump          | Pump **(−)** wire               | Module **LOAD** terminal                 | The middle terminal. The MOSFET switches this side                         |
+| 15  | Flyback diode | Diode **cathode** (striped end) | Module **+** terminal (pump **(+)** side)| Across the pump                                                            |
+| 16  | Flyback diode | Diode **anode**                 | Module **LOAD** terminal (pump **(−)** side) |                                                                        |
 
-> [!important] Common ground
-> Nano GND, HC-SR04 GND, LCD GND, the button and switch GND, the driver module GND and the battery − must all be joined on the same ground rail.
+> [!important] Two separate grounds
+> **Nano side:** Nano GND, HC-SR04 GND, the button and switch GND and the module's signal GND pad share one ground rail.
+> **Load side:** the battery −, the module's **−** terminal and nothing else. The optocoupler isolates the two sides, so do **not** join them.
 
-> [!tip] Module terminal names
-> Boards differ (VIN/VOUT, IN/OUT, PWM/TRIG/SIG). Match each wire by function using the silkscreen or datasheet, and confirm with a short test before running water.
+> [!tip] Check the terminal order on your board
+> Retailer pinouts for this module family list the load terminals as **+ / LOAD / −**, with LOAD as the negative lead of the load. Confirm with the silkscreen on your own board, and run the test in [[05-component-testing#7. MOSFET driver module and pump (with Arduino PWM)]] before using water.
+
+> [!warning] Battery voltage
+> One retailer lists a 6 to 28 V load supply for the LR7843 version of this module. A 4 × AA pack is right at that edge, so check the pack voltage under load and replace weak batteries.
 
 > [!note] Optional status LED
 > The parts list has an optional LED, but the code does not use one, so it is not in this table.
-
-### Install the library
-
-Arduino IDE → Library Manager → search **LiquidCrystal I2C** → install the one by Frank de Brabander (for the LCD). The HC-SR04 needs no library.
-
-### Check the LCD
-
-Upload this I2C scanner once to find the LCD address (usually `0x27` or `0x3F`), then put that value in `LiquidCrystal_I2C lcd(0x27, 16, 2);` in the main code:
-
-```cpp
-#include <Wire.h>
-
-void setup() {
-  Serial.begin(115200);
-  Wire.begin();
-  for (uint8_t addr = 1; addr < 127; addr++) {
-    Wire.beginTransmission(addr);
-    if (Wire.endTransmission() == 0) {
-      Serial.print("I2C device found at 0x");
-      Serial.println(addr, HEX);
-    }
-  }
-  Serial.println("Scan done.");
-}
-
-void loop() {}
-```
-
-If the address is found but the screen stays blank, turn the contrast trimmer on the back of the LCD backpack.
 
 ### Calibrate the HC-SR04
 
@@ -245,7 +214,7 @@ $$t_{run} = \frac{r}{\hat{K}}$$
 ## Phase 5 Main Arduino code
 
 > [!note]
-> Set `#define SIMULATE 0` for real hardware and `1` for the Wokwi simulation ([[04-project-simulation]]). Set `#define USE_LCD 1` when the I2C LCD is connected and `0` to build without it.
+> Set `#define SIMULATE 0` for real hardware and `1` for the Wokwi simulation ([[04-project-simulation]]).
 
 > [!INFO]- Controller flow
 > ```mermaid
@@ -253,15 +222,15 @@ $$t_{run} = \frac{r}{\hat{K}}$$
 >     A(["Start pressed"]) --> B["Read mode switch (D4)"]
 >     B --> C["Tare: measure empty level d0"]
 >     C --> D{"Closed-loop?"}
->     D -- "No" --> E["Pump ON for t = target / flow<br/>(LCD shows measured %)"]
+>     D -- "No" --> E["Pump ON for t = target / flow<br/>(sensor logged only)"]
 >     E --> F["Pump OFF"]
->     D -- "Yes" --> G["Read volume + update LCD %"]
+>     D -- "Yes" --> G["Read volume (log to Serial)"]
 >     G --> H{"volume >= target?"}
 >     H -- "No" --> I["Pump ON"]
 >     I --> G
 >     H -- "Yes" --> F
 >     F --> J["Wait 3 s for dripping"]
->     J --> K["Print RESULT line + show final % on LCD"]
+>     J --> K["Print RESULT line (final, error, %)"]
 > ```
 
 ### Code
@@ -271,34 +240,25 @@ $$t_{run} = \frac{r}{\hat{K}}$$
   Water Dispenser: Open-Loop vs Closed-Loop (On-Off) Control
   Board: Arduino Nano
   Sensor: HC-SR04 ultrasonic (Trig = D5, Echo = D6), mounted above the glass
-  Libraries: LiquidCrystal I2C (Frank de Brabander), only needed when USE_LCD = 1
+  Pump:   isolated MOSFET module, PWM pad on D9
 
   Mode switch (D4):  HIGH = OPEN-LOOP,  LOW = CLOSED-LOOP
   Start button (D2):  runs one dispensing cycle
   Target volume:      set TARGET_ML below (edit the code and re-upload to change it)
-  I2C LCD 16x2:       SDA = A4, SCL = A5. Shows progress = measured volume / target (%)
-  Output: CSV over Serial at 115200 baud (time_ms, volume_ml)
+  Output: CSV over Serial at 115200 baud (time_ms, volume_ml), then a RESULT line
 
   Volume = AREA_CM2 * (emptyCm - distanceCm)
-  The LCD is DISPLAY ONLY. It never affects the pump or the controller.
+  No libraries are needed. The sensor is read with pulseIn().
 */
 
 #define SIMULATE 0        // 0 = real hardware, 1 = software plant model (Wokwi)
-#define USE_LCD  1        // 1 = I2C LCD connected, 0 = no LCD
-
-#if USE_LCD
-  #include <Wire.h>
-  #include <LiquidCrystal_I2C.h>
-  LiquidCrystal_I2C lcd(0x27, 16, 2);   // I2C address (try 0x3F if blank), 16 columns, 2 rows
-#endif
 
 // ---------- Pins ----------
 const uint8_t PIN_TRIG    = 5;   // HC-SR04 Trig
 const uint8_t PIN_ECHO    = 6;   // HC-SR04 Echo
-const uint8_t PIN_PUMP    = 9;   // PWM -> driver module input
+const uint8_t PIN_PUMP    = 9;   // PWM -> module PWM pad
 const uint8_t PIN_START   = 2;
 const uint8_t PIN_MODE    = 4;
-// LCD uses the Nano's hardware I2C pins: SDA = A4, SCL = A5
 
 // ---------- Calibration and tuning (EDIT THESE) ----------
 float AREA_CM2 = 28.0;                     // glass cross-section in cm^2, from calibration
@@ -309,7 +269,6 @@ const float STOP_EARLY_ML = 0.0;           // closed-loop: stop this many ml ear
 const float SLOW_ZONE_ML  = 0.0;           // closed-loop: slow down in last N ml (0 = pure on-off; try 20)
 const unsigned long TIMEOUT_MS = 60000UL;  // safety: max pump time
 const unsigned long SETTLE_MS  = 3000UL;   // wait for dripping and ripples before final reading
-const unsigned long LCD_REFRESH_MS = 200;  // LCD update period (keeps I2C traffic from slowing the loop)
 
 // ---------- Simulation plant model (only used if SIMULATE = 1) ----------
 const float SIM_TAU_S = 0.5;               // pump time constant
@@ -325,72 +284,6 @@ float simFlow = 0.0, simVol = 0.0;
 unsigned long simLast = 0;
 float emptyCm = 0.0;            // empty-glass distance, set by tareLevel()
 float lastGoodCm = 0.0;         // last valid distance (used if a ping times out)
-float runTarget = 0.0;          // target of the run in progress (for the LCD)
-bool  runClosed = false;        // mode of the run in progress (for the LCD)
-bool  resultShown = false;      // true while the final result is held on the LCD
-unsigned long lcdLast = 0;
-
-// ---------- LCD helpers (display only, never used for control) ----------
-// Progress in percent = measured volume / target * 100. Can exceed 100 (overshoot).
-int percentOf(float volumeMl, float targetMl) {
-  int p = (int)(volumeMl / targetMl * 100.0 + 0.5);
-  return constrain(p, 0, 999);
-}
-
-void lcdLine(uint8_t row, const char *text) {
-#if USE_LCD
-  char buf[17];
-  snprintf(buf, sizeof(buf), "%-16s", text);   // pad to 16 chars so old text is erased
-  lcd.setCursor(0, row);
-  lcd.print(buf);
-#endif
-}
-
-// Idle screen: mode and target. Redrawn only when the mode changes.
-void lcdShowIdle(bool closedLoop) {
-#if USE_LCD
-  static int8_t lastMode = -1;
-  if (lastMode == (int8_t)closedLoop) return;
-  lastMode = closedLoop;
-  char l0[17], l1[17];
-  snprintf(l0, sizeof(l0), "Mode: %s", closedLoop ? "CLOSED" : "OPEN");
-  snprintf(l1, sizeof(l1), "Target: %3d ml", (int)TARGET_ML);
-  lcdLine(0, l0);
-  lcdLine(1, l1);
-#endif
-}
-
-// Running screen: progress bar and percentage of the target.
-void lcdShowProgress(float volumeMl, bool force) {
-#if USE_LCD
-  if (!force && millis() - lcdLast < LCD_REFRESH_MS) return;
-  lcdLast = millis();
-  int pct = percentOf(volumeMl, runTarget);
-  char l0[17], l1[17];
-  if (force) {
-    snprintf(l0, sizeof(l0), "%-6s  T=%3dml", runClosed ? "CLOSED" : "OPEN", (int)runTarget);
-    lcdLine(0, l0);
-  }
-  int cells = constrain(pct, 0, 100) / 10;          // 0..10 filled cells
-  for (uint8_t i = 0; i < 10; i++) l1[i] = (i < cells) ? (char)255 : '.';
-  snprintf(l1 + 10, sizeof(l1) - 10, " %3d%%", pct);
-  lcdLine(1, l1);
-#endif
-}
-
-// Result screen: final volume and final percentage. Held until the next button press.
-void lcdShowResult(float finalMl) {
-#if USE_LCD
-  char l0[17], l1[17];
-  int ml = (int)(finalMl + 0.5);
-  if (ml < 0) ml = 0;
-  if (ml > 999) ml = 999;
-  snprintf(l0, sizeof(l0), "DONE    T=%3dml", (int)runTarget);
-  snprintf(l1, sizeof(l1), "Final %3dml %3d%%", ml, percentOf(finalMl, runTarget));
-  lcdLine(0, l0);
-  lcdLine(1, l1);
-#endif
-}
 
 // ---------- Pump helper ----------
 void setPump(int pwm) {
@@ -454,7 +347,6 @@ float sampleAndLog(unsigned long t0) {
   Serial.print(millis() - t0);
   Serial.print(',');
   Serial.println(v, 1);
-  lcdShowProgress(v, false);                 // display only
 #if SIMULATE
   delay(SIM_SAMPLE_MS);
 #endif
@@ -475,23 +367,18 @@ bool pressed(uint8_t pin) {
 // ---------- One dispensing cycle ----------
 void runDispense(bool closedLoop) {
   float target = TARGET_ML;
-  runTarget = target;
-  runClosed = closedLoop;
 
   Serial.println();
   Serial.print("MODE: ");   Serial.println(closedLoop ? "CLOSED-LOOP" : "OPEN-LOOP");
   Serial.print("TARGET_ML: "); Serial.println(target, 0);
   Serial.println("Measuring empty level... keep the empty glass in place.");
-  lcdLine(0, "Measuring...");
-  lcdLine(1, "Keep glass empty");
   tareLevel();
-  lcdShowProgress(0.0, true);                // draw the progress screen at 0%
   Serial.println("time_ms,volume_ml");
 
   unsigned long t0 = millis();
 
   if (!closedLoop) {
-    // OPEN-LOOP: fixed, pre-calculated time. The sensor is read ONLY for logging and the LCD.
+    // OPEN-LOOP: fixed, pre-calculated time. The sensor is read ONLY for logging.
     unsigned long runMs = (unsigned long)(target / FLOW_ML_PER_S * 1000.0);
     setPump(PWM_FULL);
     while (millis() - t0 < runMs && millis() - t0 < TIMEOUT_MS) {
@@ -515,14 +402,12 @@ void runDispense(bool closedLoop) {
   float v = 0;
   while (millis() - ts < SETTLE_MS) { v = sampleAndLog(t0); }
 
-  lcdShowResult(v);                          // hold the final result on the LCD
-  resultShown = true;
-
   Serial.print("RESULT,");
   Serial.print(closedLoop ? "closed" : "open");
   Serial.print(",target=");  Serial.print(target, 0);
   Serial.print(",final=");   Serial.print(v, 1);
-  Serial.print(",error=");   Serial.println(v - target, 1);
+  Serial.print(",error=");   Serial.print(v - target, 1);
+  Serial.print(",percent="); Serial.println(v / target * 100.0, 1);
   Serial.println("Record the REAL volume with a graduated cylinder too.");
 }
 
@@ -537,13 +422,6 @@ void setup() {
   pinMode(PIN_ECHO, INPUT);
   digitalWrite(PIN_TRIG, LOW);
 
-#if USE_LCD
-  lcd.init();
-  lcd.backlight();
-#endif
-  lcdLine(0, "Water Dispenser");
-  lcdLine(1, "Starting...");
-
   Serial.println("Water Dispenser ready.");
   Serial.println("D2 = start, D4 switch = mode (HIGH open / LOW closed)");
   Serial.print("Target: "); Serial.print(TARGET_ML, 0); Serial.println(" ml (set TARGET_ML in the code)");
@@ -551,15 +429,15 @@ void setup() {
 
 void loop() {
   bool closedLoop = (digitalRead(PIN_MODE) == LOW);
-  static bool lastMode = closedLoop;
-  if (closedLoop != lastMode) {              // switch moved: leave the result screen
+  static int8_t lastMode = -1;
+  if (lastMode != (int8_t)closedLoop) {      // print the mode whenever the switch moves
     lastMode = closedLoop;
-    resultShown = false;
+    Serial.print("Mode selected: ");
+    Serial.println(closedLoop ? "CLOSED-LOOP" : "OPEN-LOOP");
   }
   if (pressed(PIN_START)) {
     runDispense(digitalRead(PIN_MODE) == LOW);
   }
-  if (!resultShown) lcdShowIdle(closedLoop);
 }
 ```
 
@@ -574,7 +452,7 @@ void loop() {
 | `if (remaining <= 0) break;`              | On-off controller                                                                    |
 | `setPump(...)`                            | Actuator command $u$                                                                 |
 | Fixed `runMs` in open-loop                | No feedback, time from the model only                                                |
-| `percentOf()`, `lcdShowProgress()`        | Display of $p = y/r \times 100\%$. Reads $y$ but **never feeds the controller**      |
+| `percent` in the `RESULT` line            | Reports $p = y/r \times 100\%$. Reads $y$ but **never feeds the controller**          |
 
 ---
 
@@ -586,7 +464,7 @@ void loop() {
 
 1. Place the **empty glass** under the sensor. Check that the pump has water and the tube runs down the inner wall.
 2. Set `TARGET_ML` in the code (100 or 200) and upload it.
-3. Switch to **open-loop**, press **Start**, then record the Arduino reading, the final **% shown on the LCD**, and the real volume (graduated cylinder).
+3. Switch to **open-loop**, press **Start**, then record the Arduino reading, the `percent` from the `RESULT` line, and the real volume (graduated cylinder).
 4. Repeat **3 times**. Empty the glass and dry the walls between trials.
 5. Switch to **closed-loop** and repeat steps 3 and 4.
 6. Compute the error for each trial.
@@ -628,7 +506,7 @@ Add an **average error** row for each mode and target.
 
 Pick one and apply it to **both** modes:
 
-- Use **weaker (partly used) batteries** instead of fresh ones
+- **Weaker batteries (avoid with this module):** if the pack falls below the module's supply minimum (about 6 V is listed by one retailer), the pump may switch erratically instead of just running slower, which does not match the model
 - Raise or lower the **reservoir or glass height** by a few centimeters (re-check that the sensor is still 5 to 10 cm above the full level)
 - **Slightly pinch** the tube with a clip
 
@@ -666,7 +544,7 @@ Try one at a time and record the effect:
 
 - [ ] Dry run beforehand (spill tray ready, splash guard in place)
 - [ ] Demo at least two targets (change `TARGET_ML` and re-upload; rehearse this so it is quick, or keep two builds ready)
-- [ ] Point out the LCD: progress bar rises to the target % (open-loop may stop short of 100%, closed-loop stops at about 100%)
+- [ ] Show the Serial Monitor `RESULT` line after each run (open-loop may stop short of 100%, closed-loop stops at about 100%)
 - [ ] Show open-loop, then closed-loop, then a disturbance in both
 - [ ] Graduated cylinder ready to confirm the real volume
 - [ ] Be ready to explain the sensor, controller, and feedback path
@@ -691,12 +569,8 @@ Try one at a time and record the effect:
 | Volume wrong by a constant factor                 | Re-do the $A$ calibration with exactly 100 ml and 200 ml                                                        |
 | Closed-loop stops too early                       | Splash or ripples read as a high level: aim the tube at the inner glass wall and keep the median filter on      |
 | Volume reading is noisy only while filling        | Normal ripples. The 3 s settle before the final reading handles this                                            |
-| Pump never turns on                               | Load wires on the wrong module terminals, reversed battery polarity, dead battery, missing common ground, or a module that needs more than a 5 V trigger (check its datasheet) |
-| Pump runs at boot or will not stop                | Floating PWM input: add a 10 kΩ resistor from the module PWM input to GND                                       |
+| Pump never turns on                               | Pump (−) not on the **LOAD** terminal, reversed battery polarity, dead or weak battery (below about 6 V), PWM or signal GND wires loose, or terminal screws not clamping the wires |
+| Pump runs at boot or will not stop                | Rare with an optocoupler input. Add a 10 kΩ resistor from the PWM pad to the signal GND pad, and check the pump (−) is on LOAD, not on the − terminal |
 | Pump stalls at `PWM_SLOW`                         | Raise `PWM_SLOW` (try 180)                                                                                      |
 | Upload fails on Nano                              | Tools → Processor → "ATmega328P (Old Bootloader)"                                                              |
 | Large open-loop errors                            | Re-measure `FLOW_ML_PER_S` with the same battery and tube setup                                                 |
-| LCD backlight on, no text                         | Turn the contrast trimmer on the I2C backpack                                                                   |
-| LCD completely blank                              | Wrong I2C address (try `0x3F`, or run the scanner), or SDA/SCL swapped                                          |
-| LCD shows garbled characters or flickers          | Loose jumper on SDA/SCL, or pump noise on the 5V rail: re-seat wires and keep the battery pack separate from USB power |
-| LCD % is wrong but Serial volume is right         | Check the target value shown on line 1 and that the glass was empty at the tare                                 |

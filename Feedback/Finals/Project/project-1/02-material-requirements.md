@@ -7,7 +7,7 @@ status: planning
 
 # Material Requirements
 
-**Notes in this project:** [[01-project-overview|Overview]] · [[02-material-requirements|Materials]] · [[03-project-procedure|Procedure]] · [[04-project-simulation|Simulation]]
+**Notes in this project:** [[01-project-overview|Overview]] · [[02-material-requirements|Materials]] · [[03-project-procedure|Procedure]] · [[04-project-simulation|Simulation]] · [[05-component-testing|Component Testing]]
 
 ## 1. Electronics
 
@@ -17,17 +17,23 @@ status: planning
 | 2   | Breadboard                            | 1     | Full or half size                                                                                              |
 | 3   | HC-SR04 ultrasonic sensor             | 1     | 5 V, 4 pins: VCC, Trig, Echo, GND. Measures the distance to the water surface                                  |
 | 4   | Submersible DC pump + silicone tubing | 1     | 3–6 V mini pump. Tubing must fit the pump outlet                                                               |
-| 5   | Logic-level MOSFET driver module      | 1     | PWM input (3.3 to 20 V trigger), power in (+/−), load out (+/−). D4184 type. Match terminals by the silkscreen |
-| 6   | Flyback diode                         | 1     | 1N4007 or 1N5819, across the pump terminals (skip only if the module documents its own)                        |
+| 5   | Optocoupler-isolated MOSFET control module (LR7843) | 1 | Signal side: PWM, GND (3 V or 5 V signal, high = on). Load side: three pads marked +, LOAD, −. Ships with a 2-pin header and screw terminals that must be soldered on |
+| 6   | Flyback diode                         | 1     | 1N4007 or 1N5819, across the pump (the module's own diode is not confirmed, so fit this one)                    |
 | 7   | Pushbutton                            | 1     | Start                                                                                                          |
 | 8   | Slide switch (SPDT)                   | 1     | Mode select                                                                                                    |
-| 9   | I2C LCD 16×2 (PCF8574 backpack)       | 1     | 4 pins: GND, VCC, SDA, SCL. 5 V version. Address is usually `0x27` or `0x3F`                                   |
-| 10  | LED + 220 Ω (optional)                | 1     | Status indicator                                                                                               |
-| 11  | Battery holder + 4 × AA               | 1     | About 6 V for the pump, **separate from USB power**                                                            |
-| 12  | Jumper wires                          | 1 set | HC-SR04 and LCD headers need male pins (female-to-male wires if the module pins are male)                      |
+| 9   | LED + 220 Ω (optional)                | 1     | Status indicator                                                                                               |
+| 10  | 6 V DC supply for the pump            | 1     | 4 × AA battery holder, **or** your LM317 supply set to about 6.0 V. Separate from USB power (see the note below) |
+| 11  | Jumper wires                          | 1 set | HC-SR04 header needs male pins (female-to-male wires if the module pins are male)                      |
+| 12  | Soldering iron and solder             | 1     | To fit the 2-pin header (signal side) and the 3-pin screw terminal (load side) to the module                    |
 
 > [!tip] Alternatives
 > A relay module can replace the driver module, but it clicks, wears out, and **cannot do PWM slowdown**. Avoid IRF520 modules (not logic-level, so a 5 V signal only half-turns them on) and L298N boards (about 1.5 to 2 V drop, which weakens a 6 V pump).
+
+> [!note] Using the LM317 supply instead of batteries
+> Set the output to about **6.0 V** with a multimeter and no pump connected, then re-check it at the module's **+** and **−** terminals while the pump runs. With a 24 V transformer the LM317 drops about 24 V as heat (about 7 W at 0.3 A), so it needs a large heatsink: measure the pump current first, run it for 60 s, and check the heatsink temperature. Wait a minute or two between runs.
+
+> [!warning] Supply voltage limit of this module
+> One retailer lists a **6 to 28 V** load supply for the LR7843 version of this module, and your seller states no minimum. A fresh 4 × AA pack is right at that edge and falls below it as the batteries weaken. Test the pump on the module early (see [[05-component-testing#7. MOSFET driver module and pump (with Arduino PWM)]]). If it switches poorly at 6 V, a non-isolated logic-level MOSFET module is the fallback.
 
 ---
 
@@ -60,13 +66,12 @@ status: planning
 | Software                                       | Purpose                                                                       |
 | ---------------------------------------------- | ----------------------------------------------------------------------------- |
 | Arduino IDE                                    | Board: Arduino Nano. If upload fails, use processor "ATmega328P (Old Bootloader)" |
-| **LiquidCrystal I2C** (Frank de Brabander)     | Install from Library Manager. Drives the I2C LCD                              |
 | Wokwi (free, online)                           | Simulation, see [[04-project-simulation]]                                     |
 | Python + matplotlib, MATLAB, or Scilab         | Open-loop step response plot                                                  |
 | Excel / Google Sheets                          | Data tables and comparison graphs                                             |
 
-> [!note] No sensor library
-> The HC-SR04 is read directly with `pulseIn()`, so no library is needed for it.
+> [!note] No libraries
+> The HC-SR04 is read directly with `pulseIn()` and the project has no display, so no library needs to be installed.
 
 ---
 
@@ -79,10 +84,8 @@ status: planning
 | D9 (PWM)  | Driver module PWM / signal input                | Pump control               |
 | D2        | Start button (other side to GND)                | Begin dispensing           |
 | D4        | Slide switch middle pin (outer pin to GND)      | LOW = closed-loop, HIGH = open-loop |
-| A4 (SDA)  | LCD SDA                                         | I2C data (display)         |
-| A5 (SCL)  | LCD SCL                                         | I2C clock (display)        |
-| 5V        | HC-SR04 VCC, LCD VCC                            | Power                      |
-| GND       | HC-SR04 GND, LCD GND, driver module GND, battery − | **Common ground**       |
+| 5V        | HC-SR04 VCC                                     | Power                      |
+| GND       | HC-SR04 GND, button and switch GND, driver module signal **GND** | Nano-side ground (the battery − is **not** joined here, see section 6) |
 
 ---
 
@@ -94,12 +97,9 @@ status: planning
 >     HC["HC-SR04<br/>ultrasonic sensor"] -->|"Trig → D5<br/>Echo → D6"| NANO["Arduino Nano"]
 >     BTN1["Start button"] -->|"D2"| NANO
 >     SW["Mode switch"] -->|"D4"| NANO
->     NANO -->|"D9 PWM"| DRV["MOSFET driver<br/>module"]
->     BAT["6 V battery pack"] --> DRV
->     DRV -->|"OUT+ / OUT−"| PUMP["Pump"]
->     DRV --- GND["Common GND"]
->     NANO -->|"A4 SDA<br/>A5 SCL"| LCD["I2C LCD 16×2"]
->     NANO --- GND
+>     NANO -->|"D9 PWM<br/>+ signal GND"| DRV["Isolated MOSFET<br/>module (optocoupler)"]
+>     BAT["6 V battery pack"] -->|"+ and −"| DRV
+>     DRV -->|"+ and LOAD"| PUMP["Pump"]
 > ```
 
 ### HC-SR04 → Nano
@@ -116,50 +116,45 @@ status: planning
 > - Reading is always 0 or the same value: check that Trig and Echo are not swapped.
 > - Readings jump around: make sure the sensor points straight down, the tube is outside the beam, and nothing sits within about 5 cm of the sensor.
 
-### I2C LCD → Nano
+### Pump driver (isolated MOSFET module)
 
-| LCD pin | Nano pin |
-| ------- | -------- |
-| GND     | GND      |
-| VCC     | 5V       |
-| SDA     | A4       |
-| SCL     | A5       |
+The module is a **low-side switch**: it connects the pump's negative side to the battery − when the PWM signal is high. An **optocoupler** (PC817 on the LR7843 version) separates the signal side (PWM, GND) from the load side (+, LOAD, −), and the two grounds are not connected on the board. The gate resistor and MOSFET pin order are already handled on the board.
 
-> [!tip] LCD shows nothing?
-> - **Backlight on but no text:** turn the small blue **contrast trimmer** on the back of the I2C backpack with a screwdriver.
-> - **Still blank:** the address may be `0x3F` instead of `0x27`. Run the I2C scanner in [[03-project-procedure#Check the LCD]] to find it.
-> - Power the LCD from the Nano **5V** pin (not 3.3 V). The backlight draws roughly 20 to 40 mA, which USB power handles fine.
+| Module pad / terminal | Connect to                                                                 |
+| --------------------- | -------------------------------------------------------------------------- |
+| Signal **PWM**        | Nano **D9**                                                                |
+| Signal **GND**        | Nano **GND**                                                               |
+| **+** (load side)     | Battery pack **+** (about 6 V) **and** the pump **(+)** wire, in the same terminal |
+| **LOAD** (middle)     | Pump **(−)** wire                                                          |
+| **−** (load side)     | Battery pack **−**                                                         |
 
-### Pump driver (MOSFET module)
+Current path: battery + → module **+** → pump → module **LOAD** → MOSFET → module **−** → battery −.
 
-The module does the low-side switching, so the gate resistor, the pull-down and the MOSFET pin order are already handled on its board.
-
-| Module terminal                | Connect to                               |
-| ------------------------------ | ---------------------------------------- |
-| Signal **PWM** (or TRIG / SIG) | Nano **D9**                              |
-| Signal **GND**                 | Nano **GND**                             |
-| Power in **+** (VIN+)          | Battery pack **+** (about 6 V)           |
-| Power in **−** (VIN−)          | Battery pack **−**                       |
-| Load out **+** (OUT+)          | Pump **(+)** wire                        |
-| Load out **−** (OUT−)          | Pump **(−)** wire                        |
+> [!note] Pad order
+> Retailer pinouts for this module family describe the three load terminals as **+ / LOAD / −**, with LOAD being the negative lead of the load. Always confirm on your own board by the silkscreen, and run the test in [[05-component-testing#7. MOSFET driver module and pump (with Arduino PWM)]] before using water.
 
 ```mermaid
 flowchart LR
-    BAT["Battery pack<br/>+6 V and GND"] -->|"power in"| DRV["MOSFET driver<br/>module"]
-    D9["Arduino D9 (PWM)"] -->|"signal"| DRV
+    BAT["Battery pack<br/>+6 V"] -->|"+ terminal"| DRV["Isolated MOSFET<br/>module"]
+    BAT -->|"− terminal"| DRV
+    D9["Arduino D9 (PWM)"] -->|"PWM"| DRV
     NG["Arduino GND"] -->|"signal GND"| DRV
-    DRV -->|"OUT+ / OUT−"| PUMP["Pump"]
+    BAT -->|"+ (same terminal)"| PUMP["Pump"]
+    PUMP -->|"LOAD terminal"| DRV
     DIO["1N4007 flyback"] -.->|"across pump"| PUMP
 ```
 
-> [!important] Check your module's labels
-> Terminal names vary between boards (VIN/VOUT, IN/OUT, PWM/TRIG/SIG). Match them by function using the silkscreen or datasheet. Some modules tie signal GND and power IN− together, but connecting the Nano GND to the battery − is still required.
+> [!important] Grounds: no common ground needed
+> Because of the optocoupler, the Nano ground and the battery − are **separate on purpose**. Do **not** wire them together: it is not needed, and it removes the isolation that keeps pump noise away from the Nano and HC-SR04. (This differs from a plain MOSFET module, which needs a common ground.)
+
+> [!important] Mounting the module
+> The pads are bare holes. Solder the **2-pin header** into PWM/GND (it then plugs into the breadboard or takes female jumper wires) and the **3-pin screw terminal** into the three load pads. Do not push the pump and battery wires into a breadboard: loose contacts make the pump cut out and would look like a model error in your results. The board has two 2 mm screw holes (8 mm apart) for fixing it down.
 
 > [!important] Flyback diode
-> Place the diode **across the pump terminals**: cathode (striped end) to the pump (+) side, anode to the pump (−) side. Skip it only if the module's datasheet says it already has one.
+> Place the diode **across the pump**: cathode (striped end) to the **+** terminal (the pump (+) side), anode to the **LOAD** terminal (the pump (−) side). The small diode on the module is not confirmed to do this job, so fit your own.
 
 > [!tip] Pump runs at boot or will not switch off?
-> If the PWM input floats while the Nano boots, add a **10 kΩ resistor from the PWM input to GND**.
+> The optocoupler input normally prevents this. If the pump still runs at boot, add a **10 kΩ resistor from the PWM pad to the signal GND pad**.
 
 ---
 
@@ -167,9 +162,10 @@ flowchart LR
 
 > [!danger] Read before powering up
 > - [ ] **Never power the pump from an Arduino pin.** Use the driver module and the separate battery pack.
-> - [ ] Connect **all grounds together** (Arduino, driver module, battery −).
-> - [ ] Keep the breadboard, **HC-SR04** and **LCD** away from water; use a tray and mount electronics higher than the glass. The HC-SR04 is **not waterproof**, so use a splash guard.
+> - [ ] Join the **Nano-side** grounds (Nano, HC-SR04, button, switch, module signal GND). Keep the **battery −** on the module's **−** terminal only, not on the Nano GND.
+> - [ ] Check the battery pack reads at least about 6 V before relying on the module (see the supply limit in section 1).
+> - [ ] Keep the breadboard and **HC-SR04** away from water; use a tray and mount electronics higher than the glass. The HC-SR04 is **not waterproof**, so use a splash guard.
 > - [ ] Do not let the tube outlet point into the sensor beam or toward the sensor.
 > - [ ] Double-check polarity before connecting the battery.
 > - [ ] Do not run the pump dry for long.
-> - [ ] Low voltage only (about 6 V). No mains electricity anywhere in this project.
+> - [ ] The project itself runs at low voltage (about 6 V). If you use the LM317 supply, the only mains is its transformer input: keep the supply well away from the water, tray and spills, keep the mains wiring enclosed and fused, and unplug it before changing wires.

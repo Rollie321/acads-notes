@@ -10,7 +10,7 @@ status: planning
 > [!abstract] Summary
 > An Arduino Nano system that pumps a selected volume of water into a glass. It runs in two modes, **open-loop** (timed) and **closed-loop** (water level measured by an HC-SR04 ultrasonic sensor), so the effect of feedback can be compared directly.
 
-**Notes in this project:** [[01-project-overview|Overview]] · [[02-material-requirements|Materials]] · [[03-project-procedure|Procedure]] · [[04-project-simulation|Simulation]]
+**Notes in this project:** [[01-project-overview|Overview]] · [[02-material-requirements|Materials]] · [[03-project-procedure|Procedure]] · [[04-project-simulation|Simulation]] · [[05-component-testing|Component Testing]]
 
 ---
 
@@ -18,7 +18,7 @@ status: planning
 
 | Mode            | How it works                                                  | Sensor used for control?         |
 | --------------- | ------------------------------------------------------------- | -------------------------------- |
-| **Open-loop**   | Pump runs for a pre-calculated time $t_{run} = \dfrac{r}{\hat{K}}$ | No (log and LCD display only)    |
+| **Open-loop**   | Pump runs for a pre-calculated time $t_{run} = \dfrac{r}{\hat{K}}$ | No (Serial log only)    |
 | **Closed-loop** | Pump runs until the measured volume reaches the target        | Yes                              |
 
 Here $r$ is the target volume (ml) and $\hat{K}$ is the *estimated* flow rate (ml/s).
@@ -32,14 +32,14 @@ Here $r$ is the target volume (ml) and $\hat{K}$ is the *estimated* flow rate (m
 
 ---
 
-### Progress shown on the LCD
+### Progress and result over Serial
 
-An I2C 16×2 LCD shows how far the dispensing has progressed, as a percentage of the selected target:
+There is no display. Every run prints a CSV log (`time_ms,volume_ml`) and a final `RESULT` line that includes the percentage of the target reached:
 
-$$p(t) = \frac{y(t)}{r} \times 100\%$$
+$$p = \frac{y_{final}}{r} \times 100\%$$
 
-> [!note] Display only
-> The LCD reads the same measured value $y$ that is logged over Serial. It is **not** part of the control law, so it does not change the open-loop vs closed-loop comparison. In open-loop mode it simply shows the truth the controller ignores: the percentage ends near $\alpha \times 100\%$ when the real flow is a fraction $\alpha$ of the estimate. In closed-loop mode it stops at about 100% and may read slightly above it because of dripping overshoot.
+> [!note] Logging only
+> The Serial output reads the same measured value $y$ that the closed-loop controller uses, but it is **not** part of the control law, so it does not change the open-loop vs closed-loop comparison. In open-loop mode it simply shows the truth the controller ignores: the percentage ends near $\alpha \times 100\%$ when the real flow is a fraction $\alpha$ of the estimate. In closed-loop mode it stops at about 100% and may read slightly above it because of dripping overshoot.
 
 ---
 
@@ -51,11 +51,10 @@ $$p(t) = \frac{y(t)}{r} \times 100\%$$
 | **Reference input** $r$      | Target volume (ml), set in the code (`TARGET_ML`)                                                        |
 | **Output** $y$               | Volume of water actually in the glass (ml)                                                               |
 | **Sensor**                   | HC-SR04 ultrasonic distance sensor, converted to volume with $V = A\,(d_0 - d)$                          |
-| **Actuator**                 | DC submersible pump, switched by a logic-level MOSFET                                                    |
+| **Actuator**                 | DC submersible pump, switched by an optocoupler-isolated MOSFET module (LR7843)                          |
 | **Controller**               | Arduino Nano, on-off comparison                                                                          |
 | **Feedback path**            | HC-SR04 → Arduino (median filter, level to volume) → MOSFET → pump                                       |
-| **Disturbances**             | Weak battery, tube height change, pinched tube, residual dripping, surface ripples                       |
-| **Display**                  | I2C 16×2 LCD (SDA = A4, SCL = A5): progress bar and % of target. Outside the control loop                |
+| **Disturbances**             | Tube height change, pinched tube, residual dripping, surface ripples (avoid weak batteries, see [[02-material-requirements]]) |
 
 ---
 
@@ -71,7 +70,6 @@ flowchart LR
     P --> G["Glass (integrator)"]
     G --> Y["Volume y (ml)"]
     Y -.->|"monitor only"| M["HC-SR04<br/>level to volume"]
-    M -.-> LCD["I2C LCD<br/>p = y / r (percent)"]
 ```
 
 ### Closed-loop
@@ -85,7 +83,6 @@ flowchart LR
     G --> Y["Output y (ml)"]
     Y --> M["HC-SR04<br/>level to volume<br/>(sensor)"]
     M -->|"measured y"| S
-    M -.-> LCD["I2C LCD<br/>p = y / r (percent)"]
 ```
 
 ### On-off control law
@@ -105,11 +102,10 @@ $$
 - [ ] Two modes selected with a slide switch (open-loop / closed-loop)
 - [ ] Target volume set by one constant in the code (`TARGET_ML`, for example 100 or 200 ml)
 - [ ] Single **Start** button
-- [ ] I2C LCD with live progress (bar + % of target), then the final volume and % held on screen
 - [ ] Automatic empty-level reference (tare) before each run (place the empty glass first)
 - [ ] Median-of-3 filtering of the ultrasonic readings
 - [ ] CSV logging over Serial (`time_ms,volume_ml`)
-- [ ] Result summary after each run: target, final value, error
+- [ ] Result summary after each run: target, final value, error, % of target
 - [ ] 60 s safety timeout
 - [ ] Optional stop-early margin and PWM slowdown near the target
 - [ ] Built-in simulation mode (`SIMULATE 1`), see [[04-project-simulation]]
@@ -127,7 +123,6 @@ $$
 | Functional prototype and source code              | [[03-project-procedure#Phase 5 Main Arduino code]]                                                  |
 | Open vs closed-loop comparison table              | [[03-project-procedure#Phase 6 Testing and data collection]]                                        |
 | Disturbance response                              | [[03-project-procedure#Disturbance test]]                                                           |
-| Extra (not in the PDF): live progress display     | [[02-material-requirements#I2C LCD → Nano]], [[03-project-procedure#Phase 5 Main Arduino code]]     |
 | Short report, live demo                           | [[03-project-procedure#Phase 7 Report and demonstration]]                                           |
 
 ### Rubric weights (100 pts)
@@ -149,9 +144,9 @@ pie showData
 ## 6. Expected results
 
 > [!success] What to show in the report
-> - **Open-loop:** accurate only when conditions match the calibration run. Error grows with a weaker battery or a different tube height.
+> - **Open-loop:** accurate only when conditions match the calibration run. Error grows with a pinched tube or a different tube height.
 > - **Closed-loop:** lands near the target regardless of those changes. Small errors remain from residual dripping and the sensor resolution.
-> - **LCD:** open-loop ends well away from 100% when conditions change (for example about 80% with a pump 20% weaker than estimated). Closed-loop ends at about 100% to 102%. Photograph the LCD in each case for the report.
+> - **Serial result:** open-loop ends well away from 100% when conditions change (for example about 80% with a pump 20% weaker than estimated). Closed-loop ends at about 100% to 102%. Copy the `RESULT` lines for the report.
 
 Overshoot after the pump stops is roughly the flow at shutoff multiplied by the pump time constant plus the sensor filter delay $T_f$:
 
@@ -179,4 +174,3 @@ For a 6 cm wide glass ($A \approx 28\ \text{cm}^2$) this is about $\pm 8\ \text{
 > - The PDF emphasizes basic control concepts over a sophisticated system.
 > - Get the topic approved by your instructor first (one approved topic per group). Mention that this is a **dispense-a-set-volume variant of PDF topic D** (water-level control), using an on-off controller.
 > - A drain pump for removing excess water is deliberately **out of scope** to save cost and reduce failure risk.
-> - The LCD is a convenience for the demo. If it causes trouble, set `USE_LCD 0` in the code and the control behaviour is unchanged.

@@ -31,13 +31,13 @@ status: planning
 | 8     | Grounds and isolation          | Multimeter continuity| No           |
 | 9     | Everything together            | Noise and dry run    | Yes          |
 
-**Tools:** multimeter (continuity, DC volts, diode mode), ruler or tape measure, graduated cylinder, a small bowl of water, and a soldering iron for the MOSFET module's header and screw terminal.
+**Tools:** multimeter (continuity, DC volts, diode mode), a ruler to tape on the glass (0 at the inside floor), a small bowl of water, an optional graduated cylinder, and a soldering iron for the MOSFET module's header and screw terminal.
 
 > [!warning] Rules for every test
 > - Unplug USB and disconnect the battery **before** changing any wire.
 > - Keep water away from the breadboard and HC-SR04 at all times.
 > - Never power the pump from an Arduino pin.
-> - Serial Monitor baud rate: **115200** for every sketch below.
+> - Serial Monitor baud rate: **9600** for every sketch below.
 
 ---
 
@@ -48,7 +48,7 @@ status: planning
 ```cpp
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);   // D13 on the Nano
-  Serial.begin(115200);
+  Serial.begin(9600);
   Serial.println("Nano OK");
 }
 
@@ -64,7 +64,7 @@ void loop() {
 | Onboard LED blinks, Serial shows `blink` | **Pass**                                        |
 | Upload fails                             | Tools → Processor → **ATmega328P (Old Bootloader)**, then check the port and USB cable (some cables are charge-only) |
 | No port listed                           | Try another cable or USB port. On Linux, check `ls /dev/ttyUSB*` and that your user is in the `dialout` group |
-| Uploads but Serial is garbage            | Baud rate in the Serial Monitor is not 115200   |
+| Uploads but Serial is garbage            | Baud rate in the Serial Monitor is not 9600 (this project uses 9600 because 115200 printed garbage on this Nano) |
 
 > [!note] Linux tip
 > If you get "permission denied" on `/dev/ttyUSB0`, run `sudo usermod -aG dialout $USER`, then log out and back in.
@@ -79,7 +79,7 @@ Wiring: button between **D2** and **GND**. Slide switch middle pin to **D4**, on
 
 ```cpp
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   pinMode(2, INPUT_PULLUP);   // Start button
   pinMode(4, INPUT_PULLUP);   // Mode switch
 }
@@ -112,7 +112,7 @@ void loop() {
 
 ## 3. HC-SR04 ultrasonic sensor
 
-**Goal:** readings are correct against a ruler and stable enough for the volume calculation.
+**Goal:** readings are correct against a ruler and stable enough for the level calculation.
 
 Wiring: VCC → **5V**, Trig → **D5**, Echo → **D6**, GND → GND.
 
@@ -128,7 +128,7 @@ float pingCm() {
 }
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   pinMode(PIN_TRIG, OUTPUT);
   pinMode(PIN_ECHO, INPUT);
 }
@@ -175,10 +175,10 @@ Hold the sensor still over a flat surface at about 15 to 20 cm.
 
 ### Test 3C: sensitivity to the water level
 
-Point the sensor straight down into the empty glass, as it will be mounted. Record `avg`. Add **100 ml** and record again.
+Point the sensor straight down into the empty glass, as it will be mounted, with the ruler taped on the glass (0 at the inside floor). Record `avg` as $d_0$. Pour water slowly until the ruler reads **3.0 cm**, wait a few seconds for the surface to settle, and record `avg` again.
 
-- The distance should **decrease** by about $100 / A$ cm (for a 28 cm² glass, about 3.6 cm).
-- This is the same measurement as the area calibration in [[03-project-procedure#Calibrate the HC-SR04]]. If it works here, you can reuse the numbers.
+- The distance should **decrease** by about **3.0 cm** (within about ±0.3 cm). Repeat at **6.0 cm**.
+- This is the same measurement as the ruler check in [[03-project-procedure#Calibrate the HC-SR04]]. If it works here, you can reuse the numbers.
 
 | Problem                               | Likely cause / fix                                                      |
 | ------------------------------------- | ----------------------------------------------------------------------- |
@@ -248,9 +248,9 @@ When installed, the **striped end (cathode)** goes to the module's **+** termina
 | Nothing at all               | Dead pump, bad battery contact, or a broken wire                 |
 | Weak flow                    | Weak batteries (check section 4) or a kinked or too-long tube    |
 
-### Optional: first flow estimate
+### Optional: first level rise rate estimate
 
-Run the pump from the battery for exactly **10 s** into the graduated cylinder (use a stopwatch) and compute $\hat{K} = V_m / T$. This gives a first value for `FLOW_ML_PER_S`; see [[03-project-procedure#Measure the pump flow rate (open-loop estimate)]].
+Place the tube outlet so the water runs down the inner wall of the empty glass (with the ruler taped on). Run the pump from the battery for exactly **10 s** (use a stopwatch), then read the level rise $h_m$ on the ruler and compute $\hat{K}_h = h_m / T$. This gives a first value for `RISE_CM_PER_S`; see [[03-project-procedure#Measure the level rise rate (open-loop estimate)]].
 
 ---
 
@@ -277,7 +277,7 @@ Wiring from [[03-project-procedure#Connection table]]:
 
 The pump goes in the water. Do not leave the battery connected while you move wires.
 
-Upload the sketch below (also saved as `pump_driver_test.ino`), open the Serial Monitor at 115200 baud, and send `r` for the ramp test or `f` for full power.
+Upload the sketch below (also saved as `pump_driver_test.ino`), open the Serial Monitor at 9600 baud, and send `r` for the ramp test or `f` for full power.
 
 ```cpp
 /*
@@ -292,7 +292,7 @@ Upload the sketch below (also saved as `pump_driver_test.ino`), open the Serial 
     Flyback diode across the pump (striped end on the + side)
   The pump must be in water. Do not run it dry.
 
-  Open the Serial Monitor at 115200 baud and send one character:
+  Open the Serial Monitor at 9600 baud and send one character:
     0 or s = stop            1 to 9 = about 11% to 99% power
     f      = full power      r      = ramp test (0, 20, 40, 60, 80, 100%)
     p      = pulse test (3 x 2 s ON, 2 s OFF)         h = show this help
@@ -342,7 +342,7 @@ void printHelp() {
 }
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   pinMode(PIN_PUMP, OUTPUT);
   analogWrite(PIN_PUMP, 0);                  // pump OFF at boot
   printHelp();
@@ -365,7 +365,7 @@ void loop() {
 }
 ```
 
-**Keys to send in the Serial Monitor (115200 baud):**
+**Keys to send in the Serial Monitor (9600 baud):**
 
 | Key       | What it does                                                    |
 | --------- | --------------------------------------------------------------- |
@@ -444,9 +444,9 @@ Run the pump at full power (the section 7 sketch or a real run) while watching t
 | Serial output freezes, shows garbage or the Nano resets when the pump starts | Electrical noise or a weak supply: keep the pump power wires away from the signal wires, make sure the pump supply is **separate from USB power** and the battery − is not tied to the Nano GND |
 | Distance readings jump only while the pump runs | Water ripples or the tube is in the sensor beam: aim the tube at the inner glass wall and add the splash guard |
 
-### Test 9C: sanity check against the real volume
+### Test 9C: sanity check against the real level
 
-Run one closed-loop run to 100 ml and pour the water into the graduated cylinder. Compare it with the Arduino reading. If they differ by more than about **±8 ml**, redo the area calibration.
+Run one closed-loop run to a 3 cm rise and read the real level on the ruler (at eye level, after the settle). Compare it with the Arduino reading. If they differ by more than about **±0.5 cm**, check that the sensor points straight down, that the tare was taken with the glass empty, and that the glass has straight sides.
 
 ---
 
@@ -458,7 +458,7 @@ Tick each row only when the test passes.
 - [ ] **2.** Button reads PRESSED / released correctly
 - [ ] **2.** Switch reads CLOSED-LOOP (GND side) and OPEN-LOOP correctly
 - [ ] **3.** HC-SR04 within ±0.5 cm of a ruler, spread 0.3 cm or less
-- [ ] **3.** HC-SR04 distance drops by about $100/A$ cm when 100 ml is added
+- [ ] **3.** HC-SR04 distance drops by the same amount as the ruler rise (±0.3 cm at 3 cm and 6 cm)
 - [ ] **4.** Battery pack reads at least about 6 V with correct polarity
 - [ ] **5.** Flyback diode conducts in one direction only
 - [ ] **6.** Pump pumps water when connected directly to the battery

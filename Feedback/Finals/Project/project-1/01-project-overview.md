@@ -5,10 +5,10 @@ tags: [project, overview, control-systems]
 status: planning
 ---
 
-# Automatic Water Dispenser: Open-Loop vs Closed-Loop
+# Automatic Water Level Control: Open-Loop vs Closed-Loop
 
 > [!abstract] Summary
-> An Arduino Nano system that pumps a selected volume of water into a glass. It runs in two modes, **open-loop** (timed) and **closed-loop** (water level measured by an HC-SR04 ultrasonic sensor), so the effect of feedback can be compared directly.
+> An Arduino Nano system that raises the water level in a glass by a selected height (the target rise, in cm). It runs in two modes, **open-loop** (timed) and **closed-loop** (water level measured by an HC-SR04 ultrasonic sensor), so the effect of feedback can be compared directly. Only the water **level** matters: no glass volume or area is calculated.
 
 **Notes in this project:** [[01-project-overview|Overview]] · [[02-material-requirements|Materials]] · [[03-project-procedure|Procedure]] · [[04-project-simulation|Simulation]] · [[05-component-testing|Component Testing]]
 
@@ -18,23 +18,23 @@ status: planning
 
 | Mode            | How it works                                                  | Sensor used for control?         |
 | --------------- | ------------------------------------------------------------- | -------------------------------- |
-| **Open-loop**   | Pump runs for a pre-calculated time $t_{run} = \dfrac{r}{\hat{K}}$ | No (Serial log only)    |
-| **Closed-loop** | Pump runs until the measured volume reaches the target        | Yes                              |
+| **Open-loop**   | Pump runs for a pre-calculated time $t_{run} = \dfrac{r}{\hat{K}_h}$ | No (Serial log only)    |
+| **Closed-loop** | Pump runs until the measured level rise reaches the target        | Yes                              |
 
-Here $r$ is the target volume (ml) and $\hat{K}$ is the *estimated* flow rate (ml/s).
+Here $r$ is the target level rise (cm) and $\hat{K}_h$ is the *estimated* level rise rate at full drive (cm/s).
 
-> [!info] Level to volume
-> The HC-SR04 sits above the glass and measures the distance $d$ down to the water surface. For a straight-sided glass with inner cross-section $A$ (cm²), and $1\ \text{cm}^3 = 1\ \text{ml}$:
+> [!info] Distance to level
+> The HC-SR04 sits above the glass and measures the distance $d$ down to the water surface. The controlled output is the **level rise**:
 >
-> $$V = A\,(d_0 - d)$$
+> $$y = d_0 - d$$
 >
-> where $d_0$ is the empty-glass distance, measured automatically at the start of every run (the "tare").
+> where $d_0$ is the empty-glass distance, measured automatically at the start of every run (the "tare"). The sensor is a unity gain (1 cm of level change reads as 1 cm). The glass area is never needed: with a straight-sided glass, a constant pump flow gives a constant level rise rate, and that rate is measured directly as $K_h$ (cm/s).
 
 ---
 
 ### Progress and result over Serial
 
-There is no display. Every run prints a CSV log (`time_ms,volume_ml`) and a final `RESULT` line that includes the percentage of the target reached:
+There is no display. Every run prints a CSV log (`time_ms,level_cm`) and a final `RESULT` line that includes the percentage of the target reached:
 
 $$p = \frac{y_{final}}{r} \times 100\%$$
 
@@ -47,13 +47,13 @@ $$p = \frac{y_{final}}{r} \times 100\%$$
 
 | Element                      | In this project                                                                                          |
 | ---------------------------- | -------------------------------------------------------------------------------------------------------- |
-| **Plant**                    | Pump + tubing + glass (accumulating volume)                                                              |
-| **Reference input** $r$      | Target volume (ml), set in the code (`TARGET_ML`)                                                        |
-| **Output** $y$               | Volume of water actually in the glass (ml)                                                               |
-| **Sensor**                   | HC-SR04 ultrasonic distance sensor, converted to volume with $V = A\,(d_0 - d)$                          |
+| **Plant**                    | Pump + tubing + glass (accumulating level)                                                              |
+| **Reference input** $r$      | Target level rise (cm), set in the code (`TARGET_CM`)                                                        |
+| **Output** $y$               | Rise of the water level in the glass (cm)                                                               |
+| **Sensor**                   | HC-SR04 ultrasonic distance sensor, converted to level rise with $y = d_0 - d$                          |
 | **Actuator**                 | DC submersible pump, switched by an optocoupler-isolated MOSFET module (LR7843)                          |
 | **Controller**               | Arduino Nano, on-off comparison                                                                          |
-| **Feedback path**            | HC-SR04 → Arduino (median filter, level to volume) → MOSFET → pump                                       |
+| **Feedback path**            | HC-SR04 → Arduino (median filter, tare subtraction) → MOSFET → pump                                       |
 | **Disturbances**             | Tube height change, pinched tube, residual dripping, surface ripples (avoid weak batteries, see [[02-material-requirements]]) |
 
 ---
@@ -64,24 +64,24 @@ $$p = \frac{y_{final}}{r} \times 100\%$$
 
 ```mermaid
 flowchart LR
-    R["Target r (ml)"] --> T["Time calc<br/>t = r / K̂"]
+    R["Target r (cm)"] --> T["Time calc<br/>t = r / K̂h"]
     T --> D["MOSFET driver"]
     D --> P["Pump + tubing"]
     P --> G["Glass (integrator)"]
-    G --> Y["Volume y (ml)"]
-    Y -.->|"monitor only"| M["HC-SR04<br/>level to volume"]
+    G --> Y["Level rise y (cm)"]
+    Y -.->|"monitor only"| M["HC-SR04<br/>d0 - d"]
 ```
 
 ### Closed-loop
 
 ```mermaid
 flowchart LR
-    R["Reference r (ml)"] --> S(("Σ"))
+    R["Reference r (cm)"] --> S(("Σ"))
     S -->|"e = r - y"| C["On-off controller<br/>(Arduino)"]
     C -->|"u"| A["MOSFET + pump"]
     A -->|"Q"| G["Glass (integrator)"]
-    G --> Y["Output y (ml)"]
-    Y --> M["HC-SR04<br/>level to volume<br/>(sensor)"]
+    G --> Y["Output y (cm)"]
+    Y --> M["HC-SR04<br/>d0 - d<br/>(sensor)"]
     M -->|"measured y"| S
 ```
 
@@ -100,11 +100,11 @@ $$
 ## 4. Features
 
 - [ ] Two modes selected with a slide switch (open-loop / closed-loop)
-- [ ] Target volume set by one constant in the code (`TARGET_ML`, for example 100 or 200 ml)
+- [ ] Target level rise set by one constant in the code (`TARGET_CM`, for example 3 or 6 cm)
 - [ ] Single **Start** button
 - [ ] Automatic empty-level reference (tare) before each run (place the empty glass first)
 - [ ] Median-of-3 filtering of the ultrasonic readings
-- [ ] CSV logging over Serial (`time_ms,volume_ml`)
+- [ ] CSV logging over Serial (`time_ms,level_cm`)
 - [ ] Result summary after each run: target, final value, error, % of target
 - [ ] 60 s safety timeout
 - [ ] Optional stop-early margin and PWM slowdown near the target
@@ -148,23 +148,23 @@ pie showData
 > - **Closed-loop:** lands near the target regardless of those changes. Small errors remain from residual dripping and the sensor resolution.
 > - **Serial result:** open-loop ends well away from 100% when conditions change (for example about 80% with a pump 20% weaker than estimated). Closed-loop ends at about 100% to 102%. Copy the `RESULT` lines for the report.
 
-Overshoot after the pump stops is roughly the flow at shutoff multiplied by the pump time constant plus the sensor filter delay $T_f$:
+Overshoot after the pump stops is roughly the level rise rate at shutoff multiplied by the pump time constant plus the sensor filter delay $T_f$:
 
-$$\Delta V_{overshoot} \approx Q_{stop}\,(\tau + T_f)$$
+$$\Delta h_{overshoot} \approx Q_{h,stop}\,(\tau + T_f)$$
 
-With $Q_{stop} = 5\ \text{ml/s}$ and $T_f \approx 0.1$ to $0.2\ \text{s}$, the filter adds only about 1 ml.
+With $Q_{h,stop} \approx 0.2\ \text{cm/s}$ and $T_f \approx 0.1$ to $0.2\ \text{s}$, the filter adds only about 0.04 cm.
 
 ### Sensor resolution
 
-The HC-SR04 is good to about $\pm 3\ \text{mm}$. The volume uncertainty is
+The HC-SR04 is good to about $\pm 3\ \text{mm}$, and since the output is the level itself, this is the level uncertainty directly:
 
-$$\Delta V_{sensor} \approx A \times 0.3\ \text{cm}$$
+$$\Delta h_{sensor} \approx \pm 0.3\ \text{cm}$$
 
-For a 6 cm wide glass ($A \approx 28\ \text{cm}^2$) this is about $\pm 8\ \text{ml}$, and for a 5 cm wide glass ($A \approx 20\ \text{cm}^2$) about $\pm 6\ \text{ml}$. Open-loop errors from a weaker pump are tens of ml, so feedback still clearly wins.
+That is about $\pm 10\%$ of a 3 cm target and $\pm 5\%$ of a 6 cm target. An open-loop pump that is 20% weaker is off by 0.6 cm (3 cm target) or 1.2 cm (6 cm target), so feedback still wins, most clearly at the 6 cm target. A stronger disturbance (a pinched tube) makes the difference even clearer.
 
 > [!tip] Report limitation and improvement
-> **Limitation:** sensor resolution and residual dripping limit closed-loop accuracy.
-> **Improvement:** a narrower glass (finer ml per mm), a drain pump or valve, or PWM slowdown near the target.
+> **Limitation:** sensor resolution (about 3 mm) and residual dripping limit closed-loop accuracy.
+> **Improvement:** PWM slowdown near the target, a stop-early margin, or a drain pump or valve.
 
 ---
 
@@ -172,5 +172,5 @@ For a 6 cm wide glass ($A \approx 28\ \text{cm}^2$) this is about $\pm 8\ \text{
 
 > [!warning] Keep it simple
 > - The PDF emphasizes basic control concepts over a sophisticated system.
-> - Get the topic approved by your instructor first (one approved topic per group). Mention that this is a **dispense-a-set-volume variant of PDF topic D** (water-level control), using an on-off controller.
+> - Get the topic approved by your instructor first (one approved topic per group). Mention that this is **PDF topic D** (automatic water-level control), using an on-off controller, with the level rise as the controlled output (no volume calculation).
 > - A drain pump for removing excess water is deliberately **out of scope** to save cost and reduce failure risk.

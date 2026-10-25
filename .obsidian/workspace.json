@@ -39,6 +39,34 @@
             "state": {
               "type": "markdown",
               "state": {
+                "file": "Untitled.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Untitled"
+            }
+          },
+          {
+            "id": "c87ee49a85f7c8b5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Untitled 1.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Untitled 1"
+            }
+          },
+          {
+            "id": "25740a341166e369",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
                 "file": "Feedback/Finals/Project/project-1/03-project-procedure.md",
                 "mode": "preview",
                 "source": false
@@ -47,7 +75,8 @@
               "title": "03-project-procedure"
             }
           }
-        ]
+        ],
+        "currentTab": 4
       }
     ],
     "direction": "vertical"
@@ -228,13 +257,14 @@
       "circuit-sketcher:Create new Circuit Sketcher file": false
     }
   },
-  "active": "f2f0e855814e64f9",
+  "active": "25740a341166e369",
   "lastOpenFiles": [
-    "Feedback/Finals/Project/project-1/water-dispenser-schematic.jpg",
     "Feedback/Finals/Project/project-1/02-material-requirements.md",
+    "Feedback/Finals/Project/project-1/water-dispenser-schematic.jpg",
     "Feedback/Finals/Project/project-1/03-project-procedure.md",
-    "Feedback/Finals/Project/project-1/01-project-overview.md",
+    "Untitled 1.md",
     "Untitled.md",
+    "Feedback/Finals/Project/project-1/01-project-overview.md",
     "Pasted image 20261023154825.png",
     "Pasted image 20261023154814.png",
     "Feedback/Finals/Chapter-6/Skill Assessment 6.1.md",
@@ -269,7 +299,6 @@
     "Logic Circuits/Finals/LAB-activities/answers-LAB-1.md",
     "overf.md",
     "HDL/modelsim_verilog_guide.md",
-    "PASS.md",
     "Feedback/Finals/Project/project-1",
     "HDL/finals",
     "Logic Circuits/pdf/Lecture 04 - Boolean Algebra.pdf",

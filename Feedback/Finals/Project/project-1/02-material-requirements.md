@@ -15,7 +15,7 @@ status: planning
 | --- | ------------------------------------- | ----- | -------------------------------------------------------------------------------------------------------------- |
 | 1   | Arduino Nano + USB cable              | 1     | ATmega328P. Cable type depends on the board (Mini-B, Micro-B, USB-C)                                           |
 | 2   | Breadboard                            | 1     | Full or half size                                                                                              |
-| 3   | HC-SR04 ultrasonic sensor             | 1     | 5 V, 4 pins: VCC, Trig, Echo, GND. Measures the distance to the water surface                                  |
+| 3   | HC-SR04 ultrasonic sensor             | 1     | 5 V, 4 pins: VCC, Trig, Echo, GND. Measures the distance to the water surface (converted to level rise)                                  |
 | 4   | Submersible DC pump + silicone tubing | 1     | 3–6 V mini pump. Tubing must fit the pump outlet                                                               |
 | 5   | Optocoupler-isolated MOSFET control module (LR7843) | 1 | Signal side: PWM, GND (3 V or 5 V signal, high = on). Load side: three pads marked +, LOAD, −. Ships with a 2-pin header and screw terminals that must be soldered on |
 | 6   | Flyback diode                         | 1     | 1N4007 or 1N5819, across the pump (the module's own diode is not confirmed, so fit this one)                    |
@@ -39,9 +39,10 @@ status: planning
 
 ## 2. Mechanical setup
 
-- [ ] **Straight-sided glass or jar**, about 5 to 6 cm wide and at least 10 cm tall. A tapered glass breaks the $V = A\,\Delta d$ relationship. A narrower glass gives finer resolution in ml per mm
+- [ ] **Straight-sided glass or jar**, about 5 to 6 cm wide and at least 10 cm tall. A tapered glass makes the level rise rate change with height, which breaks the constant-rate model ($K_h$ would not be constant). The glass area does **not** need to be measured
 - [ ] Sensor bracket (cardboard, wood, or a small stand) that holds the HC-SR04 **pointing straight down, centered over the glass**
-- [ ] Sensor height: **5 to 10 cm above the water level at full** (the HC-SR04 is unreliable below about 2 to 3 cm)
+- [ ] **Ruler taped vertically on the outside of the glass**, 0 mark level with the inside floor. This is the ground truth for the real water level
+- [ ] Sensor height: **5 to 10 cm above the highest water level you will use** (6 cm rise) (the HC-SR04 is unreliable below about 2 to 3 cm)
 - [ ] Small flat base or tray for the glass so it cannot shift between runs
 - [ ] Water reservoir for the pump
 - [ ] Tape, zip ties, or hot glue to hold the tube outlet so the water **runs down the inner glass wall** (this reduces splashing and ripples) and the tube stays **outside the sensor beam**
@@ -54,9 +55,9 @@ status: planning
 
 | Item                                        | Why                                                                         |
 | ------------------------------------------- | --------------------------------------------------------------------------- |
-| Graduated cylinder or measuring cup         | **Ground truth** volume (do not trust only the Arduino reading)             |
-| Ruler or calipers                           | Measure the glass inner diameter for a first estimate of $A$                |
-| Stopwatch (phone)                           | Measuring pump flow rate                                                    |
+| Ruler (taped on the glass)                  | **Ground truth** water level (do not trust only the Arduino reading). Read at eye level |
+| Graduated cylinder or measuring cup (optional) | Quick pump check (does it deliver water?). Not needed for the level results |
+| Stopwatch (phone)                           | Measuring the level rise rate                                               |
 | Laptop with Arduino IDE                     | Programming and Serial logging                                              |
 
 ---
@@ -82,7 +83,7 @@ status: planning
 | D5        | HC-SR04 **Trig**                                | Trigger pulse (output)     |
 | D6        | HC-SR04 **Echo**                                | Echo pulse (input)         |
 | D9 (PWM)  | Driver module PWM / signal input                | Pump control               |
-| D2        | Start button (other side to GND)                | Begin dispensing           |
+| D2        | Start button (other side to GND)                | Begin filling              |
 | D4        | Slide switch middle pin (outer pin to GND)      | LOW = closed-loop, HIGH = open-loop |
 | 5V        | HC-SR04 VCC                                     | Power                      |
 | GND       | HC-SR04 GND, button and switch GND, driver module signal **GND** | Nano-side ground (the battery − is **not** joined here, see section 6) |

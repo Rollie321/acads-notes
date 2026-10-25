@@ -22,11 +22,12 @@ flowchart LR
 
 *(PDF Step 1)*
 
-- [ ] Get the topic approved by your instructor (a dispense-a-set-volume variant of PDF topic D)
+- [ ] Get the topic approved by your instructor (PDF topic D, automatic water-level control, with an on-off controller)
 - [ ] Draw the block diagram (see [[01-project-overview#3. Block diagrams]])
-- [ ] Choose a straight-sided glass and sketch the sensor mounting (sensor 5 to 10 cm above the full level)
+- [ ] Choose a straight-sided glass and sketch the sensor mounting (sensor 5 to 10 cm above the highest water level you will use)
+- [ ] Tape a ruler vertically on the outside of the glass, 0 mark level with the inside floor (ground truth for the real level)
 - [ ] Finalize the component list ([[02-material-requirements]])
-- [ ] Choose two target volumes: **100 ml and 200 ml** minimum (PDF requires at least two reference settings). The target is set by `TARGET_ML` in the code, so each target is one upload
+- [ ] Choose two target level rises: **3 cm and 6 cm** minimum (PDF requires at least two reference settings). The target is set by `TARGET_CM` in the code, so each target is one upload
 
 **Output:** block diagram + component list.
 
@@ -39,51 +40,49 @@ flowchart LR
 ### Assumptions
 
 1. Constant supply voltage during a run.
-2. $1\ \text{ml of water} = 1\ \text{cm}^3$.
-3. Tubing delay is negligible.
-4. Pump flow responds as a first-order system to the on/off drive.
-5. The glass has **straight sides**, so the cross-section $A$ is constant.
-6. The ultrasonic beam hits the water surface directly, and the surface is nearly still when read.
-7. The sensor adds only a small sampling and filtering delay $T_f$ (about 0.1 to 0.2 s), neglected in $G(s)$.
+2. Tubing delay is negligible.
+3. Pump flow responds as a first-order system to the on/off drive.
+4. The glass has **straight sides**, so the cross-section is constant and a given flow always raises the level at the same rate. The glass area is absorbed into $K_h$ and is never measured.
+5. The ultrasonic beam hits the water surface directly, and the surface is nearly still when read.
+6. The sensor adds only a small sampling and filtering delay $T_f$ (about 0.1 to 0.2 s), neglected in $G(s)$.
 
 ### Derivation
 
-**Pump** (drive to flow rate), first-order:
+**Pump and tubing** (drive to level rise rate), first-order. $Q_h$ is how fast the water level rises:
 
-$$\tau\,\dot{Q}(t) + Q(t) = K\,u(t) \quad\Longrightarrow\quad \frac{Q(s)}{U(s)} = \frac{K}{\tau s + 1}$$
+$$\tau\,\dot{Q}_h(t) + Q_h(t) = K_h\,u(t) \quad\Longrightarrow\quad \frac{Q_h(s)}{U(s)} = \frac{K_h}{\tau s + 1}$$
 
-**Glass** (flow to accumulated volume), integrator:
+**Glass** (level rise rate to accumulated level rise), integrator:
 
-$$\frac{dV}{dt} = Q(t) \quad\Longrightarrow\quad \frac{V(s)}{Q(s)} = \frac{1}{s}$$
+$$\frac{dh}{dt} = Q_h(t) \quad\Longrightarrow\quad \frac{H(s)}{Q_h(s)} = \frac{1}{s}$$
 
 **Plant transfer function:**
 
-$$\boxed{G(s) = \frac{V(s)}{U(s)} = \frac{K}{s\,(\tau s + 1)}}$$
+$$\boxed{G(s) = \frac{H(s)}{U(s)} = \frac{K_h}{s\,(\tau s + 1)}}$$
 
-**Sensor** (distance to volume): the HC-SR04 measures the distance $d$ to the surface, and the Arduino computes
+**Sensor** (distance to level): the HC-SR04 measures the distance $d$ to the surface, and the Arduino computes
 
-$$y = A\,(d_0 - d)$$
+$$y = d_0 - d$$
 
-where $d_0$ is the empty-glass distance and $A$ is the glass cross-section. The sensor is therefore a static gain $A$ (ml per cm) on the level change, plus the small delay $T_f$.
+where $d_0$ is the empty-glass distance. The sensor is therefore a unity gain on the level change, plus the small delay $T_f$.
 
-| Symbol | Meaning                                          | Unit  |
-| ------ | ------------------------------------------------ | ----- |
-| $u$    | Pump drive (0 = off, 1 = full)                   | –     |
-| $Q$    | Flow rate                                        | ml/s  |
-| $K$    | Steady flow at full drive                        | ml/s  |
-| $\tau$ | Pump time constant                               | s     |
-| $V$    | Dispensed volume                                 | ml    |
-| $d_0$  | Empty-glass distance from sensor to the bottom   | cm    |
+| Symbol | Meaning                                           | Unit |
+| ------ | ------------------------------------------------- | ---- |
+| $u$    | Pump drive (0 = off, 1 = full)                    | –    |
+| $Q_h$  | Level rise rate                                   | cm/s |
+| $K_h$  | Steady level rise rate at full drive              | cm/s |
+| $\tau$ | Pump time constant                                | s    |
+| $h$    | Level rise (the output $y$)                       | cm   |
+| $d_0$  | Empty-glass distance from sensor to the glass floor | cm |
 | $d$    | Current distance from sensor to the water surface | cm   |
-| $A$    | Glass inner cross-section                        | cm²   |
 
 ### Time-domain step response
 
 For a unit step in $u$:
 
-$$V(t) = K\left[\,t - \tau\left(1 - e^{-t/\tau}\right)\right]$$
+$$h(t) = K_h\left[\,t - \tau\left(1 - e^{-t/\tau}\right)\right]$$
 
-After the short transient, $V(t)$ is a ramp with slope $K$.
+After the short transient, $h(t)$ is a ramp with slope $K_h$.
 
 ### Closed-loop view (on-off controller)
 
@@ -96,15 +95,17 @@ u(t) =
 \end{cases}
 $$
 
-Because the plant contains an integrator, the volume holds its value once the pump stops, so the steady-state error is set only by the overshoot after shutoff and by the sensor resolution.
+Because the plant contains an integrator, the level holds its value once the pump stops, so the steady-state error is set only by the overshoot after shutoff and by the sensor resolution (about $\pm 0.3$ cm).
 
-### Estimating $K$ and $\tau$
+### Estimating $K_h$ and $\tau$
 
-- **$K$:** run the pump at full drive for a known time $T$ and measure the volume $V_m$ with the graduated cylinder:
+- **$K_h$:** run the pump at full drive for a known time $T$ and read the real level rise $h_m$ on the ruler:
 
-  $$K = \frac{V_m}{T}$$
+  $$K_h = \frac{h_m}{T}$$
 
-- **$\tau$:** from the logged data, find the time for the flow to reach about $63\%$ of its steady value after the pump starts. If this is hard to measure, estimate it and **state it as an estimate** (the PDF allows this).
+  The procedure is in "Measure the level rise rate" below.
+
+- **$\tau$:** from the logged data, find the time for the level rise rate to reach about $63\%$ of its steady value after the pump starts. If this is hard to measure, estimate it and **state it as an estimate** (the PDF allows this).
 
 **Output:** equations + transfer function + stated assumptions.
 
@@ -112,7 +113,7 @@ Because the plant contains an integrator, the volume holds its value once the pu
 
 ## Phase 3 Simulation
 
-*(PDF Step 3)* Make **one open-loop step response plot** from $G(s)$ using your measured $K$ and $\tau$. See [[04-project-simulation#B. Open-loop step response plot]].
+*(PDF Step 3)* Make **one open-loop step response plot** from $G(s)$ using your measured $K_h$ and $\tau$. See [[04-project-simulation#B. Open-loop step response plot]].
 
 ---
 
@@ -121,7 +122,8 @@ Because the plant contains an integrator, the volume holds its value once the pu
 ### Assemble
 
 - [ ] Solder the 2-pin header and the 3-pin screw terminal onto the MOSFET module, then build the pump driver **first** and test it with a fixed PWM before adding anything else (see [[05-component-testing]])
-- [ ] Mount the HC-SR04 on its bracket, pointing straight down, centered over the glass, 5 to 10 cm above the full level
+- [ ] Tape the ruler on the glass (0 mark at the inside floor)
+- [ ] Mount the HC-SR04 on its bracket, pointing straight down, centered over the glass, 5 to 10 cm above the highest water level you will use
 - [ ] Wire HC-SR04 → Nano (see [[02-material-requirements#6. Wiring]])
 - [ ] Wire the isolated MOSFET module: signal side (PWM, GND) to the Nano, load side (+, LOAD, −) to the **separate battery pack** and the pump
 - [ ] Wire the Start button and the mode slide switch
@@ -171,7 +173,7 @@ Every wire needed for the final build. Tick each row as you connect it.
 const uint8_t PIN_TRIG = 5, PIN_ECHO = 6;
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   pinMode(PIN_TRIG, OUTPUT);
   pinMode(PIN_ECHO, INPUT);
 }
@@ -191,23 +193,25 @@ The conversion uses the speed of sound ($343\ \text{m/s}$) and the fact that the
 
 $$d = \frac{t_{echo} \times 0.0343\ \text{cm/}\mu\text{s}}{2} = t_{echo} \times 0.01715\ \text{cm/}\mu\text{s}$$
 
-**Step 2: find the glass cross-section $A$.** Note the empty distance $d_0$. Pour **exactly 100 ml** from the graduated cylinder into the glass and note the new distance $d_{100}$. Then
+**Step 2: check the level reading against the ruler.** Note the empty distance $d_0$. Pour water slowly until the ruler on the glass reads **3.0 cm** (read at eye level) and note the new distance $d_3$. The computed level rise is
 
-$$A = \frac{100\ \text{ml}}{d_0 - d_{100}}\ \ \text{cm}^2$$
+$$y = d_0 - d_3$$
 
-**Step 3: verify.** Pour another 100 ml (200 ml total). The computed volume $A\,(d_0 - d_{200})$ should be within about $\pm 8\ \text{ml}$ of 200 ml. Put the result in `AREA_CM2` in the main code.
+and should be within about $\pm 0.3$ cm of 3.0 cm.
+
+**Step 3: verify at the second target.** Continue pouring until the ruler reads **6.0 cm**. Again $d_0 - d_6$ should be within about $\pm 0.3$ cm of 6.0 cm. There is no constant to enter in the code. If the reading is consistently off, the sensor is probably not pointing straight down, or the glass is not straight-sided, so fix the mounting and repeat.
 
 > [!example] Example
-> $d_0 = 14.0\ \text{cm}$ and $d_{100} = 10.4\ \text{cm}$ give $A = \dfrac{100}{3.6} \approx 27.8\ \text{cm}^2$, which matches a glass about 6 cm wide.
+> $d_0 = 14.0\ \text{cm}$ and $d_3 = 11.1\ \text{cm}$ give a rise of $2.9\ \text{cm}$, which is within $\pm 0.3$ cm of the ruler's $3.0\ \text{cm}$.
 
-### Measure the pump flow rate (open-loop estimate)
+### Measure the level rise rate (open-loop estimate)
 
-1. Upload the main code with the placeholder `FLOW_ML_PER_S = 5.0`.
-2. Run the pump at full power for about 10 s and measure the volume with a graduated cylinder.
-3. Compute $\hat{K} = V_m / T$. Repeat 3 times and average.
-4. Update `FLOW_ML_PER_S`. The open-loop run time is then:
+1. Upload the main code with the placeholder `RISE_CM_PER_S = 0.20` and `TARGET_CM = 3.0`. The open-loop run time is then $3.0 / 0.20 = 15\ \text{s}$.
+2. With the empty glass in place, switch to **open-loop** and press **Start**. After the 3 s settle, read the real level rise $h_m$ on the ruler.
+3. Compute $\hat{K}_h = h_m / T$ with $T = 15\ \text{s}$. Repeat 3 times (empty and dry the glass between runs) and average.
+4. Update `RISE_CM_PER_S`. The open-loop run time is then:
 
-$$t_{run} = \frac{r}{\hat{K}}$$
+$$t_{run} = \frac{r}{\hat{K}_h}$$
 
 ---
 
@@ -220,12 +224,12 @@ $$t_{run} = \frac{r}{\hat{K}}$$
 > ```mermaid
 > flowchart TD
 >     A(["Start pressed"]) --> B["Read mode switch (D4)"]
->     B --> C["Tare: measure empty level d0"]
+>     B --> C["Tare: measure empty distance d0"]
 >     C --> D{"Closed-loop?"}
->     D -- "No" --> E["Pump ON for t = target / flow<br/>(sensor logged only)"]
+>     D -- "No" --> E["Pump ON for t = target / rise rate<br/>(sensor logged only)"]
 >     E --> F["Pump OFF"]
->     D -- "Yes" --> G["Read volume (log to Serial)"]
->     G --> H{"volume >= target?"}
+>     D -- "Yes" --> G["Read level rise (log to Serial)"]
+>     G --> H{"level rise >= target?"}
 >     H -- "No" --> I["Pump ON"]
 >     I --> G
 >     H -- "Yes" --> F
@@ -237,17 +241,17 @@ $$t_{run} = \frac{r}{\hat{K}}$$
 
 ```cpp
 /*
-  Water Dispenser: Open-Loop vs Closed-Loop (On-Off) Control
+  Water Level Control: Open-Loop vs Closed-Loop (On-Off) Control
   Board: Arduino Nano
   Sensor: HC-SR04 ultrasonic (Trig = D5, Echo = D6), mounted above the glass
   Pump:   isolated MOSFET module, PWM pad on D9
 
   Mode switch (D4):  HIGH = OPEN-LOOP,  LOW = CLOSED-LOOP
-  Start button (D2):  runs one dispensing cycle
-  Target volume:      set TARGET_ML below (edit the code and re-upload to change it)
-  Output: CSV over Serial at 115200 baud (time_ms, volume_ml), then a RESULT line
+  Start button (D2):  runs one filling cycle
+  Target:             set TARGET_CM below (level rise in cm; edit the code and re-upload to change it)
+  Output: CSV over Serial at 9600 baud (time_ms, level_cm), then a RESULT line
 
-  Volume = AREA_CM2 * (emptyCm - distanceCm)
+  Level rise = emptyCm - distanceCm   (no glass area or volume is needed)
   No libraries are needed. The sensor is read with pulseIn().
 */
 
@@ -261,12 +265,11 @@ const uint8_t PIN_START   = 2;
 const uint8_t PIN_MODE    = 4;
 
 // ---------- Calibration and tuning (EDIT THESE) ----------
-float AREA_CM2 = 28.0;                     // glass cross-section in cm^2, from calibration
-const float FLOW_ML_PER_S = 5.0;           // measured flow (open-loop estimate)
+const float RISE_CM_PER_S = 0.20;          // measured level rise rate at full drive (open-loop estimate)
 const int   PWM_FULL = 255;                // full pump power
 const int   PWM_SLOW = 150;                // slow speed near target (bonus; pump may stall if too low)
-const float STOP_EARLY_ML = 0.0;           // closed-loop: stop this many ml early (try 2-5 later)
-const float SLOW_ZONE_ML  = 0.0;           // closed-loop: slow down in last N ml (0 = pure on-off; try 20)
+const float STOP_EARLY_CM = 0.0;           // closed-loop: stop this many cm early (try 0.2 to 0.5 later)
+const float SLOW_ZONE_CM  = 0.0;           // closed-loop: slow down in last N cm (0 = pure on-off; try 1.5)
 const unsigned long TIMEOUT_MS = 60000UL;  // safety: max pump time
 const unsigned long SETTLE_MS  = 3000UL;   // wait for dripping and ripples before final reading
 
@@ -276,11 +279,11 @@ const float SIM_GAIN  = 0.8;               // real pump is 80% as strong as the 
 const unsigned long SIM_SAMPLE_MS = 50;
 
 // ---------- Target (EDIT THIS) ----------
-const float TARGET_ML = 200.0;             // desired volume in ml (use 100 for the first reference, 200 for the second)
+const float TARGET_CM = 6.0;               // desired level rise in cm (use 3 for the first reference, 6 for the second)
 
 // ---------- State ----------
 int   pumpPwm = 0;
-float simFlow = 0.0, simVol = 0.0;
+float simRate = 0.0, simLevel = 0.0;
 unsigned long simLast = 0;
 float emptyCm = 0.0;            // empty-glass distance, set by tareLevel()
 float lastGoodCm = 0.0;         // last valid distance (used if a ping times out)
@@ -315,26 +318,26 @@ float medianDistance() {
 }
 #endif
 
-// ---------- Sensor interface (volume in ml) ----------
-float readVolume() {
+// ---------- Sensor interface (level rise in cm) ----------
+float readLevel() {
 #if SIMULATE
   unsigned long now = millis();
   float dt = (now - simLast) / 1000.0;
   simLast = now;
   float u = pumpPwm / 255.0;
-  float flowTarget = FLOW_ML_PER_S * SIM_GAIN * u;
-  simFlow += (flowTarget - simFlow) * dt / SIM_TAU_S;   // first-order pump
-  simVol  += simFlow * dt;                              // integrator (glass)
-  return simVol;
+  float rateTarget = RISE_CM_PER_S * SIM_GAIN * u;
+  simRate  += (rateTarget - simRate) * dt / SIM_TAU_S;  // first-order pump
+  simLevel += simRate * dt;                             // integrator (glass)
+  return simLevel;
 #else
-  return (emptyCm - medianDistance()) * AREA_CM2;       // V = A (d0 - d)
+  return emptyCm - medianDistance();                    // y = d0 - d
 #endif
 }
 
 // Empty-glass reference: average of 10 median readings, taken BEFORE the pump starts.
 void tareLevel() {
 #if SIMULATE
-  simFlow = 0.0; simVol = 0.0; simLast = millis();
+  simRate = 0.0; simLevel = 0.0; simLast = millis();
 #else
   float s = 0;
   for (int i = 0; i < 10; i++) s += medianDistance();
@@ -343,10 +346,10 @@ void tareLevel() {
 }
 
 float sampleAndLog(unsigned long t0) {
-  float v = readVolume();
+  float v = readLevel();
   Serial.print(millis() - t0);
   Serial.print(',');
-  Serial.println(v, 1);
+  Serial.println(v, 2);
 #if SIMULATE
   delay(SIM_SAMPLE_MS);
 #endif
@@ -364,34 +367,34 @@ bool pressed(uint8_t pin) {
   return false;
 }
 
-// ---------- One dispensing cycle ----------
-void runDispense(bool closedLoop) {
-  float target = TARGET_ML;
+// ---------- One filling cycle ----------
+void runCycle(bool closedLoop) {
+  float target = TARGET_CM;
 
   Serial.println();
   Serial.print("MODE: ");   Serial.println(closedLoop ? "CLOSED-LOOP" : "OPEN-LOOP");
-  Serial.print("TARGET_ML: "); Serial.println(target, 0);
+  Serial.print("TARGET_CM: "); Serial.println(target, 1);
   Serial.println("Measuring empty level... keep the empty glass in place.");
   tareLevel();
-  Serial.println("time_ms,volume_ml");
+  Serial.println("time_ms,level_cm");
 
   unsigned long t0 = millis();
 
   if (!closedLoop) {
     // OPEN-LOOP: fixed, pre-calculated time. The sensor is read ONLY for logging.
-    unsigned long runMs = (unsigned long)(target / FLOW_ML_PER_S * 1000.0);
+    unsigned long runMs = (unsigned long)(target / RISE_CM_PER_S * 1000.0);
     setPump(PWM_FULL);
     while (millis() - t0 < runMs && millis() - t0 < TIMEOUT_MS) {
       sampleAndLog(t0);
     }
     setPump(0);
   } else {
-    // CLOSED-LOOP: compare measured volume to the target and stop when reached.
+    // CLOSED-LOOP: compare measured level rise to the target and stop when reached.
     while (millis() - t0 < TIMEOUT_MS) {
       float v = sampleAndLog(t0);
-      float remaining = target - STOP_EARLY_ML - v;
+      float remaining = target - STOP_EARLY_CM - v;
       if (remaining <= 0) break;                                  // on-off decision
-      if (SLOW_ZONE_ML > 0 && remaining < SLOW_ZONE_ML) setPump(PWM_SLOW);
+      if (SLOW_ZONE_CM > 0 && remaining < SLOW_ZONE_CM) setPump(PWM_SLOW);
       else setPump(PWM_FULL);
     }
     setPump(0);
@@ -404,16 +407,16 @@ void runDispense(bool closedLoop) {
 
   Serial.print("RESULT,");
   Serial.print(closedLoop ? "closed" : "open");
-  Serial.print(",target=");  Serial.print(target, 0);
-  Serial.print(",final=");   Serial.print(v, 1);
-  Serial.print(",error=");   Serial.print(v - target, 1);
+  Serial.print(",target=");  Serial.print(target, 1);
+  Serial.print(",final=");   Serial.print(v, 2);
+  Serial.print(",error=");   Serial.print(v - target, 2);
   Serial.print(",percent="); Serial.println(v / target * 100.0, 1);
-  Serial.println("Record the REAL volume with a graduated cylinder too.");
+  Serial.println("Record the REAL level with the ruler on the glass too.");
 }
 
 // ---------- Arduino entry points ----------
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   pinMode(PIN_PUMP, OUTPUT);
   setPump(0);                                // pump OFF at boot
   pinMode(PIN_START,  INPUT_PULLUP);
@@ -422,9 +425,9 @@ void setup() {
   pinMode(PIN_ECHO, INPUT);
   digitalWrite(PIN_TRIG, LOW);
 
-  Serial.println("Water Dispenser ready.");
+  Serial.println("Water Level Control ready.");
   Serial.println("D2 = start, D4 switch = mode (HIGH open / LOW closed)");
-  Serial.print("Target: "); Serial.print(TARGET_ML, 0); Serial.println(" ml (set TARGET_ML in the code)");
+  Serial.print("Target: "); Serial.print(TARGET_CM, 1); Serial.println(" cm rise (set TARGET_CM in the code)");
 }
 
 void loop() {
@@ -436,7 +439,7 @@ void loop() {
     Serial.println(closedLoop ? "CLOSED-LOOP" : "OPEN-LOOP");
   }
   if (pressed(PIN_START)) {
-    runDispense(digitalRead(PIN_MODE) == LOW);
+    runCycle(digitalRead(PIN_MODE) == LOW);
   }
 }
 ```
@@ -445,8 +448,8 @@ void loop() {
 
 | Code                                      | Control concept                                                                      |
 | ----------------------------------------- | ------------------------------------------------------------------------------------ |
-| `TARGET_ML`                               | Reference input $r$ (fixed in the code)                                              |
-| `readVolume()`                            | Sensor output $y = A\,(d_0 - d)$ (feedback)                                          |
+| `TARGET_CM`                               | Reference input $r$ (fixed in the code)                                              |
+| `readLevel()`                             | Sensor output $y = d_0 - d$ (feedback)                                               |
 | `medianDistance()`                        | Sensor filtering (adds a small delay $T_f$)                                          |
 | `remaining = target - v`                  | Error $e = r - y$                                                                    |
 | `if (remaining <= 0) break;`              | On-off controller                                                                    |
@@ -460,35 +463,35 @@ void loop() {
 
 *(PDF Steps 4 and 5)*
 
-### Test procedure (for each target: 100 ml and 200 ml)
+### Test procedure (for each target: 3 cm and 6 cm)
 
-1. Place the **empty glass** under the sensor. Check that the pump has water and the tube runs down the inner wall.
-2. Set `TARGET_ML` in the code (100 or 200) and upload it.
-3. Switch to **open-loop**, press **Start**, then record the Arduino reading, the `percent` from the `RESULT` line, and the real volume (graduated cylinder).
+1. Place the **empty glass** under the sensor. Check that the pump has water, the tube runs down the inner wall, and the ruler is readable.
+2. Set `TARGET_CM` in the code (3.0 or 6.0) and upload it.
+3. Switch to **open-loop**, press **Start**, then record the Arduino reading, the `percent` from the `RESULT` line, and the real level rise (read the ruler at eye level after the 3 s settle).
 4. Repeat **3 times**. Empty the glass and dry the walls between trials.
 5. Switch to **closed-loop** and repeat steps 3 and 4.
 6. Compute the error for each trial.
 
 **Absolute error and percent error:**
 
-$$e_{abs} = \lvert V_{real} - r \rvert, \qquad e_{\%} = \frac{e_{abs}}{r} \times 100\%$$
+$$e_{abs} = \lvert h_{real} - r \rvert, \qquad e_{\%} = \frac{e_{abs}}{r} \times 100\%$$
 
 ### Data table template
 
-| Mode   | Target (ml) | Trial | Arduino reading (ml) | Real volume (ml) | Abs. error (ml) |
-| ------ | ----------- | ----- | -------------------- | ---------------- | --------------- |
-| Open   | 100         | 1     |                      |                  |                 |
-| Open   | 100         | 2     |                      |                  |                 |
-| Open   | 100         | 3     |                      |                  |                 |
-| Closed | 100         | 1     |                      |                  |                 |
-| Closed | 100         | 2     |                      |                  |                 |
-| Closed | 100         | 3     |                      |                  |                 |
-| Open   | 200         | 1     |                      |                  |                 |
-| Open   | 200         | 2     |                      |                  |                 |
-| Open   | 200         | 3     |                      |                  |                 |
-| Closed | 200         | 1     |                      |                  |                 |
-| Closed | 200         | 2     |                      |                  |                 |
-| Closed | 200         | 3     |                      |                  |                 |
+| Mode   | Target (cm) | Trial | Arduino reading (cm) | Real level rise (cm, ruler) | Abs. error (cm) |
+| ------ | ----------- | ----- | -------------------- | --------------------------- | --------------- |
+| Open   | 3           | 1     |                      |                             |                 |
+| Open   | 3           | 2     |                      |                             |                 |
+| Open   | 3           | 3     |                      |                             |                 |
+| Closed | 3           | 1     |                      |                             |                 |
+| Closed | 3           | 2     |                      |                             |                 |
+| Closed | 3           | 3     |                      |                             |                 |
+| Open   | 6           | 1     |                      |                             |                 |
+| Open   | 6           | 2     |                      |                             |                 |
+| Open   | 6           | 3     |                      |                             |                 |
+| Closed | 6           | 1     |                      |                             |                 |
+| Closed | 6           | 2     |                      |                             |                 |
+| Closed | 6           | 3     |                      |                             |                 |
 
 Add an **average error** row for each mode and target.
 
@@ -499,7 +502,7 @@ Add an **average error** row for each mode and target.
 | Reference / target setting                                            | Record    | Record      |
 | Measured output                                                       | Record    | Record      |
 | Absolute steady-state error                                           | Calculate | Calculate   |
-| Response to a change in target (`TARGET_ML` 100 → 200 ml, re-upload)  | Observe   | Observe     |
+| Response to a change in target (`TARGET_CM` 3 → 6 cm, re-upload)      | Observe   | Observe     |
 | Response to a disturbance                                             | Observe   | Observe     |
 
 ### Disturbance test
@@ -507,22 +510,24 @@ Add an **average error** row for each mode and target.
 Pick one and apply it to **both** modes:
 
 - **Weaker batteries (avoid with this module):** if the pack falls below the module's supply minimum (about 6 V is listed by one retailer), the pump may switch erratically instead of just running slower, which does not match the model
-- Raise or lower the **reservoir or glass height** by a few centimeters (re-check that the sensor is still 5 to 10 cm above the full level)
-- **Slightly pinch** the tube with a clip
+- Raise or lower the **reservoir or glass height** by a few centimeters (re-check that the sensor is still 5 to 10 cm above the highest water level)
+- **Slightly pinch** the tube with a clip (the easiest way to get a clear difference)
 
 > [!success] Expected result
-> If the true flow is a fraction $\alpha$ of the estimate ($K_{true} = \alpha\hat{K}$), open-loop gives a steady-state error of
+> If the true level rise rate is a fraction $\alpha$ of the estimate ($K_{h,true} = \alpha\hat{K}_h$), open-loop gives a steady-state error of
 >
 > $$e_{ss,open} = r\,(1 - \alpha)$$
 >
-> Closed-loop does not depend on $\alpha$, because it measures the real output. Its error is only the small post-shutoff overshoot plus the sensor resolution (about $\pm 6$ to $8\ \text{ml}$). This is your clearest proof that feedback helps.
+> For example, $\alpha = 0.8$ gives 0.6 cm at the 3 cm target and 1.2 cm at the 6 cm target.
+>
+> Closed-loop does not depend on $\alpha$, because it measures the real output. Its error is only the small post-shutoff overshoot plus the sensor resolution (about $\pm 0.3$ cm). This is your clearest proof that feedback helps.
 
 ### Optional bonus: reduce overshoot
 
 Try one at a time and record the effect:
 
-1. `STOP_EARLY_ML = 3.0` (tune from test runs)
-2. `SLOW_ZONE_ML = 20.0` with `PWM_SLOW = 150` (a simple P-like slowdown)
+1. `STOP_EARLY_CM = 0.3` (tune from test runs)
+2. `SLOW_ZONE_CM = 1.5` with `PWM_SLOW = 150` (a simple P-like slowdown)
 
 ---
 
@@ -533,20 +538,20 @@ Try one at a time and record the effect:
 ### Report outline (about 4–6 pages, excluding code and appendices)
 
 1. **Introduction and objectives:** the application, control problem, objectives.
-2. **System design and mathematical model:** block diagram, components, assumptions, $G(s) = \dfrac{K}{s(\tau s + 1)}$ and the sensor equation $V = A\,(d_0 - d)$.
+2. **System design and mathematical model:** block diagram, components, assumptions, $G(s) = \dfrac{K_h}{s(\tau s + 1)}$ and the sensor equation $y = d_0 - d$.
 3. **Prototype development and procedure:** circuit, controller logic, testing procedure.
 4. **Results and discussion:** simulation plot, data table, open vs closed-loop comparison, consistency with the model.
-5. **Conclusion:** were the objectives achieved? State **one limitation** (sensor resolution and dripping overshoot) and **one improvement** (narrower glass, drain pump, or PWM slowdown).
+5. **Conclusion:** were the objectives achieved? State **one limitation** (sensor resolution and dripping overshoot) and **one improvement** (PWM slowdown, stop-early margin, or drain pump).
 
 **Appendices:** wiring diagram and source code only.
 
 ### Live demo checklist
 
 - [ ] Dry run beforehand (spill tray ready, splash guard in place)
-- [ ] Demo at least two targets (change `TARGET_ML` and re-upload; rehearse this so it is quick, or keep two builds ready)
+- [ ] Demo at least two targets (change `TARGET_CM` and re-upload; rehearse this so it is quick, or keep two builds ready)
 - [ ] Show the Serial Monitor `RESULT` line after each run (open-loop may stop short of 100%, closed-loop stops at about 100%)
 - [ ] Show open-loop, then closed-loop, then a disturbance in both
-- [ ] Graduated cylinder ready to confirm the real volume
+- [ ] Ruler on the glass ready to confirm the real level
 - [ ] Be ready to explain the sensor, controller, and feedback path
 - [ ] Record a backup video (the PDF's recommended arrangement mentions a recorded video demonstration)
 
@@ -565,12 +570,12 @@ Try one at a time and record the effect:
 | ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
 | Distance always 0 or never changes                | Trig and Echo swapped, no 5 V on VCC, or nothing in front of the sensor                                         |
 | Readings jump around with still water             | Sensor not pointing straight down, tube or glass rim inside the beam, or sensor too close (under about 5 cm)    |
-| Volume reads negative or too low                  | Tare taken with water already in the glass, or the sensor moved after the tare                                  |
-| Volume wrong by a constant factor                 | Re-do the $A$ calibration with exactly 100 ml and 200 ml                                                        |
+| Level rise reads negative or too low                  | Tare taken with water already in the glass, or the sensor moved after the tare                                  |
+| Level rise wrong by a constant factor                 | Sensor not pointing straight down, or the glass is not straight-sided: redo the ruler check at 3 cm and 6 cm                                                        |
 | Closed-loop stops too early                       | Splash or ripples read as a high level: aim the tube at the inner glass wall and keep the median filter on      |
-| Volume reading is noisy only while filling        | Normal ripples. The 3 s settle before the final reading handles this                                            |
+| Level reading is noisy only while filling        | Normal ripples. The 3 s settle before the final reading handles this                                            |
 | Pump never turns on                               | Pump (−) not on the **LOAD** terminal, reversed battery polarity, dead or weak battery (below about 6 V), PWM or signal GND wires loose, or terminal screws not clamping the wires |
 | Pump runs at boot or will not stop                | Rare with an optocoupler input. Add a 10 kΩ resistor from the PWM pad to the signal GND pad, and check the pump (−) is on LOAD, not on the − terminal |
 | Pump stalls at `PWM_SLOW`                         | Raise `PWM_SLOW` (try 180)                                                                                      |
 | Upload fails on Nano                              | Tools → Processor → "ATmega328P (Old Bootloader)"                                                              |
-| Large open-loop errors                            | Re-measure `FLOW_ML_PER_S` with the same battery and tube setup                                                 |
+| Large open-loop errors                            | Re-measure `RISE_CM_PER_S` with the same battery and tube setup                                                 |

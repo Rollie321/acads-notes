@@ -4,20 +4,47 @@
     "type": "split",
     "children": [
       {
-        "id": "6bf7e59386b5372b",
+        "id": "17ca3268df1282c5",
         "type": "tabs",
         "children": [
           {
-            "id": "229d0cdcc98fb634",
+            "id": "edf4ee08e34cef4f",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
-              "icon": "lucide-file",
-              "title": "New tab"
+              "type": "pdf",
+              "state": {
+                "file": "Feedback/assets/chapter-5.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "chapter-5"
+            }
+          },
+          {
+            "id": "85140ae5664ff7ec",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Feedback/assets/chapter-5.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "chapter-5"
+            }
+          },
+          {
+            "id": "dd7e1e05755a4ea5",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "Logic Circuits/Finals/Project/pinout_74hc14_connections.png"
+              },
+              "icon": "lucide-image",
+              "title": "pinout_74hc14_connections"
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -79,7 +106,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 267.5220184326172
+    "width": 267.5220184326172,
+    "collapsed": true
   },
   "right": {
     "id": "bc98d5b2a35a67a4",
@@ -156,7 +184,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Feedback/Midterms/project/stable-table.md",
+                "file": "Logic Circuits/Finals/Project/rps_full_schematic_game_and_counter.png",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -197,21 +225,25 @@
       "circuit-sketcher:Create new Circuit Sketcher file": false
     }
   },
-  "active": "229d0cdcc98fb634",
+  "active": "dd7e1e05755a4ea5",
   "lastOpenFiles": [
+    "Feedback/Finals/Project/project-1/report/chapter-2-system-design-and-mathematical-model.md",
+    "Logic Circuits/Finals/Project/rps_full_schematic_game_and_counter.png",
+    "Logic Circuits/Finals/Project/pinout_74hc14_connections.png",
+    "Feedback/assets/chapter-5.pdf",
+    "Feedback/Finals/Chapter-6/Skill Assessment 6.1.md",
+    "Feedback/Finals/Chapter-6/Example 6.1.md",
+    "PASS.md",
+    "Untitled.md",
+    "Pasted image 20261023154814.png",
+    "Pasted image 20261023154825.png",
+    "Saling gawi.md",
     "Feedback/Finals/Project/project-1/water-dispenser-schematic.jpg",
     "Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
     "Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
     "Excalidraw/Drawing 2026-10-30 08.42.50.excalidraw.md",
     "TODO.md",
-    "Logic Circuits/Finals/Project/rps_full_schematic_game_and_counter.png",
-    "Logic Circuits/Finals/Project/pinout_74hc14_connections.png",
     "Logic Circuits/Finals/Project/pinout_74hc164_connections.png",
-    "PASS.md",
-    "Pasted image 20261023154814.png",
-    "Pasted image 20261023154825.png",
-    "Saling gawi.md",
-    "Untitled.md",
     "Digi Comm/Finals/Concepts.md",
     "Digi Comm/Finals/Details.md",
     "Mixed Signals/Finals/Sensors and Transducers Worked Example Solutions.md",
@@ -237,11 +269,8 @@
     "Feedback/Prelims/Assignment 1 - v.2.md",
     "Feedback/Prelims/Assignment 1.md",
     "Feedback/Finals/Chapter-6/Example 6.2.md",
-    "Feedback/Finals/Project/project-1/01-project-overview.md",
-    "Feedback/Finals/Chapter-6/Skill Assessment 6.1.md",
     "Feedback/assets/chapter-6.pdf",
     "Feedback/Finals/Chapter-6",
-    "Untitled.circuit-sketcher",
     "Logic Circuits/assets/Pasted image 20261020112355.png",
     "Logic Circuits/assets/Pasted image 20261020124557.png",
     "Untitled.canvas",

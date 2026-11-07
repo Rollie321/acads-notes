@@ -14,9 +14,17 @@
 - [ ] feedback project docs
 
 # Wednesday Oct 21, 2026
-- [ ] Start DSA project
+- [x] Start DSA project
 
 # Thursday Oct 22, 2026
 - [x] Buy fvckin rice
 - [x] Fix DSA activity and push
 - [x] Create BOSH reflection paper
+
+# Thursday Nov 04, 2026
+- [x] write DSA assignment
+- [x] Extend functionality of RPS circuit
+- [ ] Create logisim circuit for CRC
+- [ ] Create logisim circuit for LRC 
+# Saturday Nov 07, 2026
+- [ ] Study Feedback

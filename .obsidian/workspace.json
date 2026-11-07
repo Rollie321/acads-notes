@@ -4,79 +4,20 @@
     "type": "split",
     "children": [
       {
-        "id": "540a23e591da8a3c",
+        "id": "6bf7e59386b5372b",
         "type": "tabs",
         "children": [
           {
-            "id": "f2f0e855814e64f9",
+            "id": "229d0cdcc98fb634",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Feedback/Finals/Project/project-1/02-material-requirements.md",
-                "mode": "preview",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "02-material-requirements"
-            }
-          },
-          {
-            "id": "b9999016a755ba2a",
-            "type": "leaf",
-            "state": {
-              "type": "image",
-              "state": {
-                "file": "Feedback/Finals/Project/project-1/water-dispenser-schematic.jpg"
-              },
-              "icon": "lucide-image",
-              "title": "water-dispenser-schematic"
-            }
-          },
-          {
-            "id": "0df5deba6cb75497",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Untitled.md",
-                "mode": "preview",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Untitled"
-            }
-          },
-          {
-            "id": "c87ee49a85f7c8b5",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Untitled 1.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Untitled 1"
-            }
-          },
-          {
-            "id": "25740a341166e369",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Feedback/Finals/Project/project-1/03-project-procedure.md",
-                "mode": "preview",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "03-project-procedure"
+              "title": "New tab"
             }
           }
-        ],
-        "currentTab": 4
+        ]
       }
     ],
     "direction": "vertical"
@@ -138,8 +79,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 267.5220184326172,
-    "collapsed": true
+    "width": 267.5220184326172
   },
   "right": {
     "id": "bc98d5b2a35a67a4",
@@ -257,53 +197,53 @@
       "circuit-sketcher:Create new Circuit Sketcher file": false
     }
   },
-  "active": "25740a341166e369",
+  "active": "229d0cdcc98fb634",
   "lastOpenFiles": [
-    "Feedback/Finals/Project/project-1/02-material-requirements.md",
     "Feedback/Finals/Project/project-1/water-dispenser-schematic.jpg",
-    "Feedback/Finals/Project/project-1/03-project-procedure.md",
-    "Untitled 1.md",
-    "Untitled.md",
-    "Feedback/Finals/Project/project-1/01-project-overview.md",
-    "Pasted image 20261023154825.png",
-    "Pasted image 20261023154814.png",
-    "Feedback/Finals/Chapter-6/Skill Assessment 6.1.md",
-    "Feedback/Finals/Chapter-6/Example 6.5.md",
-    "Feedback/assets/chapter-6.pdf",
-    "Feedback/Finals/Chapter-6/Example 6.2.md",
-    "Feedback/Finals/Chapter-6/Example 6.1.md",
-    "Feedback/Finals/Chapter-6",
-    "TODO.md",
-    "Feedback/Finals/Project/project-1/04-project-simulation.md",
-    "Shopee.md",
-    "Feedback/Finals/Project/project-1/05-component-testing.md",
-    "Feedback/Finals/Project/project-requirements.pdf",
+    "Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
     "Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
-    "Feedback/Finals/Project/project-1/material-requirements.md",
-    "new_note.md",
-    "Excalidraw/Drawing 2026-10-21 07.50.50.excalidraw.md",
-    "Feedback/Finals/Project/project-1/overview.md",
-    "Feedback/Finals/Project/project-1/procedure.md",
-    "Untitled.circuit-sketcher",
-    "Untitled.base",
-    "Feedback/Finals/Project/project-1/simulation.md",
-    "DSA/Finals/Assignment/Assignment 1 - (Multi Dimension Array Stack & Queue).md",
+    "Excalidraw/Drawing 2026-10-30 08.42.50.excalidraw.md",
+    "TODO.md",
+    "Logic Circuits/Finals/Project/rps_full_schematic_game_and_counter.png",
+    "Logic Circuits/Finals/Project/pinout_74hc14_connections.png",
+    "Logic Circuits/Finals/Project/pinout_74hc164_connections.png",
+    "PASS.md",
+    "Pasted image 20261023154814.png",
+    "Pasted image 20261023154825.png",
     "Saling gawi.md",
+    "Untitled.md",
+    "Digi Comm/Finals/Concepts.md",
+    "Digi Comm/Finals/Details.md",
+    "Mixed Signals/Finals/Sensors and Transducers Worked Example Solutions.md",
+    "Mixed Signals/Finals/Ass-1.md",
+    "Mixed Signals/Finals",
+    "DSA/Finals/Assignment/Assignment 2 - (algorithm and vending machine).md",
+    "Shopee.md",
+    "DSA/Finals/Assignment/Unconfirmed 414653.crdownload",
+    "DSA/Finals/Assignment/Unconfirmed 540436.crdownload",
+    "Feedback/Finals/Project/documentation/Math-Model.md",
+    "Digi Comm/Finals/Final-Presentation.md",
+    "Untitled 2.md",
+    "Feedback/Finals/Project/project-requirements.pdf",
+    "Digi Comm/Finals",
+    "Untitled",
+    "Feedback/Finals/Project/project-1/04-project-simulation.md",
+    "Feedback/Finals/Project/project-1/02-material-requirements.md",
+    "Feedback/Finals/Project/documentation",
+    "Feedback/Finals/Project/project-1/03-project-procedure.md",
+    "Excalidraw/Drawing 2026-10-30 08.42.32.excalidraw.md",
+    "HDL/midterms/Test Bench with loop.md",
+    "HDL/modelsim_verilog_guide.md",
+    "Feedback/Prelims/Assignment 1 - v.2.md",
+    "Feedback/Prelims/Assignment 1.md",
+    "Feedback/Finals/Chapter-6/Example 6.2.md",
+    "Feedback/Finals/Project/project-1/01-project-overview.md",
+    "Feedback/Finals/Chapter-6/Skill Assessment 6.1.md",
+    "Feedback/assets/chapter-6.pdf",
+    "Feedback/Finals/Chapter-6",
+    "Untitled.circuit-sketcher",
     "Logic Circuits/assets/Pasted image 20261020112355.png",
     "Logic Circuits/assets/Pasted image 20261020124557.png",
-    "Logic Circuits/assets/Pasted image 20261020111323.png",
-    "Logic Circuits/Finals/LAB-activities/Week-1.md",
-    "Logic Circuits/assets/Pasted image 20261020124518.png",
-    "5.4-simplified.png",
-    "Logic Circuits/assets/Pasted image 20261020124446.png",
-    "Logic Circuits/Finals/LAB-activities/answers-LAB-1.md",
-    "overf.md",
-    "HDL/modelsim_verilog_guide.md",
-    "Feedback/Finals/Project/project-1",
-    "HDL/finals",
-    "Logic Circuits/pdf/Lecture 04 - Boolean Algebra.pdf",
-    "Feedback/Finals/Project/CPE11_Performance Task.pdf",
-    "Feedback/Finals/Project",
     "Untitled.canvas",
     "Feedback/Prelims/Laplace Sample.canvas",
     "Feedback/Prelims/op-amps-transfer-funciton.canvas"

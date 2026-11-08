@@ -4,47 +4,20 @@
     "type": "split",
     "children": [
       {
-        "id": "17ca3268df1282c5",
+        "id": "22413df77795f94d",
         "type": "tabs",
         "children": [
           {
-            "id": "edf4ee08e34cef4f",
+            "id": "a65ffa009d71addd",
             "type": "leaf",
             "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Feedback/assets/chapter-5.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "chapter-5"
-            }
-          },
-          {
-            "id": "85140ae5664ff7ec",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Feedback/assets/chapter-5.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "chapter-5"
-            }
-          },
-          {
-            "id": "dd7e1e05755a4ea5",
-            "type": "leaf",
-            "state": {
-              "type": "image",
-              "state": {
-                "file": "Logic Circuits/Finals/Project/pinout_74hc14_connections.png"
-              },
-              "icon": "lucide-image",
-              "title": "pinout_74hc14_connections"
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -106,8 +79,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 267.5220184326172,
-    "collapsed": true
+    "width": 267.5220184326172
   },
   "right": {
     "id": "bc98d5b2a35a67a4",
@@ -225,12 +197,15 @@
       "circuit-sketcher:Create new Circuit Sketcher file": false
     }
   },
-  "active": "dd7e1e05755a4ea5",
+  "active": "a65ffa009d71addd",
   "lastOpenFiles": [
+    "Feedback/assets/chapter-5.pdf",
+    "Logic Circuits/Finals/Project/pinout_74hc14_connections.png",
+    "Feedback/Finals/Project/project-1/report/chapter-3-prototype-development-and-procedure.md",
+    "Feedback/Finals/Project/project-1/report/chapter-4-results-and-discussion.md",
+    "Feedback/Finals/Project/project-requirements.pdf",
     "Feedback/Finals/Project/project-1/report/chapter-2-system-design-and-mathematical-model.md",
     "Logic Circuits/Finals/Project/rps_full_schematic_game_and_counter.png",
-    "Logic Circuits/Finals/Project/pinout_74hc14_connections.png",
-    "Feedback/assets/chapter-5.pdf",
     "Feedback/Finals/Chapter-6/Skill Assessment 6.1.md",
     "Feedback/Finals/Chapter-6/Example 6.1.md",
     "PASS.md",
@@ -256,7 +231,6 @@
     "Feedback/Finals/Project/documentation/Math-Model.md",
     "Digi Comm/Finals/Final-Presentation.md",
     "Untitled 2.md",
-    "Feedback/Finals/Project/project-requirements.pdf",
     "Digi Comm/Finals",
     "Untitled",
     "Feedback/Finals/Project/project-1/04-project-simulation.md",
@@ -266,9 +240,6 @@
     "Excalidraw/Drawing 2026-10-30 08.42.32.excalidraw.md",
     "HDL/midterms/Test Bench with loop.md",
     "HDL/modelsim_verilog_guide.md",
-    "Feedback/Prelims/Assignment 1 - v.2.md",
-    "Feedback/Prelims/Assignment 1.md",
-    "Feedback/Finals/Chapter-6/Example 6.2.md",
     "Feedback/assets/chapter-6.pdf",
     "Feedback/Finals/Chapter-6",
     "Logic Circuits/assets/Pasted image 20261020112355.png",

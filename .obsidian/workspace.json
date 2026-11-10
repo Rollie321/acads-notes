@@ -11,10 +11,14 @@
             "id": "a65ffa009d71addd",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "Feedback/Finals/Project/project-1/report/chapter-1-introduction-and-objectives.md",
+                "mode": "preview",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "chapter-1-introduction-and-objectives"
             }
           }
         ]
@@ -79,7 +83,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 267.5220184326172
+    "width": 267.5220184326172,
+    "collapsed": true
   },
   "right": {
     "id": "bc98d5b2a35a67a4",
@@ -199,6 +204,9 @@
   },
   "active": "a65ffa009d71addd",
   "lastOpenFiles": [
+    "Feedback/Finals/Project/project-1/01-project-overview.md",
+    "TODO.md",
+    "Untitled.md",
     "Feedback/assets/chapter-5.pdf",
     "Logic Circuits/Finals/Project/pinout_74hc14_connections.png",
     "Feedback/Finals/Project/project-1/report/chapter-3-prototype-development-and-procedure.md",
@@ -209,7 +217,6 @@
     "Feedback/Finals/Chapter-6/Skill Assessment 6.1.md",
     "Feedback/Finals/Chapter-6/Example 6.1.md",
     "PASS.md",
-    "Untitled.md",
     "Pasted image 20261023154814.png",
     "Pasted image 20261023154825.png",
     "Saling gawi.md",
@@ -217,7 +224,6 @@
     "Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
     "Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
     "Excalidraw/Drawing 2026-10-30 08.42.50.excalidraw.md",
-    "TODO.md",
     "Logic Circuits/Finals/Project/pinout_74hc164_connections.png",
     "Digi Comm/Finals/Concepts.md",
     "Digi Comm/Finals/Details.md",

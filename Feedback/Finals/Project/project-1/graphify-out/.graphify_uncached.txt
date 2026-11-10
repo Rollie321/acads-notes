@@ -1,0 +1,12 @@
+/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/01-project-overview.md
+/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/02-material-requirements.md
+/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/03-project-procedure.md
+/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/04-project-simulation.md
+/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/05-component-testing.md
+/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/report/chapter-1-introduction-and-objectives.md
+/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/report/chapter-2-system-design-and-mathematical-model.md
+/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/report/chapter-3-prototype-development-and-procedure.md
+/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/report/chapter-4-results-and-discussion.md
+/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water-dispenser-schematic.jpg
+/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png
+/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png

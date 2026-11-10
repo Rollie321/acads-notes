@@ -1,0 +1,546 @@
+{
+  "nodes": [
+    {
+      "id": "water_dispenser_real_life_wiring_wiring_diagram",
+      "label": "Real-Life Wiring Diagram (Water Dispenser Prototype)",
+      "file_type": "image",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_dispenser_real_life_wiring_arduino_nano",
+      "label": "Arduino Nano (ATmega328P)",
+      "file_type": "image",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_dispenser_real_life_wiring_hc_sr04_ultrasonic_sensor",
+      "label": "HC-SR04 Ultrasonic Distance Sensor",
+      "file_type": "image",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_dispenser_real_life_wiring_mosfet_driver_module",
+      "label": "Optocoupler-Isolated MOSFET Driver Module",
+      "file_type": "image",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_dispenser_real_life_wiring_submersible_pump",
+      "label": "Submersible DC Pump",
+      "file_type": "image",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_dispenser_real_life_wiring_battery_pack",
+      "label": "Separate 6 V Battery Pack",
+      "file_type": "image",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_dispenser_real_life_wiring_start_button",
+      "label": "Start Button",
+      "file_type": "image",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_dispenser_real_life_wiring_mode_switch",
+      "label": "Mode Switch (Open/Closed-Loop Select)",
+      "file_type": "image",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_dispenser_real_life_wiring_flyback_diode",
+      "label": "Flyback Diode Across Pump",
+      "file_type": "image",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_dispenser_real_life_wiring_breadboard",
+      "label": "Breadboard",
+      "file_type": "image",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_dispenser_real_life_wiring_ground_rail",
+      "label": "Common Signal Ground Rail",
+      "file_type": "image",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_dispenser_real_life_wiring_glass",
+      "label": "Straight-Sided Glass (Target Vessel)",
+      "file_type": "image",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_dispenser_real_life_wiring_water_reservoir",
+      "label": "Water Reservoir",
+      "file_type": "image",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_dispenser_real_life_wiring_optocoupler_isolation",
+      "label": "Optocoupler Signal/Load Isolation",
+      "file_type": "concept",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_dispenser_real_life_wiring_signal_side",
+      "label": "Signal Side (Low-Voltage Control)",
+      "file_type": "concept",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_dispenser_real_life_wiring_load_side",
+      "label": "Load Side (Battery and Pump)",
+      "file_type": "concept",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "water_dispenser_real_life_wiring_wiring_diagram",
+      "target": "water_dispenser_real_life_wiring_arduino_nano",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_wiring_diagram",
+      "target": "water_dispenser_real_life_wiring_hc_sr04_ultrasonic_sensor",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_wiring_diagram",
+      "target": "water_dispenser_real_life_wiring_mosfet_driver_module",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_wiring_diagram",
+      "target": "water_dispenser_real_life_wiring_submersible_pump",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_wiring_diagram",
+      "target": "water_dispenser_real_life_wiring_battery_pack",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_hc_sr04_ultrasonic_sensor",
+      "target": "water_dispenser_real_life_wiring_arduino_nano",
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_start_button",
+      "target": "water_dispenser_real_life_wiring_arduino_nano",
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_mode_switch",
+      "target": "water_dispenser_real_life_wiring_arduino_nano",
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_arduino_nano",
+      "target": "water_dispenser_real_life_wiring_mosfet_driver_module",
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_battery_pack",
+      "target": "water_dispenser_real_life_wiring_mosfet_driver_module",
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_submersible_pump",
+      "target": "water_dispenser_real_life_wiring_mosfet_driver_module",
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_submersible_pump",
+      "target": "water_dispenser_real_life_wiring_battery_pack",
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_flyback_diode",
+      "target": "water_dispenser_real_life_wiring_submersible_pump",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_flyback_diode",
+      "target": "water_dispenser_real_life_wiring_mosfet_driver_module",
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_ground_rail",
+      "target": "water_dispenser_real_life_wiring_arduino_nano",
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_ground_rail",
+      "target": "water_dispenser_real_life_wiring_hc_sr04_ultrasonic_sensor",
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_ground_rail",
+      "target": "water_dispenser_real_life_wiring_start_button",
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_ground_rail",
+      "target": "water_dispenser_real_life_wiring_mode_switch",
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_ground_rail",
+      "target": "water_dispenser_real_life_wiring_mosfet_driver_module",
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_breadboard",
+      "target": "water_dispenser_real_life_wiring_ground_rail",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.65,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_arduino_nano",
+      "target": "water_dispenser_real_life_wiring_breadboard",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.65,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_hc_sr04_ultrasonic_sensor",
+      "target": "water_dispenser_real_life_wiring_glass",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_submersible_pump",
+      "target": "water_dispenser_real_life_wiring_water_reservoir",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_submersible_pump",
+      "target": "water_dispenser_real_life_wiring_glass",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.65,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_mosfet_driver_module",
+      "target": "water_dispenser_real_life_wiring_optocoupler_isolation",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_optocoupler_isolation",
+      "target": "water_dispenser_real_life_wiring_signal_side",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_optocoupler_isolation",
+      "target": "water_dispenser_real_life_wiring_load_side",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_load_side",
+      "target": "water_dispenser_real_life_wiring_battery_pack",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_signal_side",
+      "target": "water_dispenser_real_life_wiring_arduino_nano",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_mosfet_driver_module",
+      "target": "water_dispenser_real_life_wiring_submersible_pump",
+      "relation": "shares_data_with",
+      "confidence": "AMBIGUOUS",
+      "confidence_score": 0.2,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_real_life_wiring_battery_pack",
+      "target": "water_dispenser_real_life_wiring_arduino_nano",
+      "relation": "shares_data_with",
+      "confidence": "AMBIGUOUS",
+      "confidence_score": 0.15,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
+      "source_location": null,
+      "weight": 1.0
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "signal_side_wiring",
+      "label": "Signal-Side Wiring (Nano, Sensor, Inputs, Driver Signal Pins)",
+      "nodes": [
+        "water_dispenser_real_life_wiring_arduino_nano",
+        "water_dispenser_real_life_wiring_hc_sr04_ultrasonic_sensor",
+        "water_dispenser_real_life_wiring_start_button",
+        "water_dispenser_real_life_wiring_mode_switch",
+        "water_dispenser_real_life_wiring_mosfet_driver_module",
+        "water_dispenser_real_life_wiring_ground_rail",
+        "water_dispenser_real_life_wiring_breadboard"
+      ],
+      "relation": "participate_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png"
+    },
+    {
+      "id": "load_side_wiring",
+      "label": "Load-Side Wiring (Battery, Driver Terminals, Pump, Flyback Diode)",
+      "nodes": [
+        "water_dispenser_real_life_wiring_battery_pack",
+        "water_dispenser_real_life_wiring_mosfet_driver_module",
+        "water_dispenser_real_life_wiring_submersible_pump",
+        "water_dispenser_real_life_wiring_flyback_diode"
+      ],
+      "relation": "participate_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png"
+    },
+    {
+      "id": "water_level_control_loop",
+      "label": "Water-Level Control Loop (Sensor, Controller, Pump, Glass)",
+      "nodes": [
+        "water_dispenser_real_life_wiring_hc_sr04_ultrasonic_sensor",
+        "water_dispenser_real_life_wiring_arduino_nano",
+        "water_dispenser_real_life_wiring_mosfet_driver_module",
+        "water_dispenser_real_life_wiring_submersible_pump",
+        "water_dispenser_real_life_wiring_glass",
+        "water_dispenser_real_life_wiring_water_reservoir"
+      ],
+      "relation": "form",
+      "confidence": "INFERRED",
+      "confidence_score": 0.65,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "coverage": {
+    "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png": 0.5
+  }
+}

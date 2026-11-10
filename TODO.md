@@ -25,6 +25,6 @@
 - [x] write DSA assignment
 - [x] Extend functionality of RPS circuit
 - [ ] Create logisim circuit for CRC
-- [ ] Create logisim circuit for LRC 
+- [x] Create logisim circuit for LRC 
 # Saturday Nov 07, 2026
-- [ ] Study Feedback
+- [x] Study Feedback

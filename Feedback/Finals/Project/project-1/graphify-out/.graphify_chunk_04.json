@@ -1,0 +1,313 @@
+{
+  "nodes": [
+    {
+      "id": "water_dispenser_schematic_isolated_module",
+      "label": "Water Dispenser Schematic (Isolated MOSFET Module)",
+      "file_type": "image",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_dispenser_schematic_isolated_module_arduino_nano",
+      "label": "Arduino Nano",
+      "file_type": "concept",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_dispenser_schematic_isolated_module_lr7843_isolated_mosfet_module",
+      "label": "LR7843 Optocoupler-Isolated MOSFET Module",
+      "file_type": "concept",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_dispenser_schematic_isolated_module_dc_submersible_pump",
+      "label": "DC Submersible Pump",
+      "file_type": "concept",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_dispenser_schematic_isolated_module_6v_battery_pack",
+      "label": "6 V Battery Pack",
+      "file_type": "concept",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_dispenser_schematic_isolated_module_flyback_diode_1n4007",
+      "label": "1N4007 Flyback Diode",
+      "file_type": "concept",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_dispenser_schematic_isolated_module_hc_sr04_ultrasonic_sensor",
+      "label": "HC-SR04 Ultrasonic Sensor",
+      "file_type": "concept",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_dispenser_schematic_isolated_module_slide_switch",
+      "label": "Slide Switch (Mode Select)",
+      "file_type": "concept",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_dispenser_schematic_isolated_module_breadboard",
+      "label": "Breadboard",
+      "file_type": "concept",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_dispenser_schematic_isolated_module_water_glass",
+      "label": "Water Glass (Controlled Plant)",
+      "file_type": "concept",
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "water_dispenser_schematic_isolated_module",
+      "target": "water_dispenser_schematic_isolated_module_lr7843_isolated_mosfet_module",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_schematic_isolated_module",
+      "target": "water_dispenser_schematic_isolated_module_dc_submersible_pump",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_schematic_isolated_module",
+      "target": "water_dispenser_schematic_isolated_module_6v_battery_pack",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_schematic_isolated_module",
+      "target": "water_dispenser_schematic_isolated_module_flyback_diode_1n4007",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.65,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_schematic_isolated_module_arduino_nano",
+      "target": "water_dispenser_schematic_isolated_module_lr7843_isolated_mosfet_module",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_schematic_isolated_module_6v_battery_pack",
+      "target": "water_dispenser_schematic_isolated_module_lr7843_isolated_mosfet_module",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_schematic_isolated_module_6v_battery_pack",
+      "target": "water_dispenser_schematic_isolated_module_dc_submersible_pump",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_schematic_isolated_module_dc_submersible_pump",
+      "target": "water_dispenser_schematic_isolated_module_lr7843_isolated_mosfet_module",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_schematic_isolated_module_lr7843_isolated_mosfet_module",
+      "target": "water_dispenser_schematic_isolated_module_6v_battery_pack",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_schematic_isolated_module_flyback_diode_1n4007",
+      "target": "water_dispenser_schematic_isolated_module_dc_submersible_pump",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.65,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_schematic_isolated_module_dc_submersible_pump",
+      "target": "water_dispenser_schematic_isolated_module_water_glass",
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_schematic_isolated_module",
+      "target": "water_dispenser_schematic_isolated_module_hc_sr04_ultrasonic_sensor",
+      "relation": "references",
+      "confidence": "AMBIGUOUS",
+      "confidence_score": 0.2,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_schematic_isolated_module",
+      "target": "water_dispenser_schematic_isolated_module_slide_switch",
+      "relation": "references",
+      "confidence": "AMBIGUOUS",
+      "confidence_score": 0.2,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_schematic_isolated_module_hc_sr04_ultrasonic_sensor",
+      "target": "water_dispenser_schematic_isolated_module_arduino_nano",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.65,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_schematic_isolated_module_slide_switch",
+      "target": "water_dispenser_schematic_isolated_module_arduino_nano",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.65,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "water_dispenser_schematic_isolated_module_arduino_nano",
+      "target": "water_dispenser_schematic_isolated_module_breadboard",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.55,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
+      "source_location": null,
+      "weight": 1.0
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "isolated_pump_driver_circuit",
+      "label": "Optocoupler-Isolated Pump Driver Circuit",
+      "nodes": [
+        "water_dispenser_schematic_isolated_module_arduino_nano",
+        "water_dispenser_schematic_isolated_module_lr7843_isolated_mosfet_module",
+        "water_dispenser_schematic_isolated_module_dc_submersible_pump",
+        "water_dispenser_schematic_isolated_module_6v_battery_pack",
+        "water_dispenser_schematic_isolated_module_flyback_diode_1n4007"
+      ],
+      "relation": "form",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png"
+    },
+    {
+      "id": "closed_loop_water_level_control",
+      "label": "Closed-Loop Water-Level Control System",
+      "nodes": [
+        "water_dispenser_schematic_isolated_module_hc_sr04_ultrasonic_sensor",
+        "water_dispenser_schematic_isolated_module_arduino_nano",
+        "water_dispenser_schematic_isolated_module_lr7843_isolated_mosfet_module",
+        "water_dispenser_schematic_isolated_module_dc_submersible_pump",
+        "water_dispenser_schematic_isolated_module_water_glass"
+      ],
+      "relation": "participate_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.65,
+      "source_file": "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "coverage": {
+    "/media/rollie/Storage/Documents/obsidian/acads/acads/Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png": 0.2
+  }
+}

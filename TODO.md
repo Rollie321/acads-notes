@@ -31,7 +31,7 @@
 
 # Friday Nov 12, 2026
 * [x] CPE15 act 11
-* [ ] CPE15 act 12
-* [ ] CPE15 act 13
-* [ ] CPE15 act 14
-* [ ] CPE15 act 15
+* [x] CPE15 act 12
+* [x] CPE15 act 13
+* [x] CPE15 act 14
+* [x] CPE15 act 15

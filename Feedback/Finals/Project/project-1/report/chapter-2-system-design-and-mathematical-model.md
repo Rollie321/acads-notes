@@ -11,16 +11,16 @@ The system raises the water level in a straight-sided glass by a selected height
 
 **Table 2.1. Elements of the control system**
 
-| Element | In this project |
-| --- | --- |
-| Plant | Submersible pump, silicone tubing, and glass (accumulating water level) |
-| Reference input, r | Target level rise in cm (3 cm and 6 cm), set by `TARGET_CM` in the code |
-| Controlled output, y | Rise of the water level in the glass, y = d₀ − d (cm) |
-| Sensor | HC-SR04 ultrasonic distance sensor, read with a median-of-3 filter |
-| Actuator | DC submersible pump, switched by an optocoupler-isolated MOSFET module (LR7843) |
-| Controller | Arduino Nano. Timed run (open-loop) or on-off comparison (closed-loop) |
-| Feedback path | HC-SR04 → Arduino (median filter, tare subtraction) → MOSFET driver → pump |
-| Disturbances | Pinched tube, change in tube or reservoir height, residual dripping, surface ripples |
+| Element              | In this project                                                                      |
+| -------------------- | ------------------------------------------------------------------------------------ |
+| Plant                | Submersible pump, silicone tubing, and glass (accumulating water level)              |
+| Reference input, r   | Target level rise in cm (3 cm and 6 cm), set by `TARGET_CM` in the code              |
+| Controlled output, y | Rise of the water level in the glass, y = d₀ − d (cm)                                |
+| Sensor               | HC-SR04 ultrasonic distance sensor, read with a median-of-3 filter                   |
+| Actuator             | DC submersible pump, switched by an optocoupler-isolated MOSFET module (LR7843)      |
+| Controller           | Arduino Nano. Timed run (open-loop) or on-off comparison (closed-loop)               |
+| Feedback path        | HC-SR04 → Arduino (median filter, tare subtraction) → MOSFET driver → pump           |
+| Disturbances         | Pinched tube, change in tube or reservoir height, residual dripping, surface ripples |
 
 ---
 
@@ -65,18 +65,18 @@ flowchart LR
 
 **Table 2.2. Component list**
 
-| # | Component | Qty | Role and key specification |
-| --- | --- | --- | --- |
-| 1 | Arduino Nano (ATmega328P) | 1 | Controller. Reads sensor and inputs, outputs PWM to the pump driver |
-| 2 | HC-SR04 ultrasonic sensor | 1 | Sensor. 5 V, measures distance to the water surface (about ±3 mm) |
-| 3 | Submersible DC pump (3–6 V) with silicone tubing | 1 | Actuator. Delivers water to the glass |
-| 4 | Optocoupler-isolated MOSFET module (LR7843) | 1 | Pump driver. Low-side switch, PWM input, isolated from the load side |
-| 5 | Flyback diode (1N4007 or 1N5819) | 1 | Across the pump, protects the MOSFET from inductive spikes |
-| 6 | Pushbutton | 1 | Start (D2, internal pull-up) |
-| 7 | SPDT slide switch | 1 | Mode select (D4). LOW = closed-loop, HIGH = open-loop |
-| 8 | 6 V supply (4 × AA pack) | 1 | Pump power, separate from USB |
-| 9 | Straight-sided glass, ruler, sensor bracket, splash guard | 1 set | Mechanical setup. The ruler gives the true level (ground truth) |
-| 10 | Breadboard and jumper wires | 1 set | Signal-side connections |
+| #   | Component                                                 | Qty   | Role and key specification                                           |
+| --- | --------------------------------------------------------- | ----- | -------------------------------------------------------------------- |
+| 1   | Arduino Nano (ATmega328P)                                 | 1     | Controller. Reads sensor and inputs, outputs PWM to the pump driver  |
+| 2   | HC-SR04 ultrasonic sensor                                 | 1     | Sensor. 5 V, measures distance to the water surface (about ±3 mm)    |
+| 3   | Submersible DC pump (3–6 V) with silicone tubing          | 1     | Actuator. Delivers water to the glass                                |
+| 4   | Optocoupler-isolated MOSFET module (LR7843)               | 1     | Pump driver. Low-side switch, PWM input, isolated from the load side |
+| 5   | Flyback diode (1N4007 or 1N5819)                          | 1     | Across the pump, protects the MOSFET from inductive spikes           |
+| 6   | Pushbutton                                                | 1     | Start (D2, internal pull-up)                                         |
+| 7   | SPDT slide switch                                         | 1     | Mode select (D4). LOW = closed-loop, HIGH = open-loop                |
+| 8   | 6 V supply (4 × AA pack)                                  | 1     | Pump power, separate from USB                                        |
+| 9   | Straight-sided glass, ruler, sensor bracket, splash guard | 1 set | Mechanical setup. The ruler gives the true level (ground truth)      |
+| 10  | Breadboard and jumper wires                               | 1 set | Signal-side connections                                              |
 
 **Table 2.3. Arduino Nano pin assignment**
 

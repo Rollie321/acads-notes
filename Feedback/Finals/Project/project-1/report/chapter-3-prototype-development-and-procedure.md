@@ -79,14 +79,14 @@ flowchart TD
 
 **Table 3.2. Code settings used**
 
-| Parameter | Value | Meaning |
-| --- | --- | --- |
-| `TARGET_CM` | 3.0 / 6.0 | Reference r (one upload per target) |
-| `RISE_CM_PER_S` | [0.__] | Measured K̂ₕ (open-loop timing) |
-| `PWM_FULL` | 255 | Full pump drive |
-| `STOP_EARLY_CM`, `SLOW_ZONE_CM` | 0.0, 0.0 | Pure on-off control (no bonus tuning) |
-| `TIMEOUT_MS` | 60000 | Safety limit |
-| `SETTLE_MS` | 3000 | Wait before the final reading |
+| Parameter                       | Value     | Meaning                               |
+| ------------------------------- | --------- | ------------------------------------- |
+| `TARGET_CM`                     | 3.0 / 6.0 | Reference r (one upload per target)   |
+| `RISE_CM_PER_S`                 | [0.__]    | Measured K̂ₕ (open-loop timing)       |
+| `PWM_FULL`                      | 255       | Full pump drive                       |
+| `STOP_EARLY_CM`, `SLOW_ZONE_CM` | 0.0, 0.0  | Pure on-off control (no bonus tuning) |
+| `TIMEOUT_MS`                    | 60000     | Safety limit                          |
+| `SETTLE_MS`                     | 3000      | Wait before the final reading         |
 
 ---
 

@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "22413df77795f94d",
+        "id": "70d8d2230c9c24f1",
         "type": "tabs",
         "children": [
           {
-            "id": "a65ffa009d71addd",
+            "id": "1dde252c64d1ce7f",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Feedback/Finals/Project/project-1/report/chapter-1-introduction-and-objectives.md",
+                "file": "TODO.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "chapter-1-introduction-and-objectives"
+              "title": "TODO"
             }
           }
         ]
@@ -83,8 +83,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 267.5220184326172,
-    "collapsed": true
+    "width": 267.5220184326172
   },
   "right": {
     "id": "bc98d5b2a35a67a4",
@@ -202,17 +201,30 @@
       "circuit-sketcher:Create new Circuit Sketcher file": false
     }
   },
-  "active": "a65ffa009d71addd",
+  "active": "1dde252c64d1ce7f",
   "lastOpenFiles": [
+    "Feedback/Finals/Project/project-1/data/test-3.csv",
+    "Feedback/Finals/Project/project-1/data/lu1093361jnhj.tmp",
+    "Feedback/Finals/Project/project-1/data/test-2.csv",
+    "Feedback/Finals/Project/project-1/data/lu1093361jnhh.tmp",
+    "Feedback/Finals/Project/project-1/data/test-1.csv",
+    "Feedback/Finals/Project/project-1/data/lu1093361jnhf.tmp",
+    "Feedback/Finals/Project/project-1/data/summary.csv",
+    "Feedback/Finals/Project/project-1/data/data.csv",
+    "Feedback/Finals/Project/project-1/data/lu1093361jng1.tmp",
+    "DSA/Finals/Assignment/Assignment 2 - (algorithm and vending machine).md",
+    "DSA/Finals/Assignment/Assignment 1 - (Multi Dimension Array Stack & Queue).md",
+    "Logic Circuits/Finals/NOTES-1.md",
+    "Feedback/Finals/Project/project-1/report/chapter-1-introduction-and-objectives.md",
+    "Feedback/Finals/Project/project-1/report/chapter-2-system-design-and-mathematical-model.md",
+    "Feedback/Finals/Project/project-1/report/chapter-4-results-and-discussion.md",
+    "Feedback/Finals/Project/project-1/report/chapter-3-prototype-development-and-procedure.md",
     "Feedback/Finals/Project/project-1/01-project-overview.md",
     "TODO.md",
     "Untitled.md",
     "Feedback/assets/chapter-5.pdf",
     "Logic Circuits/Finals/Project/pinout_74hc14_connections.png",
-    "Feedback/Finals/Project/project-1/report/chapter-3-prototype-development-and-procedure.md",
-    "Feedback/Finals/Project/project-1/report/chapter-4-results-and-discussion.md",
     "Feedback/Finals/Project/project-requirements.pdf",
-    "Feedback/Finals/Project/project-1/report/chapter-2-system-design-and-mathematical-model.md",
     "Logic Circuits/Finals/Project/rps_full_schematic_game_and_counter.png",
     "Feedback/Finals/Chapter-6/Skill Assessment 6.1.md",
     "Feedback/Finals/Chapter-6/Example 6.1.md",
@@ -229,25 +241,12 @@
     "Digi Comm/Finals/Details.md",
     "Mixed Signals/Finals/Sensors and Transducers Worked Example Solutions.md",
     "Mixed Signals/Finals/Ass-1.md",
-    "Mixed Signals/Finals",
-    "DSA/Finals/Assignment/Assignment 2 - (algorithm and vending machine).md",
     "Shopee.md",
-    "DSA/Finals/Assignment/Unconfirmed 414653.crdownload",
-    "DSA/Finals/Assignment/Unconfirmed 540436.crdownload",
     "Feedback/Finals/Project/documentation/Math-Model.md",
     "Digi Comm/Finals/Final-Presentation.md",
     "Untitled 2.md",
-    "Digi Comm/Finals",
-    "Untitled",
     "Feedback/Finals/Project/project-1/04-project-simulation.md",
     "Feedback/Finals/Project/project-1/02-material-requirements.md",
-    "Feedback/Finals/Project/documentation",
-    "Feedback/Finals/Project/project-1/03-project-procedure.md",
-    "Excalidraw/Drawing 2026-10-30 08.42.32.excalidraw.md",
-    "HDL/midterms/Test Bench with loop.md",
-    "HDL/modelsim_verilog_guide.md",
-    "Feedback/assets/chapter-6.pdf",
-    "Feedback/Finals/Chapter-6",
     "Logic Circuits/assets/Pasted image 20261020112355.png",
     "Logic Circuits/assets/Pasted image 20261020124557.png",
     "Untitled.canvas",

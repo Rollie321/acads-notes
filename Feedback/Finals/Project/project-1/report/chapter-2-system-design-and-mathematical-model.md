@@ -187,26 +187,22 @@ The level therefore rises steadily with run time after a brief start-up lag. Thi
 
 ## 2.6 Estimation of Model Parameters
 
-**K_h (level rise rate).** The pump runs at full drive for a known time T, and the real level rise h_m is read on the ruler:
+**K̂ₕ (level rise rate).** The pump is run at full drive with the empty glass and the level is logged once per second for about 17 to 21 s. A least-squares line h = m·t + b is fitted to each run, and its slope m is K̂ₕ. Three runs are averaged. The result is used in the code as `RISE_CM_PER_S`.
 
-$$\hat{K}_h = \frac{h_m}{T}$$
-
-Three trials are averaged. The result is used in the code as `RISE_CM_PER_S`.
-
-**τ (pump time constant).** From the logged data, τ is the time for the level rise rate to reach about 63% of its steady value after the pump starts. Where this cannot be measured reliably, τ is estimated and stated as an estimate.
+**τ (pump time constant).** From the same fits, the ramp asymptote h = K̂ₕ(t − τ) crosses zero at t = τ, so τ is read from the time-axis crossing of the fitted line. With 1 s sampling, τ cannot be resolved more finely than about 1 s and is therefore stated as an estimate.
 
 **Table 2.5. Model parameters**
 
 | Parameter | Value | Source |
 | --- | --- | --- |
-| K̂ₕ | [0.__ cm/s] (placeholder in code: 0.20) | Measured, average of 3 runs at 15 s |
-| τ | [0.__ s] (example used: 0.5) | [Measured from log / estimated] |
-| d₀ | [__ cm] | Measured automatically at the start of each run |
-| Battery voltage | [__ V] no load, [__ V] under load | Multimeter |
+| K̂ₕ | 0.367 cm/s | Mean of the three full-drive least-squares slopes (Chapter 4) |
+| τ | 0.66 s (estimate) | Zero crossing of the fitted lines for Runs 2 and 3 (Chapter 4) |
+| d₀ | measured at the start of each run | Automatic tare before each run; not needed in G(s) |
+| Battery voltage | recorded at each trial | Multimeter; bench values pending (Tables 4.6 to 4.8) |
 
 The resulting plant transfer function is
 
-$$G(s) = \frac{[K_h]}{s\,([\tau]\,s + 1)}$$
+$$G(s) = \frac{0.367}{s\,(0.66\,s + 1)}$$
 
 ---
 
@@ -238,7 +234,7 @@ Two effects limit closed-loop accuracy:
 
 $$\Delta h_{overshoot} \approx Q_{h,stop}\,(\tau + T_f)$$
 
-With Q_h,stop ≈ 0.2 cm/s, τ = 0.5 s, and T_f ≈ 0.1 to 0.2 s, this is about 0.12 to 0.14 cm.
+With Q_h,stop ≈ 0.37 cm/s, τ = 0.66 s, and T_f ≈ 0.1 to 0.2 s, this is about 0.28 to 0.32 cm.
 
 - **Sensor resolution.** The HC-SR04 is good to about ±3 mm, so
 

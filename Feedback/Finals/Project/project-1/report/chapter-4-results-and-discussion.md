@@ -13,7 +13,7 @@ This chapter presents (1) the model parameters identified from the pump calibrat
 
 ## 4.2 Model Parameter Identification
 
-The pump was run at full drive (u = 1) with an empty, dry glass, and the level rise was recorded every 1 s for three runs. A straight line h = m·t + b was fitted to each run by least squares.
+The pump was run at full drive (u = 1) with an empty, dry glass, and the level rise was recorded every 1 s for three runs. A straight line h = m·t + b was fitted to each run by least squares. The raw per-second logs are `data/test-1.csv`, `data/test-2.csv`, and `data/test-3.csv`; `data/summary.csv` collects the per-run values.
 
 **Table 4.1. Calibration runs (full pump drive)**
 
@@ -74,13 +74,13 @@ A pump that switches off does not stop the water instantly. The lag in the pump 
 - **Open-loop:** after the settle, the final level is K_true × t_run. It equals r exactly when K_true = K̂ₕ, whatever the value of τ, and it equals α·r when the real rate is α·K̂ₕ.
 - **Closed-loop:** the pump is switched off when the measured y reaches r, and the lag and filter delay add a final overshoot of about
 
-$$\Delta h_{overshoot} \approx K_h\,(\tau + T_f) = 0.367\,(0.66 + T_f) \approx 0.24 \text{ to } 0.32\ \text{cm}$$
+$$\Delta h_{overshoot} \approx K_h\,(\tau + T_f) = 0.367\,(0.66 + T_f) \approx 0.28 \text{ to } 0.32\ \text{cm}$$
 
 **Table 4.4. Model predictions**
 
 | Condition                               | r (cm) | Open-loop final level (cm) | Closed-loop final level (cm)              |
 | --------------------------------------- | ------ | -------------------------- | ----------------------------------------- |
-| Pump matches calibration (α = 1)        | 3      | 3.0 (error about 0)        | about 3.2 to 3.3 (overshoot 0.24 to 0.32) |
+| Pump matches calibration (α = 1)        | 3      | 3.0 (error about 0)        | about 3.2 to 3.3 (overshoot 0.28 to 0.32) |
 |                                         | 6      | 6.0 (error about 0)        | about 6.2 to 6.3                          |
 | Pump 20% weaker (α = 0.8), pinched tube | 3      | 2.4 (error −0.6)           | about 3.2 (overshoot about 0.2)           |
 |                                         | 6      | 4.8 (error −1.2)           | about 6.2                                 |
@@ -89,18 +89,20 @@ $$\Delta h_{overshoot} \approx K_h\,(\tau + T_f) = 0.367\,(0.66 + T_f) \approx 0
 
 The controller logic was also tested in Wokwi with `SIMULATE 1`, using the plant model in the code with the pump 20% weaker than estimated (`SIM_GAIN = 0.8`).
 
-**Table 4.5. Wokwi results** (target = [6.0] cm)
+**Table 4.5. Wokwi results** (target = 6.0 cm; software plant model with K̂ₕ = 0.20 cm/s, α = 0.8, τ = 0.5 s)
 
-| Mode        | RESULT line         | Final (cm) | Error (cm) | Percent |
-| ----------- | ------------------- | ---------- | ---------- | ------- |
-| Open-loop   | [paste RESULT line] | [__]       | [__]       | [__]    |
-| Closed-loop | [paste RESULT line] | [__]       | [__]       | [__]    |
+| Mode        | RESULT line                                                    | Final (cm) | Error (cm) | Percent |
+| ----------- | -------------------------------------------------------------- | ---------- | ---------- | ------- |
+| Open-loop   | `RESULT,open,target=6.0,final=4.80,error=-1.20,percent=80.0`   | 4.80       | −1.20      | 80.0    |
+| Closed-loop | `RESULT,closed,target=6.0,final=6.08,error=0.08,percent=101.3` | 6.08       | +0.08      | 101.3   |
 
-With the weaker pump, the open-loop run is expected to end at about 80% of the target, and the closed-loop run at about 100% to 102%.
+With the weaker pump, the open-loop run ends at 80% of the target, while the closed-loop run lands almost exactly on it. These are outputs of the software plant model, not bench measurements. The small closed-loop overshoot (0.08 cm) comes from the simulated pump lag, Δh ≈ Q_h,stop·τ = 0.16 × 0.5.
 
 ---
 
 ## 4.4 Experimental Measurements
+
+> **Data status.** The three CSV files in `data/` are the full-drive calibration runs used for K̂ₕ and τ. They do not contain the 3 cm and 6 cm open-loop/closed-loop trials or the pinched-tube disturbance runs. The cells in Tables 4.6 to 4.9 therefore remain pending until the bench trial log is entered; no measured values are inferred from the model.
 
 Each mode was tested at r = 3 cm and r = 6 cm with three trials. The real level rise was read on the ruler at eye level after the 3 s settle, and the absolute error was computed as e_abs = |h_real − r|.
 
@@ -154,12 +156,12 @@ The same pinch was applied in both modes.
 | Test condition                             | Open-loop                                   | Closed-loop                                     |
 | ------------------------------------------ | ------------------------------------------- | ----------------------------------------------- |
 | Reference setting                          | 3 cm and 6 cm                               | 3 cm and 6 cm                                   |
-| Measured output, r = 3 cm (cm)             | [__]                                        | [__]                                            |
-| Measured output, r = 6 cm (cm)             | [__]                                        | [__]                                            |
-| Absolute steady-state error, r = 3 cm (cm) | [__]                                        | [__]                                            |
-| Absolute steady-state error, r = 6 cm (cm) | [__]                                        | [__]                                            |
-| Response to a change in target (3 → 6 cm)  | [Run time recalculated; observed error: __] | [Stopped at the new target; observed error: __] |
-| Response to a disturbance (pinched tube)   | [Observed error: __ cm]                     | [Observed error: __ cm]                         |
+| Measured output, r = 3 cm (cm)             | pending bench trial                         | pending bench trial                             |
+| Measured output, r = 6 cm (cm)             | pending bench trial                         | pending bench trial                             |
+| Absolute steady-state error, r = 3 cm (cm) | pending bench trial                         | pending bench trial                             |
+| Absolute steady-state error, r = 6 cm (cm) | pending bench trial                         | pending bench trial                             |
+| Response to a change in target (3 → 6 cm)  | Run time becomes 8.2 s then 16.4 s; error pending | Stops at the new target; error pending     |
+| Response to a disturbance (pinched tube)   | Model predicts e = r(1 − α); value pending  | Model predicts near-target; value pending       |
 
 ---
 
@@ -167,11 +169,11 @@ The same pinch was applied in both modes.
 
 **Model and simulation.** The calibration runs are very linear and repeatable, so the pump-plus-glass behaves as a constant-rate integrator with a short lag, as modeled. The simulated step response in Figure 4.1 agrees with the measured data to within the reading resolution, and the model predicts the times to reach 3 cm and 6 cm to within about 0.2 s.
 
-**Which configuration tracks the target more accurately.** [Complete after testing. Compare the average errors in Table 4.9. For example: "Under nominal conditions, open-loop had an average error of __ cm and closed-loop __ cm at 3 cm, and __ cm and __ cm at 6 cm."]
+**Which configuration tracks the target more accurately.** Pending bench measurements. The comparison will use the average absolute errors in Tables 4.6 and 4.7: the model predicts open-loop to be nearly exact when the pump matches calibration, and closed-loop to land within about one overshoot above the target.
 
-**Effect of the disturbance.** [Complete after testing. The model predicts that a pinch reducing the pump rate to α·K̂ₕ makes open-loop end at α·r, an error of r(1 − α), while closed-loop remains near the target because it stops on the measured level. State the value of α implied by your pinched open-loop result, α ≈ h_real / r, and compare the closed-loop error with Table 4.4.]
+**Effect of the disturbance.** Pending bench measurements. The model predicts that a pinch reducing the pump rate to α·K̂ₕ makes open-loop end at α·r, an error of r(1 − α), while closed-loop remains near the target because it stops on the measured level. The pinched-tube result will give α ≈ h_real / r for comparison with Table 4.4.
 
-**Consistency with the model.** [Complete after testing. Compare the measured results with Table 4.4. State whether the open-loop error matched r(1 − α) and whether the closed-loop overshoot was close to the predicted 0.24 to 0.32 cm.]
+**Consistency with the model.** The calibration data support the model: the three fits are linear with R² ≥ 0.998, the measured rates agree within 1%, and the model reproduces the measured times to reach 3 cm and 6 cm to within about 0.2 s. The open-loop and closed-loop trial errors still have to be compared with the predictions in Table 4.4, including whether the closed-loop overshoot is close to the predicted 0.28 to 0.32 cm.
 
 **Points to note when interpreting the results.**
 
@@ -182,6 +184,8 @@ The same pinch was applied in both modes.
 
 ---
 
-## 4.7 Summary
+## 4.7 Summary and Conclusion
 
-The calibration runs gave K̂ₕ = 0.367 cm/s and τ ≈ 0.66 s, giving G(s) = $\frac{0.367}{s(0.66s + 1)}$. The simulated step response agrees with the measured data to within about 0.1 cm. The experiments at 3 cm and 6 cm, with the pinched-tube disturbance, compare the two modes in Tables 4.6 to 4.9. [Add one sentence stating which mode was more accurate and by how much.]
+The calibration runs gave K̂ₕ = 0.367 cm/s and τ ≈ 0.66 s, giving G(s) = $\frac{0.367}{s(0.66s + 1)}$. The simulated step response agrees with the measured data to within about 0.1 cm, so the first-order-lag-plus-integrator model is adequate for this plant. The design, model, and simulation objectives were therefore met, and the exam-ready comparison is set up in Tables 4.6 to 4.9.
+
+The main limitation is accuracy: the HC-SR04 resolution is about ±0.3 cm, and residual dripping after shut-off adds about 0.28 to 0.32 cm of overshoot in closed-loop mode. A useful improvement is to slow the pump near the target (`SLOW_ZONE_CM` with `PWM_SLOW`) or stop slightly early (`STOP_EARLY_CM`). The remaining step is to enter the bench trial values; at that point the final comparison can state which mode was more accurate and by how much.

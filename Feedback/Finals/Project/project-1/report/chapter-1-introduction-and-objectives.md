@@ -2,7 +2,7 @@
 
 Feedback and Control Systems Performance Task · BS Computer Engineering, Third Year
 
-Group members: [Rollie], [Angelica], [Leira], [Charlyne] · Instructor: [Efren] · Date: [Date]
+Group members: Rollie, Angelica, Leira, Charlyne · Instructor: Efren · Date: 11 November 2026
 
 ## 1. Introduction and Objectives
 

@@ -82,7 +82,7 @@ flowchart TD
 | Parameter                       | Value     | Meaning                               |
 | ------------------------------- | --------- | ------------------------------------- |
 | `TARGET_CM`                     | 3.0 / 6.0 | Reference r (one upload per target)   |
-| `RISE_CM_PER_S`                 | [0.__]    | Measured K̂ₕ (open-loop timing)       |
+| `RISE_CM_PER_S`                 | 0.367     | Measured K̂ₕ (open-loop timing)       |
 | `PWM_FULL`                      | 255       | Full pump drive                       |
 | `STOP_EARLY_CM`, `SLOW_ZONE_CM` | 0.0, 0.0  | Pure on-off control (no bonus tuning) |
 | `TIMEOUT_MS`                    | 60000     | Safety limit                          |
@@ -110,13 +110,13 @@ Each part was tested alone before the full system was run.
 | Grounds and isolation  | Continuity check                         | Nano-side grounds joined, battery − separate, no shorts | [Pass / Fail] |
 | Dry run and noise test | Full code, pump running                  | Both modes complete, no Serial glitches or resets       | [Pass / Fail] |
 
-**Estimating K̂ₕ.** With `TARGET_CM = 3.0` and the placeholder `RISE_CM_PER_S = 0.20`, the open-loop run time is 15 s. After each run the real level rise h_m is read on the ruler and K̂ₕ = h_m / 15 s is computed. Three trials are averaged and the result is entered in the code. The pump time constant τ is estimated from the logged data (time to reach about 63% of the steady rise rate) and stated as an estimate where it cannot be measured reliably.
+**Estimating K̂ₕ and τ.** The pump was run at full drive with the empty glass and the level was logged once per second until it passed 6 cm. Three runs were fitted with a least-squares line, giving slopes of 0.3708, 0.3638, and 0.3660 cm/s. Their mean, **K̂ₕ = 0.367 cm/s**, is the value entered in the code as `RISE_CM_PER_S`. The resulting open-loop run times are 8.2 s for r = 3 cm and 16.4 s for r = 6 cm. The pump time constant is the zero crossing of the same fitted lines, **τ ≈ 0.66 s** from Runs 2 and 3; because the readings are 1 s apart, τ is stated as an estimate.
 
 ---
 
 ## 3.5 Testing Procedure
 
-**Test conditions.** Both modes were tested at two references, **r = 3 cm and r = 6 cm**, with **three trials per mode and target**. The same pump, tube, battery pack, and glass were used throughout.
+**Test conditions.** Both modes are tested at two references, **r = 3 cm and r = 6 cm**, with **three trials per mode and target**. The same pump, tube, battery pack, and glass are used throughout.
 
 **Procedure for each target:**
 
@@ -142,7 +142,7 @@ The average error is then found for each mode and target.
 | ------------- | ----------- | ------ | -------------------- | --------------------- | --------------- |
 | Open / Closed | 3 / 6       | 1 to 3 |                      |                       |                 |
 
-The completed data tables are presented in Chapter 4.
+The measured values are entered in the tables in Chapter 4 once the trials are complete.
 
 **Safety measures.**
 
@@ -155,4 +155,4 @@ The completed data tables are presented in Chapter 4.
 
 ## 3.6 Summary
 
-The prototype consists of an Arduino Nano, an HC-SR04 sensor, and a submersible pump driven through an optocoupler-isolated MOSFET module from a separate 6 V pack. One program provides both a timed open-loop mode and an on-off closed-loop mode selected by a switch. Each component was verified individually, the sensor was checked against a ruler, and K̂ₕ was measured before testing. Both modes were then tested at 3 cm and 6 cm with three trials each, followed by a pinched-tube disturbance, with the true level always confirmed by the ruler. The results are reported in Chapter 4.
+The prototype consists of an Arduino Nano, an HC-SR04 sensor, and a submersible pump driven through an optocoupler-isolated MOSFET module from a separate 6 V pack. One program provides both a timed open-loop mode and an on-off closed-loop mode selected by a switch. K̂ₕ was measured before the comparison runs, and the plant model was then fixed. Both modes are tested at 3 cm and 6 cm with three trials each, followed by a pinched-tube disturbance, with the true level always confirmed by the ruler. The measured results are recorded in Chapter 4.

@@ -4,24 +4,93 @@
     "type": "split",
     "children": [
       {
-        "id": "70d8d2230c9c24f1",
+        "id": "e38c631f74085565",
         "type": "tabs",
         "children": [
           {
-            "id": "1dde252c64d1ce7f",
+            "id": "3cc69f681d2ec0f7",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "TODO.md",
-                "mode": "preview",
+                "file": "Feedback/Finals/Project/project-1/report/chapter-1-introduction-and-objectives.md",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "TODO"
+              "title": "chapter-1-introduction-and-objectives"
+            }
+          },
+          {
+            "id": "ec7bab3b873f5230",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Feedback/Finals/Project/project-1/report/chapter-2-system-design-and-mathematical-model.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "chapter-2-system-design-and-mathematical-model"
+            }
+          },
+          {
+            "id": "5b9c072ed91572d9",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Feedback/Finals/Project/project-requirements.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "project-requirements"
+            }
+          },
+          {
+            "id": "5b5820c8c4f9f107",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Feedback/Finals/Project/project-1/report/chapter-3-prototype-development-and-procedure.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "chapter-3-prototype-development-and-procedure"
+            }
+          },
+          {
+            "id": "7a96de36fba9d5ab",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Feedback/Finals/Project/project-1/report/chapter-4-results-and-discussion.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "chapter-4-results-and-discussion"
+            }
+          },
+          {
+            "id": "ee5d773568982e8a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Feedback/Finals/Project/project-1/report/chapter-5-conclusion-and-recommendations.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "chapter-5-conclusion-and-recommendations"
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -83,7 +152,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 267.5220184326172
+    "width": 267.5220184326172,
+    "collapsed": true
   },
   "right": {
     "id": "bc98d5b2a35a67a4",
@@ -201,42 +271,46 @@
       "circuit-sketcher:Create new Circuit Sketcher file": false
     }
   },
-  "active": "1dde252c64d1ce7f",
+  "active": "5b9c072ed91572d9",
   "lastOpenFiles": [
-    "Feedback/Finals/Project/project-1/data/test-3.csv",
-    "Feedback/Finals/Project/project-1/data/lu1093361jnhj.tmp",
-    "Feedback/Finals/Project/project-1/data/test-2.csv",
-    "Feedback/Finals/Project/project-1/data/lu1093361jnhh.tmp",
-    "Feedback/Finals/Project/project-1/data/test-1.csv",
-    "Feedback/Finals/Project/project-1/data/lu1093361jnhf.tmp",
-    "Feedback/Finals/Project/project-1/data/summary.csv",
-    "Feedback/Finals/Project/project-1/data/data.csv",
-    "Feedback/Finals/Project/project-1/data/lu1093361jng1.tmp",
+    "Feedback/Finals/Project/project-1/report/chapter-2-system-design-and-mathematical-model.md",
+    "Feedback/Finals/Project/project-1/report/chapter-3-prototype-development-and-procedure.md",
+    "Feedback/Finals/Project/project-1/report/chapter-5-conclusion-and-recommendations.md",
+    "Feedback/Finals/Project/project-1/report/chapter-4-results-and-discussion.md",
+    "Feedback/Finals/Project/project-requirements.pdf",
+    "Feedback/Finals/Project/project-1/report/figures/fig-model-verification.png",
+    "Feedback/Finals/Project/project-1/analysis/verify_report.ipynb",
+    "Feedback/Finals/Project/project-1/analysis",
+    "Feedback/assets/chapter-4.pdf",
+    "Feedback/Finals/Project/project-1/06-data-collection-guide.md",
+    "Feedback/Finals/Project/project-1/report/figures/fig-4-1-open-loop-step-response.png",
+    "Pasted image 20261023154814.png",
+    "Feedback/Finals/Project/project-1/report/figures/fig-4-2-measured-final-levels.png",
+    "Feedback/Finals/Project/project-1/report/figures",
+    "Feedback/Finals/Project/project-1/data/6-cm-trial-disturbance.csv",
+    "Feedback/Finals/Project/project-1/data/lu1799413evhv.tmp",
+    "Feedback/Finals/Project/project-1/data/6-cm-trial-final.csv",
+    "Feedback/Finals/Project/project-1/data/lu1799413ev92.tmp",
+    "Feedback/Finals/Project/project-1/data/3-cm-trial-final.csv",
+    "TODO.md",
+    "Untitled.canvas",
+    "Feedback/Finals/Project/project-1/report/chapter-1-introduction-and-objectives.md",
     "DSA/Finals/Assignment/Assignment 2 - (algorithm and vending machine).md",
     "DSA/Finals/Assignment/Assignment 1 - (Multi Dimension Array Stack & Queue).md",
     "Logic Circuits/Finals/NOTES-1.md",
-    "Feedback/Finals/Project/project-1/report/chapter-1-introduction-and-objectives.md",
-    "Feedback/Finals/Project/project-1/report/chapter-2-system-design-and-mathematical-model.md",
-    "Feedback/Finals/Project/project-1/report/chapter-4-results-and-discussion.md",
-    "Feedback/Finals/Project/project-1/report/chapter-3-prototype-development-and-procedure.md",
     "Feedback/Finals/Project/project-1/01-project-overview.md",
-    "TODO.md",
     "Untitled.md",
-    "Feedback/assets/chapter-5.pdf",
     "Logic Circuits/Finals/Project/pinout_74hc14_connections.png",
-    "Feedback/Finals/Project/project-requirements.pdf",
     "Logic Circuits/Finals/Project/rps_full_schematic_game_and_counter.png",
     "Feedback/Finals/Chapter-6/Skill Assessment 6.1.md",
     "Feedback/Finals/Chapter-6/Example 6.1.md",
     "PASS.md",
-    "Pasted image 20261023154814.png",
     "Pasted image 20261023154825.png",
     "Saling gawi.md",
     "Feedback/Finals/Project/project-1/water-dispenser-schematic.jpg",
     "Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
     "Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
     "Excalidraw/Drawing 2026-10-30 08.42.50.excalidraw.md",
-    "Logic Circuits/Finals/Project/pinout_74hc164_connections.png",
     "Digi Comm/Finals/Concepts.md",
     "Digi Comm/Finals/Details.md",
     "Mixed Signals/Finals/Sensors and Transducers Worked Example Solutions.md",
@@ -245,11 +319,6 @@
     "Feedback/Finals/Project/documentation/Math-Model.md",
     "Digi Comm/Finals/Final-Presentation.md",
     "Untitled 2.md",
-    "Feedback/Finals/Project/project-1/04-project-simulation.md",
-    "Feedback/Finals/Project/project-1/02-material-requirements.md",
-    "Logic Circuits/assets/Pasted image 20261020112355.png",
-    "Logic Circuits/assets/Pasted image 20261020124557.png",
-    "Untitled.canvas",
     "Feedback/Prelims/Laplace Sample.canvas",
     "Feedback/Prelims/op-amps-transfer-funciton.canvas"
   ]

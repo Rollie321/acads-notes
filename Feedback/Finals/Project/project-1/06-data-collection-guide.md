@@ -17,15 +17,15 @@ Use the report tables in [[chapter-4-results-and-discussion]] as the destination
 
 ## 1. What still needs to be recorded
 
-| Report location | Missing data | Priority |
-| --- | --- | --- |
-| Table 3.3 | Component/bench test results: Nano, button/switch, HC-SR04 accuracy and stability, HC-SR04 level response, battery voltage, diode, pump, driver, grounds, dry/noise test | Required |
-| Table 2.5 and Tables 4.6–4.8 | Battery voltage before and during each run | Required |
-| Tables 4.6–4.7 | Open-loop and closed-loop trials at r = 3 cm and r = 6 cm, three trials each | Required |
-| Table 4.8 | Pinched-tube disturbance at r = 6 cm, three trials per mode | Required |
-| Table 4.9 | Averages, percent errors, and observations for the comparison | Required |
-| Table 4.5 | Wokwi `RESULT` lines, if the simulation is rerun with the final code | Optional |
-| Figure 4.1 | Measured open-loop run overlaid on the model plot | Optional |
+| Report location              | Missing data                                                                                                                                                             | Priority |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------- |
+| Table 3.3                    | Component/bench test results: Nano, button/switch, HC-SR04 accuracy and stability, HC-SR04 level response, battery voltage, diode, pump, driver, grounds, dry/noise test | Required |
+| Table 2.5 and Tables 4.6–4.8 | Battery voltage before and during each run                                                                                                                               | Required |
+| Tables 4.6–4.7               | Open-loop and closed-loop trials at r = 3 cm and r = 6 cm, three trials each                                                                                             | Required |
+| Table 4.8                    | Pinched-tube disturbance at r = 6 cm, three trials per mode                                                                                                              | Required |
+| Table 4.9                    | Averages, percent errors, and observations for the comparison                                                                                                            | Required |
+| Table 4.5                    | Wokwi `RESULT` lines, if the simulation is rerun with the final code                                                                                                     | Optional |
+| Figure 4.1                   | Measured open-loop run overlaid on the model plot                                                                                                                        | Optional |
 
 The model values already established are **K̂ₕ = 0.367 cm/s**, **τ ≈ 0.66 s**, and **G(s) = 0.367 / [s(0.66s + 1)]**. The open-loop run times are **8.2 s for 3 cm** and **16.4 s for 6 cm**.
 
@@ -125,18 +125,18 @@ If the simulation is rerun with `SIMULATE 1` and `TARGET_CM = 6.0`, copy the two
 
 Copy this table for each block: **3 cm open**, **3 cm closed**, **6 cm open**, **6 cm closed**, **6 cm pinched open**, and **6 cm pinched closed**. The first three rows below are **sample values only**, to show the expected format; replace them with real measurements. The remaining rows are blank for recording.
 
-| Row | Test block | Trial | Battery no-load (V) | Battery under load (V) | d₀ (cm) | Arduino final (cm) | Ruler final rise (cm) | Abs. error (cm) | Percent error (%) | Notes |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 3 cm open | 1 | 6.30 | 6.12 | 14.02 | 3.04 | 3.0 | 0.00 | 0.0 | SAMPLE ONLY |
-| 2 | 3 cm open | 2 | 6.28 | 6.10 | 14.02 | 3.02 | 3.1 | 0.10 | 3.3 | SAMPLE ONLY |
-| 3 | 3 cm closed | 1 | 6.29 | 6.11 | 14.01 | 3.21 | 3.2 | 0.20 | 6.7 | SAMPLE ONLY; overshoot |
-| 4 |  |  |  |  |  |  |  |  |  |  |
-| 5 |  |  |  |  |  |  |  |  |  |  |
-| 6 |  |  |  |  |  |  |  |  |  |  |
-| 7 |  |  |  |  |  |  |  |  |  |  |
-| 8 |  |  |  |  |  |  |  |  |  |  |
-| 9 |  |  |  |  |  |  |  |  |  |  |
-| 10 |  |  |  |  |  |  |  |  |  |  |
+| Row | Test block  | Trial | Battery no-load (V) | Battery under load (V) | d₀ (cm) | Arduino final (cm) | Ruler final rise (cm) | Abs. error (cm) | Percent error (%) | Notes                  |
+| --- | ----------- | ----- | ------------------- | ---------------------- | ------- | ------------------ | --------------------- | --------------- | ----------------- | ---------------------- |
+| 1   | 3 cm open   | 1     | 6.30                | 6.12                   | 14.02   | 3.04               | 3.0                   | 0.00            | 0.0               | SAMPLE ONLY            |
+| 2   | 3 cm open   | 2     | 6.28                | 6.10                   | 14.02   | 3.02               | 3.1                   | 0.10            | 3.3               | SAMPLE ONLY            |
+| 3   | 3 cm closed | 1     | 6.29                | 6.11                   | 14.01   | 3.21               | 3.2                   | 0.20            | 6.7               | SAMPLE ONLY; overshoot |
+| 4   |             |       |                     |                        |         |                    |                       |                 |                   |                        |
+| 5   |             |       |                     |                        |         |                    |                       |                 |                   |                        |
+| 6   |             |       |                     |                        |         |                    |                       |                 |                   |                        |
+| 7   |             |       |                     |                        |         |                    |                       |                 |                   |                        |
+| 8   |             |       |                     |                        |         |                    |                       |                 |                   |                        |
+| 9   |             |       |                     |                        |         |                    |                       |                 |                   |                        |
+| 10  |             |       |                     |                        |         |                    |                       |                 |                   |                        |
 
 ---
 

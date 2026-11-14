@@ -80,14 +80,14 @@ flowchart LR
 
 **Table 2.3. Arduino Nano pin assignment**
 
-| Nano pin | Connected to | Purpose |
-| --- | --- | --- |
-| D5 | HC-SR04 Trig | Trigger pulse (output) |
-| D6 | HC-SR04 Echo | Echo pulse (input) |
-| D9 (PWM) | Driver module PWM pad | Pump control |
-| D2 | Start button (other side to GND) | Begin a run |
-| D4 | Mode switch middle pin (outer pin to GND) | Mode select |
-| 5V / GND | HC-SR04 VCC / GND | Sensor power |
+| Nano pin | Connected to                              | Purpose                |
+| -------- | ----------------------------------------- | ---------------------- |
+| D5       | HC-SR04 Trig                              | Trigger pulse (output) |
+| D6       | HC-SR04 Echo                              | Echo pulse (input)     |
+| D9 (PWM) | Driver module PWM pad                     | Pump control           |
+| D2       | Start button (other side to GND)          | Begin a run            |
+| D4       | Mode switch middle pin (outer pin to GND) | Mode select            |
+| 5V / GND | HC-SR04 VCC / GND                         | Sensor power           |
 
 The pump is wired as shown in Figure 2.3. The driver's signal side (PWM, GND) connects to the Nano, and its load side (+, LOAD, −) connects to the separate battery pack and the pump. The optocoupler isolates the two sides, so the battery negative is **not** joined to the Nano ground. This keeps pump switching noise away from the Nano and the ultrasonic sensor.
 
@@ -193,12 +193,12 @@ The level therefore rises steadily with run time after a brief start-up lag. Thi
 
 **Table 2.5. Model parameters**
 
-| Parameter | Value | Source |
-| --- | --- | --- |
-| K̂ₕ | 0.367 cm/s | Mean of the three full-drive least-squares slopes (Chapter 4) |
-| τ | 0.66 s (estimate) | Zero crossing of the fitted lines for Runs 2 and 3 (Chapter 4) |
-| d₀ | measured at the start of each run | Automatic tare before each run; not needed in G(s) |
-| Battery voltage | recorded at each trial | Multimeter; bench values pending (Tables 4.6 to 4.8) |
+| Parameter       | Value                             | Source                                                         |
+| --------------- | --------------------------------- | -------------------------------------------------------------- |
+| K̂ₕ             | 0.367 cm/s                        | Mean of the three full-drive least-squares slopes (Chapter 4)  |
+| τ               | 0.66 s (estimate)                 | Zero crossing of the fitted lines for Runs 2 and 3 (Chapter 4) |
+| d₀              | measured at the start of each run | Automatic tare before each run; not needed in G(s)             |
+| Battery voltage | recorded at each trial            | Multimeter; bench values pending (Tables 4.6 to 4.8)           |
 
 The resulting plant transfer function is
 

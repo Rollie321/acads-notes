@@ -1,0 +1,9 @@
+Mode,Trial,Battery (V),Arduino reading (cm),"Real rise, ruler (cm)",Abs. error (cm)
+Open-loop,1,5.60,5.30,6.50,1.20
+Open-loop,2,5.60,5.60,6.40,0.80
+Open-loop,3,5.50,5.60,6.50,0.90
+,,,,Average error,0.97
+Closed-loop,1,5.50,6.31,6.50,0.19
+Closed-loop,2,5.40,6.29,6.50,0.21
+Closed-loop,3,5.70,6.33,6.30,0.03
+,,,,Average error,0.14

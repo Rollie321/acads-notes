@@ -1,0 +1,7 @@
+Mode,Trial,"Real rise, ruler (cm)",Abs. error (cm),Percent of target
+Open-loop,1,5.00,1.00,83.33
+Open-loop,2,4.80,1.20,80.00
+Open-loop,3,5.30,0.70,88.33
+Closed-loop,1,6.30,0.30,105.00
+Closed-loop,2,6.50,0.50,108.33
+Closed-loop,3,6.33,0.33,105.50

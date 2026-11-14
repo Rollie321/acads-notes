@@ -18,13 +18,13 @@
     "marginType": "2",
     "showTitle": true,
     "open": true,
-    "scale": 78,
+    "scale": 109,
     "landscape": false,
     "marginTop": "10",
     "marginBottom": "10",
     "marginLeft": "10",
     "marginRight": "10",
-    "displayHeader": true,
+    "displayHeader": false,
     "displayFooter": true,
     "cssSnippet": "0"
   }

@@ -11,7 +11,7 @@
 # Tuesday Oct 2026
 - [x] CPE07 LAB
 - [x] DSA ass
-- [ ] feedback project docs
+- [x] feedback project docs
 
 # Wednesday Oct 21, 2026
 - [x] Start DSA project
@@ -24,14 +24,24 @@
 # Thursday Nov 04, 2026
 - [x] write DSA assignment
 - [x] Extend functionality of RPS circuit
-- [ ] Create logisim circuit for CRC
+- [x] Create logisim circuit for CRC
 - [x] Create logisim circuit for LRC 
 # Saturday Nov 07, 2026
 - [x] Study Feedback
-
-# Friday Nov 12, 2026
+# Thursday Nov 12, 2026
 * [x] CPE15 act 11
 * [x] CPE15 act 12
 * [x] CPE15 act 13
 * [x] CPE15 act 14
 * [x] CPE15 act 15
+- [ ] finish DSA compilation
+- [x] compile feedback video
+# Friday Nov 13, 2023
+- [ ] film DSA act 1,2,3,4
+- [x] chapter 1 feedback report
+- [ ] prac CPE-15 lec acts
+
+# GROUPMATES
+## Feedback
+- [ ] create block diagrams (chapter 2)
+- [ ] create diagram for controller logic flowchart (chapter 3)

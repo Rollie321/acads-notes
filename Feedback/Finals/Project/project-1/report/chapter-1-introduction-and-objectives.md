@@ -18,23 +18,17 @@ The control problem is to raise the water level in the glass by a selected targe
 
 In **open-loop** operation, the controller does not use the sensor. It runs the pump for a fixed, pre-calculated time t_run = r / K̂ₕ, where K̂ₕ is the level rise rate at full pump drive estimated during calibration. This works only if the pump behaves exactly as it did during calibration. If the real rise rate differs from the estimate, for example because of a pinched tube, a different tube height, or a weaker pump, the final level misses the target. For a true rate K_h,true = α·K̂ₕ, the open-loop steady-state error is r(1 − α).
 
-In **closed-loop** operation, the sensor measures the level rise continuously and the controller compares it with the target. An on-off controller keeps the pump running while the error e = r − y is positive and switches it off when the error reaches zero or less. Because the controller acts on the measured output, the final level should not depend on the actual pump rate. The plant (pump, tubing, and glass) behaves as an integrator with a first-order pump lag, and is modeled by G(s) = K_h / [s(τs + 1)].
+In **closed-loop** operation, the sensor measures the level rise continuously and the controller compares it with the target. An on-off controller keeps the pump running while the error e = r − y is positive and switches it off when the error reaches zero or less. Because the controller acts on the measured output, the final level should not depend on the actual pump rate. The plant (pump, tubing, and glass) behaves as an integrator with a first-order pump lag, and is modeled by $G(s) = \frac{K_h} {s(τs + 1)}$.
 
 The project therefore examines a central question of control theory: how much does feedback improve accuracy and robustness compared with a controller that relies only on a model?
 
 ### 1.3 Objectives
 
-**General objective.** To design, simulate, construct, and test a water-level control system that demonstrates the difference between open-loop and closed-loop control.
+The project aims to:
 
-**Specific objectives.** The project aims to:
-
-1. Identify the plant, reference input, output, sensor, actuator, controller, and feedback path, and present them in a block diagram.
-2. Develop a simplified mathematical model of the pump, tubing, and glass and obtain the plant transfer function G(s), stating all assumptions.
-3. Simulate the open-loop step response of the plant using the measured or estimated values of K_h and τ.
-4. Build a working prototype with an Arduino Nano, HC-SR04 sensor, and an optocoupler-isolated MOSFET pump driver, and implement both a timed open-loop mode and an on-off closed-loop mode.
-5. Test both modes at two reference settings (3 cm and 6 cm level rise), with three trials each, and compute the absolute steady-state error.
-6. Apply a disturbance (such as a pinched tube) to both modes and compare their responses.
-7. Explain whether feedback improves accuracy, and whether the measured results agree with the model and simulation.
+1. Develop a system to dispense water as close as possible to a target water level.
+2. Identify the plant, reference input, output, sensor, actuator, controller, and feedback path and present it as a block diagram.
+3. Use a controller to verify the real water level and create a closed-loop system to correct its own error.
 
 ### 1.4 Scope and Limitations
 

@@ -36,10 +36,11 @@
 * [x] CPE15 act 15
 - [ ] finish DSA compilation
 - [x] compile feedback video
-# Friday Nov 13, 2023
+# Sat Nov 14, 2023
 - [ ] film DSA act 1,2,3,4
 - [x] chapter 1 feedback report
-- [ ] prac CPE-15 lec acts
+- [ ]  CPE-15 lec acts code review
+- [x] Finish chapter 1-4 of feedback report
 
 # GROUPMATES
 ## Feedback

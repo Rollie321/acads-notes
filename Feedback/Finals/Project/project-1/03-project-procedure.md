@@ -1,14 +1,15 @@
-
 ---
-
-## title: Project Procedure aliases: [Procedure, Build Guide] tags: [project, arduino, procedure, code, hc-sr04, closed-loop, hysteresis] status: planning
+title: Project Procedure
+aliases: [Procedure, Build Guide]
+tags: [project, arduino, procedure, code, hc-sr04, closed-loop, hysteresis]
+status: planning
+---
 
 # Project Procedure (with Arduino Code)
 
 **Notes in this project:** [[01-project-overview|Overview]] · [[02-material-requirements|Materials]] · [[03-project-procedure|Procedure]] · [[04-project-simulation|Simulation]] · [[05-component-testing|Component Testing]]
 
 > [!info] Revision (v5): continuous closed-loop
-> 
 > - **Closed-loop never finishes.** It fills like open-loop, then keeps measuring forever. If the level drops at any time (a valve, a spill, a sample taken out), the pump restarts and restores the target level.
 > - **Mode is chosen with a MODE button** (D4) instead of the slide switch.
 > - **A status LED** (D7) shows whether closed-loop is running with a working sensor.
@@ -25,7 +26,7 @@ flowchart LR
 
 ## Phase 1 Design
 
-_(PDF Step 1)_
+*(PDF Step 1)*
 
 - [ ] Get the topic approved by your instructor (PDF topic D, automatic water-level control, with an on-off controller). Mention the revision: the closed-loop mode is a **continuous** on-off controller with a hysteresis band, so it keeps holding the level
 - [ ] Draw the block diagram (see [[01-project-overview#3. Block diagrams]])
@@ -41,7 +42,7 @@ _(PDF Step 1)_
 
 ## Phase 2 Mathematical model
 
-_(PDF Step 2)_
+*(PDF Step 2)*
 
 ### Assumptions
 
@@ -57,7 +58,7 @@ _(PDF Step 2)_
 
 **Pump and tubing** (drive to level rise rate), first-order. $Q_h$ is how fast the water level rises:
 
-$$\tau,\dot{Q}_h(t) + Q_h(t) = K_h,u(t) \quad\Longrightarrow\quad \frac{Q_h(s)}{U(s)} = \frac{K_h}{\tau s + 1}$$
+$$\tau\,\dot{Q}_h(t) + Q_h(t) = K_h\,u(t) \quad\Longrightarrow\quad \frac{Q_h(s)}{U(s)} = \frac{K_h}{\tau s + 1}$$
 
 **Glass** (level rise rate to accumulated level rise), integrator. With a leak $q_d$ the level obeys
 
@@ -67,33 +68,33 @@ With no leak ($q_d = 0$) this reduces to $H(s)/Q_h(s) = 1/s$.
 
 **Plant transfer function** (drive to level):
 
-$$\boxed{G(s) = \frac{H(s)}{U(s)} = \frac{K_h}{s,(\tau s + 1)}}$$
+$$\boxed{G(s) = \frac{H(s)}{U(s)} = \frac{K_h}{s\,(\tau s + 1)}}$$
 
 **Sensor** (distance to level): the HC-SR04 measures the distance $d$ to the surface, and the Arduino computes
 
 $$y = d_0 - d$$
 
-where $d_0$ is the empty-glass distance (taken by the tare). The sketch then applies the calibration line from the ruler check, $y_{ruler} = a,y + b$ (`LEVEL_SCALE` $a$, `LEVEL_OFFSET_CM` $b$). The sensor is therefore a unity gain (after calibration) on the level change, plus the small delay $T_f$.
+where $d_0$ is the empty-glass distance (taken by the tare). The sketch then applies the calibration line from the ruler check, $y_{ruler} = a\,y + b$ (`LEVEL_SCALE` $a$, `LEVEL_OFFSET_CM` $b$). The sensor is therefore a unity gain (after calibration) on the level change, plus the small delay $T_f$.
 
-|Symbol|Meaning|Unit|
-|---|---|---|
-|$u$|Pump drive (0 = off, 1 = full)|–|
-|$Q_h$|Level rise rate|cm/s|
-|$K_h$|Steady level rise rate at full drive|cm/s|
-|$\tau$|Pump time constant|s|
-|$q_d$|Level drop rate from a leak or valve (disturbance)|cm/s|
-|$h$|Level rise (the output $y$)|cm|
-|$d_0$|Empty-glass distance from sensor to the glass floor|cm|
-|$d$|Current distance from sensor to the water surface|cm|
-|$r$|Target level rise|cm|
-|$b$|Refill band (`REFILL_BAND_CM`)|cm|
-|$s$|Stop-early margin (`STOP_EARLY_CM`)|cm|
+| Symbol | Meaning                                           | Unit |
+| ------ | ------------------------------------------------- | ---- |
+| $u$    | Pump drive (0 = off, 1 = full)                    | –    |
+| $Q_h$  | Level rise rate                                   | cm/s |
+| $K_h$  | Steady level rise rate at full drive              | cm/s |
+| $\tau$ | Pump time constant                                | s    |
+| $q_d$  | Level drop rate from a leak or valve (disturbance) | cm/s |
+| $h$    | Level rise (the output $y$)                       | cm   |
+| $d_0$  | Empty-glass distance from sensor to the glass floor | cm |
+| $d$    | Current distance from sensor to the water surface | cm   |
+| $r$    | Target level rise                                 | cm   |
+| $b$    | Refill band (`REFILL_BAND_CM`)                    | cm   |
+| $s$    | Stop-early margin (`STOP_EARLY_CM`)               | cm   |
 
 ### Time-domain step response
 
 For a unit step in $u$:
 
-$$h(t) = K_h\left[,t - \tau\left(1 - e^{-t/\tau}\right)\right]$$
+$$h(t) = K_h\left[\,t - \tau\left(1 - e^{-t/\tau}\right)\right]$$
 
 After the short transient, $h(t)$ is a ramp with slope $K_h$.
 
@@ -101,7 +102,14 @@ After the short transient, $h(t)$ is a ramp with slope $K_h$.
 
 The error is $e(t) = r - y(t)$. The controller never stops running. It switches the pump with a **hysteresis band** so that it does not chatter around the target:
 
-$$ u(t) = \begin{cases} 1 & y(t) < r - b \quad \text{(start or restart the pump)} \ 0 & y(t) \ge r - s \quad \text{(stop the pump)} \ u(t^-) & \text{otherwise (keep the present state)} \end{cases} $$
+$$
+u(t) =
+\begin{cases}
+1 & y(t) < r - b \quad \text{(start or restart the pump)} \\
+0 & y(t) \ge r - s \quad \text{(stop the pump)} \\
+u(t^-) & \text{otherwise (keep the present state)}
+\end{cases}
+$$
 
 The values used are $b = 0.4$ cm and $s = 0$. In the code, $y$ is the median of the last 3 readings, and after every shutoff the controller waits 3 s before it can restart the pump.
 
@@ -119,13 +127,12 @@ $$\text{duty} \approx \frac{q_d}{K_h}$$
 ### Estimating $K_h$ and $\tau$
 
 - **$K_h$:** run the pump at full drive for a known time $T$ and read the real level rise $h_m$ on the ruler:
-    
-    $$K_h = \frac{h_m}{T}$$
-    
-    The procedure is in "Measure the level rise rate" below.
-    
+
+  $$K_h = \frac{h_m}{T}$$
+
+  The procedure is in "Measure the level rise rate" below.
+
 - **$\tau$:** from the logged data, find the time for the level rise rate to reach about $63\%$ of its steady value after the pump starts. If this is hard to measure, estimate it and **state it as an estimate** (the PDF allows this).
-    
 
 **Output:** equations + transfer function + stated assumptions.
 
@@ -133,7 +140,7 @@ $$\text{duty} \approx \frac{q_d}{K_h}$$
 
 ## Phase 3 Simulation
 
-_(PDF Step 3)_ Make **one open-loop step response plot** from $G(s)$ using your measured $K_h$ and $\tau$. See [[04-project-simulation#B. Open-loop step response plot]].
+*(PDF Step 3)* Make **one open-loop step response plot** from $G(s)$ using your measured $K_h$ and $\tau$. See [[04-project-simulation#B. Open-loop step response plot]].
 
 The Wokwi controller simulation also needs the new parts: a second pushbutton on D4 (Mode) and the LED on D7. Set `SIM_LEAK_CM_PER_S = 0.05` in the code to imitate an open valve and watch the closed-loop pump restart. See [[04-project-simulation]].
 
@@ -157,55 +164,57 @@ The Wokwi controller simulation also needs the new parts: a second pushbutton on
 
 Every wire needed for the final build. Tick each row as you connect it.
 
-| #   | Group          | From                                   | To                                           | Notes                                                                        |
-| --- | -------------- | -------------------------------------- | -------------------------------------------- | ---------------------------------------------------------------------------- |
-| 1   | HC-SR04 → Nano | HC-SR04 **VCC**                        | Nano **5V**                                  |                                                                              |
-| 2   | HC-SR04 → Nano | HC-SR04 **GND**                        | Nano **GND**                                 |                                                                              |
-| 3   | HC-SR04 → Nano | HC-SR04 **Trig**                       | Nano **D5**                                  | Output from the Nano                                                         |
-| 4   | HC-SR04 → Nano | HC-SR04 **Echo**                       | Nano **D6**                                  | Input to the Nano (5 V logic, no level shifter)                              |
-| 5   | Start button   | Button, one side                       | Nano **D2**                                  |                                                                              |
-| 6   | Start button   | Button, other side                     | Nano **GND**                                 | Uses the internal pull-up, no resistor needed                                |
-| 7   | Mode button    | Button, one side                       | Nano **D4**                                  | **New.** Replaces the slide switch on the same pin                           |
-| 8   | Mode button    | Button, other side                     | Nano **GND**                                 | Internal pull-up, no resistor needed. Press = toggle open-loop / closed-loop |
-| 9   | Status LED     | Nano **D7**                            | **220 Ω** resistor, one end                  | **New.** The resistor can be on either side of the LED                       |
-| 10  | Status LED     | 220 Ω resistor, other end              | LED **anode** (long leg)                     |                                                                              |
-| 11  | Status LED     | LED **cathode** (short leg, flat side) | Nano **GND**                                 |                                                                              |
-| 12  | Pump driver    | Nano **D9**                            | Module **PWM** pad                           | PWM output. No external resistor needed (module takes a 3 V or 5 V signal)   |
-| 13  | Pump driver    | Nano **GND**                           | Module signal **GND** pad                    | Signal reference only (isolated from the load side)                          |
-| 14  | Pump driver    | Battery pack **+** (about 6 V)         | Module **+** terminal                        | Separate from USB power                                                      |
-| 15  | Pump driver    | Battery pack **−**                     | Module **−** terminal                        | Do **not** connect this to the Nano GND                                      |
-| 16  | Pump           | Pump **(+)** wire                      | Module **+** terminal                        | Same terminal as the battery +: twist the two wires together first           |
-| 17  | Pump           | Pump **(−)** wire                      | Module **LOAD** terminal                     | The middle terminal. The MOSFET switches this side                           |
-| 18  | Flyback diode  | Diode **cathode** (striped end)        | Module **+** terminal (pump **(+)** side)    | Across the pump                                                              |
-| 19  | Flyback diode  | Diode **anode**                        | Module **LOAD** terminal (pump **(−)** side) |                                                                              |
+| #   | Group          | From                            | To                                            | Notes                                                                              |
+| --- | -------------- | ------------------------------- | --------------------------------------------- | ---------------------------------------------------------------------------------- |
+| 1   | HC-SR04 → Nano | HC-SR04 **VCC**                 | Nano **5V**                                   |                                                                                    |
+| 2   | HC-SR04 → Nano | HC-SR04 **GND**                 | Nano **GND**                                  |                                                                                    |
+| 3   | HC-SR04 → Nano | HC-SR04 **Trig**                | Nano **D5**                                   | Output from the Nano                                                               |
+| 4   | HC-SR04 → Nano | HC-SR04 **Echo**                | Nano **D6**                                   | Input to the Nano (5 V logic, no level shifter)                                    |
+| 5   | Start button   | Button, one side                | Nano **D2**                                   |                                                                                    |
+| 6   | Start button   | Button, other side              | Nano **GND**                                  | Uses the internal pull-up, no resistor needed                                      |
+| 7   | Mode button    | Button, one side                | Nano **D4**                                   | **New.** Replaces the slide switch on the same pin                                 |
+| 8   | Mode button    | Button, other side              | Nano **GND**                                  | Internal pull-up, no resistor needed. Press = toggle open-loop / closed-loop       |
+| 9   | Status LED     | Nano **D7**                     | **220 Ω** resistor, one end                   | **New.** The resistor can be on either side of the LED                             |
+| 10  | Status LED     | 220 Ω resistor, other end       | LED **anode** (long leg)                      |                                                                                    |
+| 11  | Status LED     | LED **cathode** (short leg, flat side) | Nano **GND**                           |                                                                                    |
+| 12  | Pump driver    | Nano **D9**                     | Module **PWM** pad                            | PWM output. No external resistor needed (module takes a 3 V or 5 V signal)         |
+| 13  | Pump driver    | Nano **GND**                    | Module signal **GND** pad                     | Signal reference only (isolated from the load side)                                |
+| 14  | Pump driver    | Battery pack **+** (about 6 V)  | Module **+** terminal                         | Separate from USB power                                                            |
+| 15  | Pump driver    | Battery pack **−**              | Module **−** terminal                         | Do **not** connect this to the Nano GND                                            |
+| 16  | Pump           | Pump **(+)** wire               | Module **+** terminal                         | Same terminal as the battery +: twist the two wires together first                 |
+| 17  | Pump           | Pump **(−)** wire               | Module **LOAD** terminal                      | The middle terminal. The MOSFET switches this side                                 |
+| 18  | Flyback diode  | Diode **cathode** (striped end) | Module **+** terminal (pump **(+)** side)     | Across the pump                                                                    |
+| 19  | Flyback diode  | Diode **anode**                 | Module **LOAD** terminal (pump **(−)** side)  |                                                                                    |
 
 ### Updated Nano pin assignment
 
-| Nano pin | Connected to                                   | Purpose                        |
-| -------- | ---------------------------------------------- | ------------------------------ |
-| D2       | Start button (other side to GND)               | Start / stop                   |
-| D4       | **Mode button** (other side to GND)            | Toggle open-loop / closed-loop |
-| D5       | HC-SR04 Trig                                   | Trigger pulse (output)         |
-| D6       | HC-SR04 Echo                                   | Echo pulse (input)             |
-| D7       | **Status LED** (through 220 Ω, cathode to GND) | Closed-loop status             |
-| D9 (PWM) | Driver module PWM pad                          | Pump control                   |
+| Nano pin | Connected to                                   | Purpose                                      |
+| -------- | ---------------------------------------------- | -------------------------------------------- |
+| D2       | Start button (other side to GND)               | Start / stop                                 |
+| D4       | **Mode button** (other side to GND)            | Toggle open-loop / closed-loop               |
+| D5       | HC-SR04 Trig                                   | Trigger pulse (output)                       |
+| D6       | HC-SR04 Echo                                   | Echo pulse (input)                           |
+| D7       | **Status LED** (through 220 Ω, cathode to GND) | Closed-loop status                           |
+| D9 (PWM) | Driver module PWM pad                          | Pump control                                 |
 
-> [!important] Two separate grounds  
-> **Nano side:** Nano GND, HC-SR04 GND, the Start and Mode buttons, the **LED cathode**, and the module's signal GND pad share one ground rail.  
+> [!important] Two separate grounds
+> **Nano side:** Nano GND, HC-SR04 GND, the Start and Mode buttons, the **LED cathode**, and the module's signal GND pad share one ground rail.
 > **Load side:** the battery −, the module's **−** terminal and nothing else. The optocoupler isolates the two sides, so do **not** join them.
 
-> [!tip] Check the terminal order on your board Retailer pinouts for this module family list the load terminals as **+ / LOAD / −**, with LOAD as the negative lead of the load. Confirm with the silkscreen on your own board, and run the test in [[05-component-testing#7. MOSFET driver module and pump (with Arduino PWM)]] before using water.
+> [!tip] Check the terminal order on your board
+> Retailer pinouts for this module family list the load terminals as **+ / LOAD / −**, with LOAD as the negative lead of the load. Confirm with the silkscreen on your own board, and run the test in [[05-component-testing#7. MOSFET driver module and pump (with Arduino PWM)]] before using water.
 
-> [!warning] Battery voltage One retailer lists a 6 to 28 V load supply for the LR7843 version of this module. A 4 × AA pack is right at that edge, so check the pack voltage under load and replace weak batteries.
+> [!warning] Battery voltage
+> One retailer lists a 6 to 28 V load supply for the LR7843 version of this module. A 4 × AA pack is right at that edge, so check the pack voltage under load and replace weak batteries.
 
 ### What the status LED means
 
-| LED            | State                                                                |
-| -------------- | -------------------------------------------------------------------- |
-| **Off**        | **Open-loop** mode (the sensor is only logged, not used for control) |
-| **Slow blink** | Closed-loop selected, **waiting for Start** (pump is off)            |
-| **Solid on**   | Closed-loop **running**, sensor working                              |
-| **Fast blink** | Closed-loop **fault**, pump is off (see below)                       |
+| LED               | State                                                                 |
+| ----------------- | --------------------------------------------------------------------- |
+| **Off**           | **Open-loop** mode (the sensor is only logged, not used for control)  |
+| **Slow blink**    | Closed-loop selected, **waiting for Start** (pump is off)             |
+| **Solid on**      | Closed-loop **running**, sensor working                               |
+| **Fast blink**    | Closed-loop **fault**, pump is off (see below)                        |
 
 Fast blink causes: no echo from the HC-SR04 (clears by itself when the echoes return), the pump ran more than 60 s without reaching the target (reservoir empty or leak too big), or the tare failed. The last two need a **Start** press to clear.
 
@@ -253,9 +262,11 @@ and should be within about $\pm 0.3$ cm of 3.0 cm.
 4. Repeat for 1 to 8 cm.
 5. Fit a straight line $\text{ruler} = a \cdot \text{raw} + b$ (Excel `SLOPE` and `INTERCEPT`), then enter $a$ as `LEVEL_SCALE` and $b$ as `LEVEL_OFFSET_CM` in the code and re-upload.
 
-> [!example] Example $d_0 = 14.0\ \text{cm}$ and $d_3 = 11.1\ \text{cm}$ give a rise of $2.9\ \text{cm}$, which is within $\pm 0.3$ cm of the ruler's $3.0\ \text{cm}$.
+> [!example] Example
+> $d_0 = 14.0\ \text{cm}$ and $d_3 = 11.1\ \text{cm}$ give a rise of $2.9\ \text{cm}$, which is within $\pm 0.3$ cm of the ruler's $3.0\ \text{cm}$.
 
-> [!note] The empty glass does not read exactly 0 The sketch reports $y_{ruler} = a \cdot \text{raw} + b$. With `LEVEL_OFFSET_CM` different from 0, the empty glass reads about $b$ (for example 0.7 cm) in the log. This is expected, not a fault.
+> [!note] The empty glass does not read exactly 0
+> The sketch reports $y_{ruler} = a \cdot \text{raw} + b$. With `LEVEL_OFFSET_CM` different from 0, the empty glass reads about $b$ (for example 0.7 cm) in the log. This is expected, not a fault.
 
 ### Measure the level rise rate (open-loop estimate)
 
@@ -270,20 +281,20 @@ $$t_{run} = \frac{r}{\hat{K}_h}$$
 
 ## Phase 5 Main Arduino code
 
-> [!note] Set `#define SIMULATE 0` for real hardware and `1` for the Wokwi simulation ([[04-project-simulation]]).
+> [!note]
+> Set `#define SIMULATE 0` for real hardware and `1` for the Wokwi simulation ([[04-project-simulation]]).
 
 ### How to operate it
 
-|Action|Open-loop (LED off)|Closed-loop (LED slow blink / solid / fast blink)|
-|---|---|---|
-|**Mode** button|Switch to closed-loop (also stops the pump)|Switch to open-loop (also stops the pump)|
-|**Start** button|One timed fill, then the `RESULT` line|Tare (empty glass!), then regulate until stopped|
-|**Start** again while running|Aborts the fill|Stops the regulation (pump off, back to armed)|
+| Action                                      | Open-loop (LED off)                                   | Closed-loop (LED slow blink / solid / fast blink) |
+| ------------------------------------------- | ----------------------------------------------------- | ------------------------------------------------- |
+| **Mode** button                             | Switch to closed-loop (also stops the pump)           | Switch to open-loop (also stops the pump)         |
+| **Start** button                            | One timed fill, then the `RESULT` line                | Tare (empty glass!), then regulate until stopped  |
+| **Start** again while running               | Aborts the fill                                       | Stops the regulation (pump off, back to armed)    |
 
 At power-up the system is in **open-loop**. Closed-loop prints CSV rows (`time_ms,level_cm,raw_cm,pump`) and event lines that start with `#` (`# PUMP ON`, `# PUMP OFF`, faults). It has **no `RESULT` line**, because it never ends: take the final reading from the last rows of the log after the pump has stopped and the level has settled, and from the ruler.
 
 > [!INFO]- Controller flow
-> 
 > ```mermaid
 > flowchart TD
 >     A(["Mode button toggles the mode"]) --> B{"Closed-loop?"}
@@ -307,7 +318,6 @@ At power-up the system is in **open-loop**. Closed-loop prints CSV rows (`time_m
 >     K --> D
 >     N --> D
 > ```
-> 
 > Start again, or Mode, stops the loop at any time.
 
 ### Code
@@ -824,26 +834,26 @@ void loop() {
 
 ### Code to control-theory map
 
-|Code|Control concept|
-|---|---|
-|`TARGET_CM`|Reference input $r$ (fixed in the code)|
-|`readLevel()`|Sensor output $y = d_0 - d$, with the ruler correction (feedback)|
-|`medianDistance()`, `median3()`|Sensor filtering (adds a small delay $T_f$)|
-|`med >= TARGET_CM - STOP_EARLY_CM` (pump ON)|Switch-off side of the on-off law ($y \ge r - s$)|
-|`med < TARGET_CM - REFILL_BAND_CM` (pump OFF)|Switch-on side of the on-off law ($y < r - b$). The gap $b - s$ is the hysteresis|
-|`regulateStep()` called from `loop()` forever|The loop never ends, so a drop in level at any time is corrected|
-|`RESTART_HOLDOFF_MS`|Waits for drips and ripples after a shutoff before judging the level|
-|`setPump(...)`|Actuator command $u$|
-|`MAX_PUMP_RUN_MS`, `SENSOR_FAIL_LIMIT`|Safety: dry-run protection and loss-of-sensor shutdown|
-|Fixed `runMs` in open-loop|No feedback, time from the model only|
-|`percent` in the open-loop `RESULT` line|Reports $p = y/r \times 100%$. Reads $y$ but **never feeds the controller**|
-|Mode button, status LED|Operator interface: selects the loop structure, shows if feedback is active|
+| Code                                              | Control concept                                                                       |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `TARGET_CM`                                       | Reference input $r$ (fixed in the code)                                               |
+| `readLevel()`                                     | Sensor output $y = d_0 - d$, with the ruler correction (feedback)                     |
+| `medianDistance()`, `median3()`                   | Sensor filtering (adds a small delay $T_f$)                                           |
+| `med >= TARGET_CM - STOP_EARLY_CM` (pump ON)      | Switch-off side of the on-off law ($y \ge r - s$)                                     |
+| `med < TARGET_CM - REFILL_BAND_CM` (pump OFF)     | Switch-on side of the on-off law ($y < r - b$). The gap $b - s$ is the hysteresis     |
+| `regulateStep()` called from `loop()` forever     | The loop never ends, so a drop in level at any time is corrected                      |
+| `RESTART_HOLDOFF_MS`                              | Waits for drips and ripples after a shutoff before judging the level                  |
+| `setPump(...)`                                    | Actuator command $u$                                                                  |
+| `MAX_PUMP_RUN_MS`, `SENSOR_FAIL_LIMIT`            | Safety: dry-run protection and loss-of-sensor shutdown                                |
+| Fixed `runMs` in open-loop                        | No feedback, time from the model only                                                 |
+| `percent` in the open-loop `RESULT` line          | Reports $p = y/r \times 100\%$. Reads $y$ but **never feeds the controller**          |
+| Mode button, status LED                           | Operator interface: selects the loop structure, shows if feedback is active           |
 
 ---
 
 ## Phase 6 Testing and data collection
 
-_(PDF Steps 4 and 5)_
+*(PDF Steps 4 and 5)*
 
 ### Test procedure (for each target: 3 cm and 6 cm)
 
@@ -858,24 +868,24 @@ _(PDF Steps 4 and 5)_
 
 **Absolute error and percent error:**
 
-$$e_{abs} = \lvert h_{real} - r \rvert, \qquad e_{%} = \frac{e_{abs}}{r} \times 100%$$
+$$e_{abs} = \lvert h_{real} - r \rvert, \qquad e_{\%} = \frac{e_{abs}}{r} \times 100\%$$
 
 ### Data table template
 
-|Mode|Target (cm)|Trial|Arduino reading (cm)|Real level rise (cm, ruler)|Abs. error (cm)|
-|---|---|---|---|---|---|
-|Open|3|1||||
-|Open|3|2||||
-|Open|3|3||||
-|Closed|3|1||||
-|Closed|3|2||||
-|Closed|3|3||||
-|Open|6|1||||
-|Open|6|2||||
-|Open|6|3||||
-|Closed|6|1||||
-|Closed|6|2||||
-|Closed|6|3||||
+| Mode   | Target (cm) | Trial | Arduino reading (cm) | Real level rise (cm, ruler) | Abs. error (cm) |
+| ------ | ----------- | ----- | -------------------- | --------------------------- | --------------- |
+| Open   | 3           | 1     |                      |                             |                 |
+| Open   | 3           | 2     |                      |                             |                 |
+| Open   | 3           | 3     |                      |                             |                 |
+| Closed | 3           | 1     |                      |                             |                 |
+| Closed | 3           | 2     |                      |                             |                 |
+| Closed | 3           | 3     |                      |                             |                 |
+| Open   | 6           | 1     |                      |                             |                 |
+| Open   | 6           | 2     |                      |                             |                 |
+| Open   | 6           | 3     |                      |                             |                 |
+| Closed | 6           | 1     |                      |                             |                 |
+| Closed | 6           | 2     |                      |                             |                 |
+| Closed | 6           | 3     |                      |                             |                 |
 
 Add an **average error** row for each mode and target.
 
@@ -889,45 +899,48 @@ This test shows the "infinitely correcting" behavior. Run it at the 6 cm target 
 4. When the pump has stopped and the level has settled (about 10 s), read the ruler.
 5. Repeat **3 times**, then once with a **larger** removal (about 2 cm) and once removing water **while the pump is running**.
 
-|Trial|Level before (cm, ruler)|Water removed (cm)|Time until pump restarted (s)|Level after settle (cm, ruler)|Error vs target (cm)|
-|---|---|---|---|---|---|
-|1||||||
-|2||||||
-|3||||||
+| Trial | Level before (cm, ruler) | Water removed (cm) | Time until pump restarted (s) | Level after settle (cm, ruler) | Error vs target (cm) |
+| ----- | ------------------------ | ------------------ | ----------------------------- | ------------------------------ | -------------------- |
+| 1     |                          |                    |                               |                                |                      |
+| 2     |                          |                    |                               |                                |                      |
+| 3     |                          |                    |                               |                                |                      |
 
-> [!note] Why the pump waits a moment A removal smaller than the refill band (0.4 cm) is deliberately ignored, and after any shutoff the loop waits 3 s before it judges the level. So expect a delay of a few seconds, not an instant response.
+> [!note] Why the pump waits a moment
+> A removal smaller than the refill band (0.4 cm) is deliberately ignored, and after any shutoff the loop waits 3 s before it judges the level. So expect a delay of a few seconds, not an instant response.
 
 ### Required comparison (PDF Section 4)
 
-|Test condition|Open-loop|Closed-loop|
-|---|---|---|
-|Reference / target setting|Record|Record|
-|Measured output|Record|Record|
-|Absolute steady-state error|Calculate|Calculate|
-|Response to a change in target (`TARGET_CM` 3 → 6 cm, re-upload)|Observe|Observe|
-|Response to a disturbance (pinched tube)|Observe|Observe|
-|Response to a **continuous disturbance** (water removed or a valve open)|Observe|Observe|
+| Test condition                                                        | Open-loop | Closed-loop |
+| --------------------------------------------------------------------- | --------- | ----------- |
+| Reference / target setting                                            | Record    | Record      |
+| Measured output                                                       | Record    | Record      |
+| Absolute steady-state error                                           | Calculate | Calculate   |
+| Response to a change in target (`TARGET_CM` 3 → 6 cm, re-upload)      | Observe   | Observe     |
+| Response to a disturbance (pinched tube)                              | Observe   | Observe     |
+| Response to a **continuous disturbance** (water removed or a valve open) | Observe | Observe     |
 
 ### Disturbance test
 
 Pick the ones you can do and apply each to **both** modes:
 
 - **Pinched tube (easiest):** slightly pinch the tube with a clip before pressing **Start**. The true level rise rate drops to $\alpha \hat{K}_h$.
-- **Drain during the fill (new):** open a small valve or drain tube on the glass (a few tenths of a cm per second at most, clearly less than $K_h$) _while_ the pump runs. Closed-loop keeps pumping until the level reaches the target. Open-loop stops on time and ends short.
+- **Drain during the fill (new):** open a small valve or drain tube on the glass (a few tenths of a cm per second at most, clearly less than $K_h$) *while* the pump runs. Closed-loop keeps pumping until the level reaches the target. Open-loop stops on time and ends short.
 - **Drain after the fill (new):** after the fill is finished, open the valve (or use the syringe). Open-loop cannot react and the level keeps falling. Closed-loop restarts the pump whenever the level falls below the band and **holds the level**, with the pump cycling on and off.
 - **Reservoir or glass height:** raise or lower it by a few centimeters (re-check that the sensor is still 5 to 10 cm above the highest water level).
 - **Weaker batteries (avoid with this module):** if the pack falls below the module's supply minimum (about 6 V is listed by one retailer), the pump may switch erratically instead of just running slower, which does not match the model.
 
-> [!warning] Keep the leak smaller than the pump The leak must be well below $K_h$ (about 0.36 cm/s). If it is bigger, the level can never reach the target, and after 60 s of continuous pumping the controller stops the pump and the LED blinks fast. This is the dry-run protection working as designed.
+> [!warning] Keep the leak smaller than the pump
+> The leak must be well below $K_h$ (about 0.36 cm/s). If it is bigger, the level can never reach the target, and after 60 s of continuous pumping the controller stops the pump and the LED blinks fast. This is the dry-run protection working as designed.
 
-> [!success] Expected result **Pinched tube.** If the true level rise rate is a fraction $\alpha$ of the estimate ($K_{h,true} = \alpha\hat{K}_h$), open-loop gives a steady-state error of
-> 
-> $$e_{ss,open} = r,(1 - \alpha)$$
-> 
+> [!success] Expected result
+> **Pinched tube.** If the true level rise rate is a fraction $\alpha$ of the estimate ($K_{h,true} = \alpha\hat{K}_h$), open-loop gives a steady-state error of
+>
+> $$e_{ss,open} = r\,(1 - \alpha)$$
+>
 > For example, $\alpha = 0.8$ gives 0.6 cm at the 3 cm target and 1.2 cm at the 6 cm target. Closed-loop does not depend on $\alpha$, because it measures the real output. Its error is only the post-shutoff overshoot plus the sensor resolution (about $\pm 0.3$ cm).
-> 
-> **Drain.** With a constant leak $q_d$, open-loop ends about $q_d,t_{run}$ short and then keeps falling, because it never looks at the level again. Closed-loop restores the level every time it falls below $r - b$ and keeps it between about $r - b$ and $r$ plus the overshoot, with the pump running a fraction of about $q_d/K_h$ of the time.
-> 
+>
+> **Drain.** With a constant leak $q_d$, open-loop ends about $q_d\,t_{run}$ short and then keeps falling, because it never looks at the level again. Closed-loop restores the level every time it falls below $r - b$ and keeps it between about $r - b$ and $r$ plus the overshoot, with the pump running a fraction of about $q_d/K_h$ of the time.
+>
 > This is your clearest proof that feedback helps.
 
 ### Optional bonus: reduce overshoot
@@ -942,7 +955,7 @@ Try one at a time and record the effect:
 
 ## Phase 7 Report and demonstration
 
-_(PDF Step 6)_
+*(PDF Step 6)*
 
 ### Report outline (about 4–6 pages, excluding code and appendices)
 
@@ -968,7 +981,6 @@ _(PDF Step 6)_
 - [ ] Record a backup video (the PDF's recommended arrangement mentions a recorded video demonstration)
 
 > [!TLDR]- Timeline (3 weeks)
-> 
 > ```mermaid
 > flowchart LR
 >     W1["Week 1<br/>Topic approval<br/>Block diagram<br/>Model and transfer function<br/>Initial simulation"] --> W2["Week 2<br/>Build and calibrate<br/>Implement controller<br/>Test open and closed loop<br/>Record data"]
@@ -979,25 +991,26 @@ _(PDF Step 6)_
 
 ## Troubleshooting
 
-|Problem|Likely cause / fix|
-|---|---|
-|Distance always 0 or never changes|Trig and Echo swapped, no 5 V on VCC, or nothing in front of the sensor|
-|Readings jump around with still water|Sensor not pointing straight down, tube or glass rim inside the beam, or sensor too close (under about 5 cm)|
-|Level rise reads negative or too low|Tare taken with water already in the glass, or the sensor moved after the tare. Empty the glass and press Start again|
-|Empty glass reads about 0.7 cm instead of 0|Normal: it equals `LEVEL_OFFSET_CM` from the calibration fit|
-|Level rise wrong by a constant factor|Sensor not pointing straight down, or the glass is not straight-sided. Redo the ruler check at 3 cm and 6 cm, then the calibration mode|
-|Mode button does nothing|Wired to the wrong pin (must be D4 and GND), or a 4-pin button with both wires on the same internal pair: rotate it 90°|
-|LED never lights in closed-loop|LED backwards (long leg must go to the resistor / D7), no 220 Ω path, or the cathode is not on Nano GND|
-|LED blinks fast right after pressing Start|Tare failed (no echo): check the HC-SR04 wiring and that nothing blocks the beam|
-|LED blinks fast during a run|Sensor lost its echo (it recovers by itself), or the 60 s pump limit was hit. Read the `#` line in the Serial Monitor|
-|Closed-loop pump stops but never restarts|Level is above `TARGET_CM − REFILL_BAND_CM`, or less than 3 s have passed since shutoff. Remove more water or wait|
-|Closed-loop pump cycles on and off too often|`REFILL_BAND_CM` too small, or `STOP_EARLY_CM` too close to it. Use a band of at least 0.3 to 0.4 cm and a stop-early margin smaller than the band|
-|Pump restarts right after every stop|Readings while pumping read high and the settled level is lower than the band. Increase `REFILL_BAND_CM` slightly or use `STOP_EARLY_CM`|
-|Level ends above the target in closed-loop|Post-shutoff overshoot. The system cannot drain. Try `STOP_EARLY_CM` (bonus section) or a drain pump (future work)|
-|Closed-loop stops too early|Splash or ripples read as a high level: aim the tube at the inner glass wall and keep the median filters on|
-|Level reading is noisy only while filling|Normal ripples. The 3 s holdoff after each shutoff handles this|
-|Pump never turns on|Pump (−) not on the **LOAD** terminal, reversed battery polarity, dead or weak battery (below about 6 V), PWM or signal GND wires loose, or terminal screws not clamping the wires|
-|Pump runs at boot or will not stop|Rare with an optocoupler input. Add a 10 kΩ resistor from the PWM pad to the signal GND pad, and check the pump (−) is on LOAD, not on the − terminal|
-|Pump stalls at `PWM_SLOW`|Raise `PWM_SLOW` (try 180 to 200), or set `SLOW_ZONE_CM = 0`|
-|Upload fails on Nano|Tools → Processor → "ATmega328P (Old Bootloader)"|
-|Large open-loop errors|Re-measure `RISE_CM_PER_S` with the same battery and tube setup|
+| Problem                                           | Likely cause / fix                                                                                              |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Distance always 0 or never changes                | Trig and Echo swapped, no 5 V on VCC, or nothing in front of the sensor                                         |
+| Readings jump around with still water             | Sensor not pointing straight down, tube or glass rim inside the beam, or sensor too close (under about 5 cm)    |
+| Level rise reads negative or too low              | Tare taken with water already in the glass, or the sensor moved after the tare. Empty the glass and press Start again |
+| Empty glass reads about 0.7 cm instead of 0       | Normal: it equals `LEVEL_OFFSET_CM` from the calibration fit                                                    |
+| Level rise wrong by a constant factor             | Sensor not pointing straight down, or the glass is not straight-sided. Redo the ruler check at 3 cm and 6 cm, then the calibration mode |
+| Mode button does nothing                          | Wired to the wrong pin (must be D4 and GND), or a 4-pin button with both wires on the same internal pair: rotate it 90° |
+| LED never lights in closed-loop                   | LED backwards (long leg must go to the resistor / D7), no 220 Ω path, or the cathode is not on Nano GND        |
+| LED blinks fast right after pressing Start        | Tare failed (no echo): check the HC-SR04 wiring and that nothing blocks the beam                                |
+| LED blinks fast during a run                      | Sensor lost its echo (it recovers by itself), or the 60 s pump limit was hit. Read the `#` line in the Serial Monitor |
+| Closed-loop pump stops but never restarts         | Level is above `TARGET_CM − REFILL_BAND_CM`, or less than 3 s have passed since shutoff. Remove more water or wait |
+| Closed-loop pump cycles on and off too often      | `REFILL_BAND_CM` too small, or `STOP_EARLY_CM` too close to it. Use a band of at least 0.3 to 0.4 cm and a stop-early margin smaller than the band |
+| Pump restarts right after every stop              | Readings while pumping read high and the settled level is lower than the band. Increase `REFILL_BAND_CM` slightly or use `STOP_EARLY_CM` |
+| Level ends above the target in closed-loop        | Post-shutoff overshoot. The system cannot drain. Try `STOP_EARLY_CM` (bonus section) or a drain pump (future work) |
+| Closed-loop stops too early                       | Splash or ripples read as a high level: aim the tube at the inner glass wall and keep the median filters on     |
+| Level reading is noisy only while filling         | Normal ripples. The 3 s holdoff after each shutoff handles this                                                 |
+| Pump never turns on                               | Pump (−) not on the **LOAD** terminal, reversed battery polarity, dead or weak battery (below about 6 V), PWM or signal GND wires loose, or terminal screws not clamping the wires |
+| Pump runs at boot or will not stop                | Rare with an optocoupler input. Add a 10 kΩ resistor from the PWM pad to the signal GND pad, and check the pump (−) is on LOAD, not on the − terminal |
+| Pump stalls at `PWM_SLOW`                         | Raise `PWM_SLOW` (try 180 to 200), or set `SLOW_ZONE_CM = 0`                                                    |
+| Upload fails on Nano                              | Tools → Processor → "ATmega328P (Old Bootloader)"                                                              |
+| Large open-loop errors                            | Re-measure `RISE_CM_PER_S` with the same battery and tube setup                                                 |
+

@@ -4,21 +4,19 @@
     "type": "split",
     "children": [
       {
-        "id": "6e88b9501e85aef7",
+        "id": "3fbd555f471f75fb",
         "type": "tabs",
         "children": [
           {
-            "id": "81571c97603fbf7b",
+            "id": "18ab4bbd23d46ae6",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "image",
               "state": {
-                "file": "Logic Circuits/Finals/LAB-activities/Week-1.md",
-                "mode": "source",
-                "source": false
+                "file": "Drafting/project/digispark-595-dice-schematic.svg"
               },
-              "icon": "lucide-file",
-              "title": "Week-1"
+              "icon": "lucide-image",
+              "title": "digispark-595-dice-schematic"
             }
           }
         ]
@@ -83,8 +81,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 267.5220184326172,
-    "collapsed": true
+    "width": 267.5220184326172
   },
   "right": {
     "id": "bc98d5b2a35a67a4",
@@ -202,15 +199,18 @@
       "circuit-sketcher:Create new Circuit Sketcher file": false
     }
   },
-  "active": "81571c97603fbf7b",
+  "active": "18ab4bbd23d46ae6",
   "lastOpenFiles": [
+    "Drafting/project/attiny85-digital-dice-project-plan.md",
+    "Logic Circuits/Finals/Project/pinout_74hc14_connections.png",
+    "Feedback/Finals/Project/project-1/03-project-procedure.md",
+    "Logic Circuits/Finals/LAB-activities/Week-1.md",
     "Logic Circuits/Finals/LAB-activities/answers-LAB-1.md",
     "Pasted image 20261023154814.png",
     "PASS.md",
     "Untitled.md",
     "Saling gawi.md",
     "Logic Circuits/Midterm/lab-2.md",
-    "Feedback/Finals/Project/project-1/03-project-procedure.md",
     "Feedback/Finals/Project/project-1/report/chapter-2-system-design-and-mathematical-model.md",
     "DSA/Finals/Project/Project Requirements.md",
     "TODO.md",
@@ -237,7 +237,6 @@
     "DSA/Finals/Assignment/Assignment 1 - (Multi Dimension Array Stack & Queue).md",
     "Logic Circuits/Finals/NOTES-1.md",
     "Feedback/Finals/Project/project-1/01-project-overview.md",
-    "Logic Circuits/Finals/Project/pinout_74hc14_connections.png",
     "Logic Circuits/Finals/Project/rps_full_schematic_game_and_counter.png",
     "Feedback/Finals/Chapter-6/Skill Assessment 6.1.md",
     "Feedback/Finals/Chapter-6/Example 6.1.md",
@@ -249,8 +248,6 @@
     "Digi Comm/Finals/Concepts.md",
     "Digi Comm/Finals/Details.md",
     "Mixed Signals/Finals/Sensors and Transducers Worked Example Solutions.md",
-    "Mixed Signals/Finals/Ass-1.md",
-    "Shopee.md",
     "Feedback/Prelims/Laplace Sample.canvas",
     "Feedback/Prelims/op-amps-transfer-funciton.canvas"
   ]

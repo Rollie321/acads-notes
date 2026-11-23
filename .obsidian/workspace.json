@@ -11,12 +11,14 @@
             "id": "18ab4bbd23d46ae6",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "markdown",
               "state": {
-                "file": "Drafting/project/digispark-595-dice-schematic.svg"
+                "file": "Drafting/project/digispark-74hc595-dice-project-plan.md",
+                "mode": "preview",
+                "source": false
               },
-              "icon": "lucide-image",
-              "title": "digispark-595-dice-schematic"
+              "icon": "lucide-file",
+              "title": "digispark-74hc595-dice-project-plan"
             }
           }
         ]
@@ -81,7 +83,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 267.5220184326172
+    "width": 267.5220184326172,
+    "collapsed": true
   },
   "right": {
     "id": "bc98d5b2a35a67a4",
@@ -201,6 +204,8 @@
   },
   "active": "18ab4bbd23d46ae6",
   "lastOpenFiles": [
+    "Feedback/Finals/Project/project-1/schematic-v5.svg",
+    "Drafting/project/digispark-595-dice-schematic.svg",
     "Drafting/project/attiny85-digital-dice-project-plan.md",
     "Logic Circuits/Finals/Project/pinout_74hc14_connections.png",
     "Feedback/Finals/Project/project-1/03-project-procedure.md",
@@ -243,11 +248,9 @@
     "Pasted image 20261023154825.png",
     "Feedback/Finals/Project/project-1/water-dispenser-schematic.jpg",
     "Feedback/Finals/Project/project-1/water_dispenser_schematic_isolated_module.png",
-    "Feedback/Finals/Project/project-1/water_dispenser_real_life_wiring.png",
     "Excalidraw/Drawing 2026-10-30 08.42.50.excalidraw.md",
     "Digi Comm/Finals/Concepts.md",
     "Digi Comm/Finals/Details.md",
-    "Mixed Signals/Finals/Sensors and Transducers Worked Example Solutions.md",
     "Feedback/Prelims/Laplace Sample.canvas",
     "Feedback/Prelims/op-amps-transfer-funciton.canvas"
   ]

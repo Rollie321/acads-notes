@@ -1,0 +1,210 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1520 980" width="1520" height="980" font-family="Arial, Helvetica, sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+  <rect width="1520" height="980" fill="#ffffff"/>
+
+  <!-- Title -->
+  <text x="760" y="48" text-anchor="middle" font-size="26" font-weight="bold" fill="#111">Automatic Water-Level Control: Circuit Schematic (v5)</text>
+  <text x="760" y="74" text-anchor="middle" font-size="14" fill="#555">Arduino Nano, HC-SR04, Start and Mode buttons, status LED, isolated MOSFET pump driver</text>
+
+  <!-- ================= WIRES ================= -->
+  <g fill="none" stroke-width="2.5" stroke-linejoin="round">
+    <!-- Nano-side ground: left bus, rail, right bus -->
+    <path d="M180 310 V790 H880 V305" stroke="#111"/>
+    <path d="M560 620 H180" stroke="#111"/>
+    <path d="M900 305 H880" stroke="#111"/>
+    <path d="M1000 540 H880" stroke="#111"/>
+
+    <!-- Start button D2 -->
+    <path d="M560 310 H470" stroke="#1f6feb"/>
+    <path d="M400 310 H180" stroke="#111"/>
+    <!-- Mode button D4 -->
+    <path d="M560 390 H470" stroke="#1f6feb"/>
+    <path d="M400 390 H180" stroke="#111"/>
+    <!-- LED D7 -> 220 ohm -> LED -> GND -->
+    <path d="M560 470 H500" stroke="#8e44ad"/>
+    <path d="M420 470 H370" stroke="#8e44ad"/>
+    <path d="M330 470 H180" stroke="#111"/>
+
+    <!-- HC-SR04 -->
+    <path d="M760 280 H800 V170 H900" stroke="#c0392b"/>
+    <path d="M760 330 H830 V215 H900" stroke="#1f6feb"/>
+    <path d="M760 380 H860 V260 H900" stroke="#1f6feb"/>
+
+    <!-- D9 PWM to module, with a hop over the ground bus -->
+    <path d="M760 470 H870 A10 10 0 0 1 890 470 H1000" stroke="#1e8e3e"/>
+
+    <!-- Load side: + net -->
+    <path d="M1200 470 H1240 V430 H1400" stroke="#c0392b"/>
+    <path d="M1340 430 V463" stroke="#c0392b"/>
+    <path d="M1262 430 V472" stroke="#c0392b"/>
+    <!-- Load side: LOAD net -->
+    <path d="M1200 540 H1340 V527" stroke="#d97706"/>
+    <path d="M1262 495 V540" stroke="#d97706"/>
+    <!-- Load side: battery minus -->
+    <path d="M1200 610 H1400 V503" stroke="#444"/>
+    <!-- battery plus lead -->
+    <path d="M1400 430 V455" stroke="#c0392b"/>
+  </g>
+
+  <!-- Junction dots -->
+  <g fill="#111">
+    <circle cx="180" cy="310" r="4.5"/>
+    <circle cx="180" cy="390" r="4.5"/>
+    <circle cx="180" cy="470" r="4.5"/>
+    <circle cx="180" cy="620" r="4.5"/>
+    <circle cx="880" cy="540" r="4.5"/>
+  </g>
+  <g fill="#c0392b">
+    <circle cx="1262" cy="430" r="4.5"/>
+    <circle cx="1340" cy="430" r="4.5"/>
+  </g>
+  <circle cx="1262" cy="540" r="4.5" fill="#d97706"/>
+
+  <!-- ================= LEFT: BUTTONS AND LED ================= -->
+  <!-- Start button -->
+  <g stroke="#111" stroke-width="2.5" fill="none">
+    <path d="M395 298 H475"/>
+    <path d="M435 298 V284"/>
+    <path d="M420 284 H450"/>
+  </g>
+  <circle cx="470" cy="310" r="4" fill="#fff" stroke="#111" stroke-width="2"/>
+  <circle cx="400" cy="310" r="4" fill="#fff" stroke="#111" stroke-width="2"/>
+  <text x="435" y="262" text-anchor="middle" font-size="15" font-weight="bold" fill="#111">START button (D2)</text>
+
+  <!-- Mode button -->
+  <g stroke="#111" stroke-width="2.5" fill="none">
+    <path d="M395 378 H475"/>
+    <path d="M435 378 V364"/>
+    <path d="M420 364 H450"/>
+  </g>
+  <circle cx="470" cy="390" r="4" fill="#fff" stroke="#111" stroke-width="2"/>
+  <circle cx="400" cy="390" r="4" fill="#fff" stroke="#111" stroke-width="2"/>
+  <text x="435" y="342" text-anchor="middle" font-size="15" font-weight="bold" fill="#111">MODE button (D4)</text>
+
+  <!-- Resistor and LED -->
+  <rect x="420" y="460" width="80" height="20" fill="#fff" stroke="#8e44ad" stroke-width="2.5"/>
+  <text x="460" y="454" text-anchor="middle" font-size="13" fill="#111">220 Ω</text>
+  <g stroke="#8e44ad" stroke-width="2.5" fill="#f3e8fb">
+    <path d="M370 456 V484 L330 470 Z"/>
+  </g>
+  <path d="M330 454 V486" stroke="#8e44ad" stroke-width="2.5"/>
+  <g stroke="#8e44ad" stroke-width="2" fill="none">
+    <path d="M345 445 L358 432 M352 432 H358 V438"/>
+    <path d="M360 452 L373 439 M367 439 H373 V445"/>
+  </g>
+  <text x="350" y="508" text-anchor="middle" font-size="15" font-weight="bold" fill="#111">Status LED (D7)</text>
+  <text x="350" y="526" text-anchor="middle" font-size="12" fill="#555">anode (long leg) toward D7</text>
+
+  <!-- ================= ARDUINO NANO ================= -->
+  <rect x="560" y="250" width="200" height="440" rx="8" fill="#eaf1fb" stroke="#2c3e50" stroke-width="3"/>
+  <text x="660" y="540" text-anchor="middle" font-size="20" font-weight="bold" fill="#111">Arduino Nano</text>
+  <text x="660" y="562" text-anchor="middle" font-size="13" fill="#555">ATmega328P</text>
+  <text x="660" y="650" text-anchor="middle" font-size="12" fill="#555">powered by USB (5 V)</text>
+  <text x="660" y="668" text-anchor="middle" font-size="12" fill="#555">not by the pump pack</text>
+  <!-- left pin labels -->
+  <g font-size="14" font-weight="bold" fill="#111">
+    <text x="570" y="315">D2</text>
+    <text x="570" y="395">D4</text>
+    <text x="570" y="475">D7</text>
+    <text x="570" y="625">GND</text>
+    <text x="750" y="285" text-anchor="end">5V</text>
+    <text x="750" y="335" text-anchor="end">D5</text>
+    <text x="750" y="385" text-anchor="end">D6</text>
+    <text x="750" y="475" text-anchor="end">D9 (PWM)</text>
+  </g>
+  <g fill="#2c3e50">
+    <circle cx="560" cy="310" r="4"/><circle cx="560" cy="390" r="4"/><circle cx="560" cy="470" r="4"/><circle cx="560" cy="620" r="4"/>
+    <circle cx="760" cy="280" r="4"/><circle cx="760" cy="330" r="4"/><circle cx="760" cy="380" r="4"/><circle cx="760" cy="470" r="4"/>
+  </g>
+
+  <!-- ================= HC-SR04 ================= -->
+  <text x="980" y="124" text-anchor="middle" font-size="15" font-weight="bold" fill="#111">HC-SR04 ultrasonic sensor</text>
+  <rect x="900" y="140" width="160" height="190" rx="6" fill="#fff6e5" stroke="#8a5a00" stroke-width="3"/>
+  <g font-size="13" font-weight="bold" fill="#111">
+    <text x="908" y="175">VCC</text>
+    <text x="908" y="220">Trig</text>
+    <text x="908" y="265">Echo</text>
+    <text x="908" y="310">GND</text>
+  </g>
+  <g fill="#fff" stroke="#8a5a00" stroke-width="3">
+    <circle cx="990" cy="235" r="20"/>
+    <circle cx="1034" cy="235" r="20"/>
+  </g>
+  <text x="1012" y="190" text-anchor="middle" font-size="11" fill="#555">points straight</text>
+  <text x="1012" y="203" text-anchor="middle" font-size="11" fill="#555">down at the water</text>
+
+  <!-- ================= MOSFET MODULE ================= -->
+  <text x="1100" y="408" text-anchor="middle" font-size="15" font-weight="bold" fill="#111">Isolated MOSFET module (LR7843)</text>
+  <rect x="1000" y="420" width="200" height="230" rx="6" fill="#eaf7ee" stroke="#1e6b3a" stroke-width="3"/>
+  <line x1="1100" y1="420" x2="1100" y2="650" stroke="#1e6b3a" stroke-width="2.5" stroke-dasharray="8 6"/>
+  <text x="1050" y="445" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e6b3a">SIGNAL SIDE</text>
+  <text x="1150" y="445" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e6b3a">LOAD SIDE</text>
+  <text x="1100" y="640" text-anchor="middle" font-size="11" fill="#1e6b3a">optocoupler isolation</text>
+  <g font-size="13" font-weight="bold" fill="#111">
+    <text x="1008" y="475">PWM</text>
+    <text x="1008" y="545">GND</text>
+    <text x="1192" y="475" text-anchor="end">+</text>
+    <text x="1192" y="545" text-anchor="end">LOAD</text>
+    <text x="1192" y="615" text-anchor="end">−</text>
+  </g>
+  <g fill="#1e6b3a">
+    <circle cx="1000" cy="470" r="4"/><circle cx="1000" cy="540" r="4"/>
+    <circle cx="1200" cy="470" r="4"/><circle cx="1200" cy="540" r="4"/><circle cx="1200" cy="610" r="4"/>
+  </g>
+
+  <!-- ================= FLYBACK DIODE ================= -->
+  <g stroke="#111" stroke-width="2.5" fill="#fff">
+    <path d="M1250 495 H1274 L1262 475 Z"/>
+    <path d="M1250 472 H1274" fill="none"/>
+  </g>
+  <text x="1262" y="568" text-anchor="middle" font-size="12" fill="#111">1N4007</text>
+  <text x="1262" y="583" text-anchor="middle" font-size="11" fill="#555">stripe to +</text>
+
+  <!-- ================= PUMP ================= -->
+  <circle cx="1340" cy="495" r="32" fill="#e8f1ff" stroke="#111" stroke-width="2.5"/>
+  <text x="1340" y="503" text-anchor="middle" font-size="22" font-weight="bold" fill="#111">M</text>
+  <text x="1340" y="583" text-anchor="middle" font-size="13" font-weight="bold" fill="#111">Pump</text>
+  <text x="1340" y="598" text-anchor="middle" font-size="11" fill="#555">3–6 V, submerged</text>
+  <text x="1355" y="452" font-size="12" fill="#c0392b">(+)</text>
+  <text x="1355" y="535" font-size="12" fill="#d97706">(−)</text>
+
+  <!-- ================= BATTERY ================= -->
+  <g stroke="#111" stroke-width="3">
+    <path d="M1384 455 H1416"/>
+    <path d="M1392 468 H1408" stroke-width="5"/>
+    <path d="M1384 490 H1416"/>
+    <path d="M1392 503 H1408" stroke-width="5"/>
+  </g>
+  <path d="M1400 468 V470 M1400 490 V492" stroke="#111" stroke-width="2"/>
+  <text x="1424" y="452" font-size="16" font-weight="bold" fill="#c0392b">+</text>
+  <text x="1424" y="520" font-size="16" font-weight="bold" fill="#444">−</text>
+  <text x="1490" y="640" text-anchor="end" font-size="13" font-weight="bold" fill="#111">Battery pack, 4 × AA</text>
+  <text x="1490" y="656" text-anchor="end" font-size="12" fill="#555">about 6 V, separate from USB</text>
+
+  <!-- ================= GROUND LABELS AND NO-COMMON-GROUND NOTE ================= -->
+  <text x="190" y="814" font-size="13" font-weight="bold" fill="#111">Nano-side ground (signal GND): Nano, HC-SR04, both buttons, LED cathode, module signal GND</text>
+
+  <rect x="910" y="690" width="570" height="70" rx="6" fill="#fdecea" stroke="#c0392b" stroke-width="2.5" stroke-dasharray="8 5"/>
+  <text x="1195" y="716" text-anchor="middle" font-size="15" font-weight="bold" fill="#c0392b">NO COMMON GROUND</text>
+  <text x="1195" y="736" text-anchor="middle" font-size="13" fill="#7a1f16">Nano GND and battery − stay separate on purpose.</text>
+  <text x="1195" y="752" text-anchor="middle" font-size="13" fill="#7a1f16">The optocoupler isolates pump noise from the Nano and the sensor.</text>
+
+  <!-- ================= NOTES ================= -->
+  <line x1="60" y1="850" x2="1460" y2="850" stroke="#ccc" stroke-width="1.5"/>
+  <g font-size="13" fill="#222">
+    <text x="60" y="876"><tspan font-weight="bold">Load side:</tspan> pump (+) and battery (+) go in the SAME module + terminal. Pump (−) goes to LOAD. Battery (−) goes to the module − terminal only.</text>
+    <text x="60" y="898"><tspan font-weight="bold">Flyback diode</tspan> (1N4007 or 1N5819) across the pump: striped end (cathode) to +, other end (anode) to LOAD.</text>
+    <text x="60" y="920"><tspan font-weight="bold">Buttons</tspan> use the Nano internal pull-ups (INPUT_PULLUP), so no resistors are needed. Pressed = LOW. The pump never runs from an Arduino pin.</text>
+    <text x="60" y="942"><tspan font-weight="bold">Status LED:</tspan> off = open-loop  ·  slow blink = closed-loop armed  ·  solid = closed-loop running, sensor OK  ·  fast blink = fault, pump off.</text>
+  </g>
+
+  <!-- Wire colour key -->
+  <g font-size="12" fill="#333">
+    <rect x="60" y="100" width="190" height="112" rx="6" fill="#fafafa" stroke="#ddd"/>
+    <text x="72" y="120" font-weight="bold">Wire colours</text>
+    <line x1="72" y1="134" x2="102" y2="134" stroke="#c0392b" stroke-width="3"/><text x="110" y="138">5 V / pump +</text>
+    <line x1="72" y1="152" x2="102" y2="152" stroke="#111" stroke-width="3"/><text x="110" y="156">Nano-side GND</text>
+    <line x1="72" y1="170" x2="102" y2="170" stroke="#1f6feb" stroke-width="3"/><text x="110" y="174">Inputs / sensor</text>
+    <line x1="72" y1="188" x2="102" y2="188" stroke="#1e8e3e" stroke-width="3"/><text x="110" y="192">PWM to driver</text>
+    <line x1="72" y1="206" x2="102" y2="206" stroke="#d97706" stroke-width="3"/><text x="110" y="210">Pump switched side</text>
+  </g>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTphZTg0MDAyOS02NDY0LTQ3YjQtYTM0NC05MTY4NjVkZjk5MGEAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaIXrNTHy3nQkCZkd2dOHVPsAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDoyYTI1MTNhMS01MjIzLTRhYmMtYWM2ZC1mZTYyZGVmZWQzNTZscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNoZPHB29XTeHbjLHFW4uCzmQAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggiP92ox8GEYHqz9zx6penJvWitUxB11WMKhpc/okIIlCkZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaLqV9/wd7HKn0mVhqSGOwBoAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYINBZVK7mFEoW4knlU7bX+/gHS6ScTa//2TvIKm+1k/o4ZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GS72Zmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOmFlODQwMDI5LTY0NjQtNDdiNC1hMzQ0LTkxNjg2NWRmOTkwYS9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOjZmY2RhNmI5LWFlN2QtNDczYS1iMGE5LTY3ZWM1OGZiNTRkNHJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCCI/3ajHwYRgerP3PHql6cm9aK1TEHXVYwqGlz+iQgiUKJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggGvW18EtQYUV8UYGkow4M7ztcntds7HViyUGFIyUjzRSiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggf19buZs9TxFF7xFLvtm5WMZxgXYrWwlapbMVaQ3Zgjp0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQAssURzHhuBJO0tXDDehviNDK/zJjg6Y4eK+42ahIKNJ91V7LdFKxdOIzLyPYi6WSNMzQXYSrE1/TGU+4y8xWJ0=</c2pa:manifest></metadata></svg>

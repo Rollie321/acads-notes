@@ -34,13 +34,19 @@
 * [x] CPE15 act 13
 * [x] CPE15 act 14
 * [x] CPE15 act 15
-- [ ] finish DSA compilation
+- [x] finish DSA compilation
 - [x] compile feedback video
 # Sat Nov 14, 2023
-- [ ] film DSA act 1,2,3,4
+- [x] film DSA act 1,2,3,4
 - [x] chapter 1 feedback report
-- [ ]  CPE-15 lec acts code review
+- [x]  CPE-15 lec acts code review
 - [x] Finish chapter 1-4 of feedback report
+# Mon Nov 23, 2026
+- [ ] Finish CPE10 project
+- [ ] confirm feedback system program
+- [ ] complete water level sensor
+- [ ] update the block diagram and control logic in feedback report
+- [ ] 
 
 # GROUPMATES
 ## Feedback

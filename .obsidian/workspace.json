@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "a53d6b01b3d34fd4",
+        "id": "4a70e926b8db6ddc",
         "type": "tabs",
         "children": [
           {
-            "id": "4db1bdbfa3b8615c",
+            "id": "514e55e7d64b350b",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -20,8 +20,21 @@
               "icon": "lucide-file",
               "title": "TODO"
             }
+          },
+          {
+            "id": "b06ba5d6793fa424",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Feedback/assets/chapter-6.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "chapter-6"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -202,10 +215,14 @@
       "circuit-sketcher:Create new Circuit Sketcher file": false
     }
   },
-  "active": "4db1bdbfa3b8615c",
+  "active": "b06ba5d6793fa424",
   "lastOpenFiles": [
-    "Feedback/Finals/Project/project-1/03-project-procedure.md",
+    "TODO.md",
+    "Feedback/assets/chapter-5.pdf",
     "Drafting/project/digispark-74hc595-dice-project-plan.md",
+    "Logic Circuits/Finals/Project/rps_full_schematic_game_and_counter.png",
+    "Logic Circuits/Finals/Project/rps_full_schematic.jpg",
+    "Feedback/Finals/Project/project-1/03-project-procedure.md",
     "Feedback/Finals/Project/project-1/schematic-v5.svg",
     "Drafting/project/digispark-595-dice-schematic.svg",
     "Drafting/project/attiny85-digital-dice-project-plan.md",
@@ -219,7 +236,6 @@
     "Logic Circuits/Midterm/lab-2.md",
     "Feedback/Finals/Project/project-1/report/chapter-2-system-design-and-mathematical-model.md",
     "DSA/Finals/Project/Project Requirements.md",
-    "TODO.md",
     "Feedback/Finals/Project/project-requirements.pdf",
     "Feedback/Finals/Project/project-1/report/chapter-3-prototype-development-and-procedure.md",
     "Feedback/Finals/Project/project-1/report/chapter-5-conclusion-and-recommendations.md",
@@ -236,21 +252,17 @@
     "Feedback/Finals/Project/project-1/data/lu1799413evhv.tmp",
     "Feedback/Finals/Project/project-1/data/6-cm-trial-final.csv",
     "Feedback/Finals/Project/project-1/data/lu1799413ev92.tmp",
-    "Feedback/Finals/Project/project-1/data/3-cm-trial-final.csv",
     "Untitled.canvas",
     "Feedback/Finals/Project/project-1/report/chapter-1-introduction-and-objectives.md",
     "DSA/Finals/Assignment/Assignment 2 - (algorithm and vending machine).md",
     "DSA/Finals/Assignment/Assignment 1 - (Multi Dimension Array Stack & Queue).md",
     "Logic Circuits/Finals/NOTES-1.md",
     "Feedback/Finals/Project/project-1/01-project-overview.md",
-    "Logic Circuits/Finals/Project/rps_full_schematic_game_and_counter.png",
     "Feedback/Finals/Chapter-6/Skill Assessment 6.1.md",
     "Feedback/Finals/Chapter-6/Example 6.1.md",
     "Pasted image 20261023154825.png",
-    "Feedback/Finals/Project/project-1/water-dispenser-schematic.jpg",
     "Excalidraw/Drawing 2026-10-30 08.42.50.excalidraw.md",
     "Digi Comm/Finals/Concepts.md",
-    "Digi Comm/Finals/Details.md",
     "Feedback/Prelims/Laplace Sample.canvas",
     "Feedback/Prelims/op-amps-transfer-funciton.canvas"
   ]

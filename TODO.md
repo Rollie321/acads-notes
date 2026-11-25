@@ -42,11 +42,15 @@
 - [x]  CPE-15 lec acts code review
 - [x] Finish chapter 1-4 of feedback report
 # Mon Nov 23, 2026
-- [ ] Finish CPE10 project
-- [ ] confirm feedback system program
-- [ ] complete water level sensor
+- [x] Finish CPE10 project
+- [x] confirm feedback system program
+- [x] complete water level sensor
 - [ ] update the block diagram and control logic in feedback report
-- [ ] 
+# Tues Nov 24, 20206
+- [x] Review CPE15
+- [x] Review CPE10
+- [ ] Printer Fix
+- [x] Write Lab Manual
 
 # GROUPMATES
 ## Feedback
